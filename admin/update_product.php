@@ -16,6 +16,7 @@ if  (is_uploaded_file($_FILES['file1']['tmp_name'])){
 }else{
 $new_image_name = "image";
 }
+
 //คำสั่ง Update
 $sql="UPDATE product SET
 pro_name = '$proname',

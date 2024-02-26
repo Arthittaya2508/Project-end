@@ -45,7 +45,10 @@ $row=header("location:login.php");
  แสดงข้อมูลสินค้า
 </div> 
 
-    <table class="table table-striped table-hover">
+<div class="card-body">
+                                <table id="datatablesSimple" class="table table-striped table-hover">
+                                <thead>
+                                    
     <tr>
         <th>รหัสสินค้า</th>
         <th>ชื่อสินค้า</th>
@@ -57,6 +60,7 @@ $row=header("location:login.php");
         <th>แก้ไข</th>
         <th>ลบ</th>
     </tr>
+</thead>
     <?php
     $sql="SELECT * FROM product
     LEFT JOIN type ON type.type_id = product.type_id;";
@@ -70,7 +74,7 @@ $row=header("location:login.php");
         <td><?=$row['type_name']?></td>
         <td><?=$row['price']?></td>
         <td><?=$row['amount']?></td>
-        <td><img src="img/<?=$row['image']?>" width="80px" hieght="100px"></td>
+        <td><img src="image/<?=$row['image']?>" width="80px" hieght="100px"></td>
         <td><a a href="edit_product.php?id=<?=$row['pro_id']?>" class="btn btn-success" >Edit</a></td>
         <td><a href="delete_product.php?id=<?=$row['pro_id']?>" class="btn btn-danger" onclick="Del(this.href);return false;">Delete</a></td>
     </tr>

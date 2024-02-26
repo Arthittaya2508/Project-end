@@ -94,7 +94,7 @@ mysqli_close($conn);
 <label>จำนวนสินค้าคงเหลือ :</label>
 <input type="number" name="num" class="form-control" value=<?=$rs['amount']?> > <br>
 <label>รูปภาพสินค้า :</label>
-<img src="img/<?=$rs['image']?>" width="120"> <br><br>
+<img src="image/<?=$rs['image']?>" width="120"> <br><br>
 <input type="file" name="file1"   required > <br><br>
 <input type="hidden" name="txtimg" class="form-control" value=<?=$rs['image']?> > <br>
 

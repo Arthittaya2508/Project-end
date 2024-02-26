@@ -8,11 +8,15 @@ include 'condb.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
+    <title>Ploynappan</title>
     <!-- Bootstrap CSS -->
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" >
     <!-- Option 1: Bootstrap Bundle with Popper -->
 <script src="bootstrap/js/bootstrap.bundle.min.js" ></script>
+    <!-- CSS -->
+<link rel="stylesheet" href="cart.css" >
+
+
 </head>
 <body>
 <?php include 'menu.php';?>
@@ -21,9 +25,10 @@ include 'condb.php';
     <form id="form1" method="POST" action="insert_cart.php">
     <div class ="row">
         <div class ="col-md-10">
-        <div class="alert alert-success h4" role="alert">
-  การสั่งซื้อสินค้า
+        <div class="alert alert-custom h4" role="alert">
+    การสั่งซื้อสินค้า
 </div>
+
         <table class="table table-striped table-hover">
         <tr>
             <th>ลำดับที่</th>
@@ -60,7 +65,7 @@ for ($i=0; $i <= (int)$_SESSION["intLine"]; $i++){
         <tr>
             <td><?=$m?></td>
             <td>
-                <img src="img/<?=$row_pro['image']?>" width="80" height="100" class="border">
+                <img src="img/<?=$row_pro['image']?>" width="80" height="85" class="border">
                 <?=$row_pro['pro_name']?>
             </td>
             <td><?=$row_pro['price']?></td>
@@ -112,18 +117,16 @@ mysqli_close($conn);
   <br>
   <div class="row">
     <div class="col-md-5">
-      <div class="alert alert-info h4" role="alert">
-  ข้อมูลสำหรับจัดส่งสินค้า
+    <div class="alert alert-custom h4" role="alert">
+    ข้อมูลสำหรับจัดส่งสินค้า
 </div>
 ชื่อ-นามสกุล:
 <input type="text" name="cus_name" class="form-control" required placeholder="ชื่อ-นามสกุล"> <br>
 ที่อยู่จัดส่งสินค้า 
-<textarea class="form-control" required placeholder="ที่อยู่..." name="cus_add" rows="3"> </textarea> <br>
+<textarea class="form-control" required placeholder="ที่อยู่..." name="cus_add" rows="3"></textarea> <br>
 เบอร์โทรศัพท์
-<input type="number" name="cus_tel" class="form-control" required placeholder="เบอร์โทรศัพท์..">
-<br><br><br>
-  </div>
-</div>
+<input type="number" name="cus_tel" class="form-control" required placeholder="เบอร์โทรศัพท์.."><br><br><br>
+
 </from>
 
 </div>    

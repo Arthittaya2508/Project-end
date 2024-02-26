@@ -12,18 +12,21 @@ $total_price=$rs['total_price'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายการสั่งซื้อ</title>
+    <title>Ploynappan</title>
         <!-- Bootstrap CSS -->
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" >
     <!-- Option 1: Bootstrap Bundle with Popper -->
 <script src="bootstrap/js/bootstrap.bundle.min.js" ></script>
+    <!-- CSS -->
+<link rel="stylesheet" href="cart.css" >
 </head>
+
 <body>
 <div class="container">
   <div class="row">
     <div class="col-md-10">
         <br><br>
-    <div class="alert alert-info h5 text-center mt-4" role="alert">
+    <div class="alert alert-custom h4 text-center mt-4" role="alert">
   การสั่งซื้อเสร็จสมบรูณ์
 </div>
 <br>

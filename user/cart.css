@@ -1,0 +1,29 @@
+/* CSS */
+.btn-pink {
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background: #F893B5;
+    border: none;
+    border-radius: 5px;
+}
+
+/* ถ้าต้องการปรับขนาดตัวอักษรหรือรายละเอียดการทำงานของปุ่ม สามารถใส่ CSS อื่น ๆ ตามต้องการได้ */
+
+/* CSS */
+.navbar-nav .nav-item .nav-link {
+    font-size: 120%;   
+}
+
+.alert-custom {
+    color: #fff;
+    background-color: #FAC9DB; /* สีชมพู */
+    border-color: #FAC9DB; /* สีขอบ */
+}
+
+.btn-custom {
+    color: #fff;
+    background-color: #ff00ff; /* สีชมพู */
+    border-color: #ff00ff; /* สีขอบ */
+}
+

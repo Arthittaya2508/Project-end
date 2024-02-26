@@ -4,9 +4,10 @@ include 'condb.php';
  $cusName=$_POST['cus_name'];
  $cusAddress=$_POST['cus_add'];
  $cusTel=$_POST['cus_tel'];
+ $cusID=$_SESSION["cus_id"];
 
- $sql= "insert into tb_order(cus_name,address,telephone,total_price,order_status)
- values('$cusName','$cusAddress','$cusTel','" . $_SESSION["sum_price"] . "','1')";
+$sql= "insert into tb_order(cus_name,address,telephone,total_price,order_status)
+values('$cusName','$cusAddress','$cusTel','" . $_SESSION["sum_price"] . "','1')";
 mysqli_query($conn,$sql);
 
 $orderID = mysqli_insert_id($conn);
@@ -47,34 +48,39 @@ if(isset($_POST['submit'])){
     $cusName=$_POST["cus_name"];
     $cusTel=$_POST["cus_tel"];
 
-$sToken = "wUmNvUyqjZwGHokWV3X9GwvnSn9jWUdKspxQIFz0dh7";
-$sMessage .= "วันที่: ". $date . "\n";
+$sToken = "W9iLnxptG1O8JAq1MyIvKOImZcL9LiL5ja66FY3T6uR";
 $sMessage = "มีการสั่งซื้อสินค้าใหม่เข้ามา....\n";
+$sMessage .= "วันที่: ". $date . "\n";
 $sMessage .= "เลขที่ใบสั่งซื้อ: ". $orderID . "\n";
 $sMessage .= "ชื่อลูกค้า: ". $cusName . "\n";
 $sMessage .= "เบอร์โทรศัพท์: ". $cusTel . "\n";
 
 
-$chOne = curl_init(); 
-curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify"); 
-curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0); 
-curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0); 
-curl_setopt( $chOne, CURLOPT_POST, 1); 
-curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=".$sMessage); 
-$headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$sToken.'', );
-curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers); 
-curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1); 
-$result = curl_exec( $chOne ); 
 
-if($result){
-$_SESSION['success'] = "ส่งข้อมูลการแจ้งเตือน Line Notify เรียบร้อยแล้ว";
-header("location: print_order.php");
-}else{
-$_SESSION['error'] = "ส่งข้อมูลการแจ้งเตือน Line Notify ไม่สำเร็จ";
-header("location: print_order.php");
+$chOne = curl_init();
+curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+curl_setopt($chOne, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($chOne, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($chOne, CURLOPT_POST, 1);
+curl_setopt($chOne, CURLOPT_POSTFIELDS, "message=".$sMessage);
+$headers = array(
+    'Content-type: application/x-www-form-urlencoded',
+    'Authorization: Bearer '.$sToken.'',
+);
+curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($chOne, CURLOPT_RETURNTRANSFER, 1);
+$result = curl_exec($chOne);
+
+if ($result) {
+    $_SESSION['success'] = "ส่งข้อมูลการแจ้งเตือน Line Notify เรียบร้อยแล้ว";
+    header("location: print_order.php");
+} else {
+    $_SESSION['error'] = "ส่งข้อมูลการแจ้งเตือน Line Notify ไม่สำเร็จ";
+    header("location: print_order.php");
 }
 
-curl_close( $chOne );   
+curl_close($chOne);
+   
 }
 
 //-----

@@ -93,26 +93,8 @@ $row4=mysqli_fetch_array($hand4);
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-area me-1"></i>
-                                        รายงานจำนวนสินค้าคงเหลือ
-                                    </div>
-                                    <div class="card-body"><canvas id="graphCanvas" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        Bar Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                        </div>
+                        
+                            
                         
                         <div class="card mb-4">
                             <div class="card-header">
@@ -198,53 +180,5 @@ $row4=mysqli_fetch_array($hand4);
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
 
-<script type="text/javascript" src="chart/js/jquery.min.js"></script>
-<script type="text/javascript" src="chart/js/Chart.min.js"></script>
 
-
-    <script>
-        $(document).ready(function () {
-            showGraph();
-        });
-
-
-        function showGraph()
-        {
-            {
-                $.post("data_product.php",
-                function (data)
-                {
-                    console.log(data);
-                     var name = [];
-                    var marks = [];
-
-                    for (var i in data) {
-                        name.push(data[i].pro_name);
-                        marks.push(data[i].amount);
-                    }
-
-                    var chartdata = {
-                        labels: name,
-                        datasets: [
-                            {
-                                label: 'จำนวนคงเหลือ',
-                                backgroundColor: '#ff751a',
-                                borderColor: '#993d00',
-                                hoverBackgroundColor: '#CCCCCC',
-                                hoverBorderColor: '#666666',
-                                data: marks
-                            }
-                        ]
-                    };
-
-                    var graphTarget = $("#graphCanvas");
-
-                    var barGraph = new Chart(graphTarget, {
-                        type: 'bar',
-                        data: chartdata
-                    });
-                });
-            }
-        }
-        </script>
         

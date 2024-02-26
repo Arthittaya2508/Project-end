@@ -20,7 +20,7 @@ $sql="INSERT INTO product(pro_name,detail,type_id,price,amount,image) VALUES('$p
 $result=mysqli_query($conn,$sql);
 if($result){
     echo "<script> alert('บันทึกข้อมูลเรียบร้อย'); </script> ";
-    echo "<script> window.location='fr_product.php'; </script> ";
+    echo "<script> window.location='show_product.php'; </script> ";
 }else{
     echo "<script> alert('ไม่สามารถบันทึกข้อมูลได้'); </script> ";   
 }
