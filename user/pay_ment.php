@@ -28,27 +28,89 @@ if (isset($_POST['btn1'])) {
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>แจ้งชำระเงิน</title>
     <!-- Bootstrap CSS -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom CSS -->
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+
+    h2 {
+        color: #333;
+        text-align: center;
+    }
+
+    .content {
+        margin-top: 50px;
+    }
+
+    .alert-success {
+        background-color: #28a745;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .border {
+        padding: 30px;
+        border-radius: 5px;
+        margin: 20px auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        background: #fff;
+        max-width: 400px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        background: #fff;
+
+    }
+
+
+    .payform {
+        max-width: 400px;
+        margin: 20px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    </style>
 </head>
+
 <body>
-    <div class="container">
+    <?php include  'menu.php'; ?>
+    <div class="content">
         <div class="row mt-4">
             <div class="col-md-4">
-                <div class="alert alert-success mt-4" role="alert">
-                    แจ้งการชำระเงิน
-                </div>
-                <!-- ฟอร์มค้นหาเลขที่ใบเสร็จ -->
-                <div class="border mt-5 p-2 my-2" style="background-color: #f0f0f5;">
+                <h2>แจ้งชำระเงิน</h2>
+
+                <div class="border mt-5 p-2 my-2">
                     <form method="POST" action="pay_ment.php">
                         <label>เลขที่ใบสั่งซื้อ :</label>
                         <input type="text" name="keyword">
@@ -67,13 +129,14 @@ if (isset($_POST['btn1'])) {
 
         <div class="row">
             <div class="col-md-4">
-                <form method="POST" action="insertPayment.php" enctype="multipart/form-data">
+                <form class="payform" method="POST" action="insertPayment.php" enctype="multipart/form-data">
                     <label class="mt-4">เลขที่ใบสั่งซื้อ :</label>
-                    <input type="text" name="order_id" required value="<?=$order_id?>">
+                    <input type="text" name="order_id" required value="<?= $order_id ?>">
                     <label class="mt-4">ชื่อ-นามสกุล (ลูกค้า) :</label>
-                    <textarea class="form-control" name="cusName" required rows="1"><?=$cusname?></textarea>
+                    <textarea class="form-control" name="cusName" required rows="1"><?= $cusname ?></textarea>
                     <label class="mt-4">จำนวนเงิน :</label>
-                    <input type="text" class="form-control" name="total_price" required value="<?= number_format($total, 2) ?>">
+                    <input type="text" class="form-control" name="total_price" required
+                        value="<?= number_format($total, 2) ?>">
                     <label class="mt-4">วันที่โอนเงิน :</label>
                     <input type="date" class="form-control" name="pay_date" required>
                     <label class="mt-4">เวลาที่โอนเงิน :</label>
@@ -86,4 +149,5 @@ if (isset($_POST['btn1'])) {
         </div>
     </div>
 </body>
+
 </html>

@@ -11,6 +11,7 @@ if (isset($_POST['reg_user'])) {
     $phone = mysqli_real_escape_string($conn, $_POST['telephone']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $image =  mysqli_real_escape_string($conn, $_POST['image']);
 
     if (empty($name)) {
         array_push($errors, "Firstname is required");
@@ -32,6 +33,10 @@ if (isset($_POST['reg_user'])) {
     if (empty($password)) {
         array_push($errors, "Password is required");
     }
+    if (empty($image)) {
+        array_push($errors, "Image is required");
+    }
+    
 
     // ตรวจสอบความซ้ำของ Username เท่านั้น
     $user_check_query = "SELECT * FROM member WHERE username = '$username'";
@@ -54,5 +59,3 @@ if (isset($_POST['reg_user'])) {
     header("location: home.php");
 }
 ?>
-
-

@@ -1,0 +1,16 @@
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #faecea;
+}
+
+.container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.carousel-inner img {
+  max-height: 700px;
+  max-width: 1330px;
+  margin: auto;
+}

@@ -7,7 +7,7 @@ $payTime = $_POST['pay_time'];
 
 //อัพโหลดรูปภาพ
 if  (is_uploaded_file($_FILES['file1']['tmp_name'])){
-    $new_image_name = 'b_'.uniqid().".".pathinfo(basename($_FILES['file1']['name']), PATHINFOO_EXTENSION);
+    $new_image_name = 'b_'.uniqid().".".pathinfo(basename($_FILES['file1']['name']));
     $image_upload_path = "./img/payment/".$new_image_name;
     move_uploaded_file($_FILES['file1']['tmp_name'],$image_upload_path);
 }else{
@@ -20,7 +20,7 @@ VALUES('$orderID','$totalPrice','$payDate','$payTime','$new_image_name')";
 $result=mysqli_query($conn,$sql);
 if($result){
     echo "<script> alert('บันทึกข้อมูลเรียบร้อย'); </script> ";
-    echo "<script> window.location='pay_ment.php'; </script> ";
+    echo "<script> window.location='history.php'; </script> ";
 }else{
     echo "<script> alert('ไม่สามารถบันทึกข้อมูลได้'); </script> ";   
 }
