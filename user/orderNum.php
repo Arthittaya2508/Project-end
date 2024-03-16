@@ -68,17 +68,20 @@ $total_price = $rs['total_price'];
                         </tr>
                     </thead>
 
+
                     <?php
                    $sql1 = "SELECT d.pro_id, p.pro_name, p.image, d.orderPrice, d.orderQty, d.Total 
                    FROM order_detail d 
                    JOIN product p ON d.pro_id = p.pro_id 
                    WHERE d.orderID = '" . $_SESSION["order_id"] . "'";
+
+                $sql="SELECT * FROM product p,type t WHERE p.type_id=t.type_id";
                     $result1 = mysqli_query($conn,$sql1);
                     while($row=mysqli_fetch_array($result1)){
                     ?>
                     <tr>
                         <td><?=$row['pro_id']?></td>
-                        <td><img src="image/<?=$row['image']?>" alt="Product Image"></td>
+                        <td><img src="image/<?=$row['image']?>" width="100" height="100"></td>
                         <td><?=$row['pro_name']?></td>
                         <td><?=$row['orderPrice']?></td>
                         <td><?=$row['orderQty']?></td>

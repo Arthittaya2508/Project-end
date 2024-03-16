@@ -4,7 +4,7 @@ include 'condb.php';
 session_start();
 
 
-$type_id = '003'; 
+$type_id = '002'; 
 ?>
 
 <!DOCTYPE html>

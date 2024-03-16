@@ -84,6 +84,15 @@ if ($result->num_rows > 0) {
         color: #fff;
     }
 
+    .form-check-inline:focus-within label {
+        color: #fff;
+    }
+
+    .form-check-inline:focus-within {
+        background-color: #007bff;
+        color: #fff;
+    }
+
     .hide {
         display: none;
     }

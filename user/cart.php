@@ -117,9 +117,7 @@ mysqli_close($conn);
                         <button type="submit" class="btn btn-outline-success">ยืนยันการสั่งซื้อ</button>
                     </div>
                 </div>
-
                 <br>
-
                 </from>
 
             </div>

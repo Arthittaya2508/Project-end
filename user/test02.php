@@ -1,7 +1,7 @@
-<?php 
+<?php
 
 include 'condb.php';
-
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -10,105 +10,131 @@ include 'condb.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ploynappan</title>
-    <!-- Bootstrap CSS -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- CSS -->
-    <link rel="stylesheet" href="product.css">
+    <title>TEST</title>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
 
+    .container {
+        /* background-color: #D3D3D3; */
+        padding: 20px;
+        max-width: 1300px;
+        margin: 0 auto;
+    }
+
+    .card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    table {
+        width: 100%;
+        /* ทำให้ตารางขนาดเต็ม */
+    }
+
+    th,
+    td {
+        padding: 10px;
+        /* เพิ่มระยะห่างด้านในของเซลล์ของตาราง */
+        text-align: center;
+        /* จัดข้อความในตารางกลาง */
+        border-bottom: 1px solid #ddd;
+        /* เพิ่มเส้นขอบด้านล่างของเซลล์ */
+    }
+
+    th {
+        background-color: #f2f2f2;
+        /* สีพื้นหลังของส่วนหัวตาราง */
+    }
+    </style>
 </head>
 
 <body>
-    <?php include 'menu.php';?>
-    <div class="container  mt-5">
-        <div class="row justify-content-center align-items-center">
+    <div class="container">
+        <div class="card">
+            <table>
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" aria-label="Checkbox for following text input"></th>
+                        <th></th>
+                        <th></th>
 
-            <?php
-                $ids=$_GET['id'];
-                $sql ="SELECT * FROM product
-                        LEFT JOIN type ON product.type_id = type.type_id
-                        WHERE product.pro_id='$ids'";
-                $result = mysqli_query($conn,$sql);
-                $row=mysqli_fetch_array($result);
-            ?>
-            <div class="col-md-4">
+                        <th>ราคาต่อชิ้น</th>
+                        <th>จำนวน</th>
+                        <th>ราคารวม</th>
+                        <th>บวก-ลบ</th>
+                        <th>ลบสินค้า</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
 
-                <style>
-                /* เมื่อนำเมาส์ไปวางที่รูป */
-                .highlight-on-click img {
-                    transition: transform 0.3s ease;
-                    /* เพิ่มการเปลี่ยนแปลงเมื่อคลิก */
-                }
-                </style>
+                    $Total = 0;
+                    $sumPrice = 0;
+                    $m = 1;
+                    $sumTotal = 0;
 
-                <style>
-                /* เมื่อนำเมาส์โดนรูป */
-                .highlight-on-hover img {
-                    transition: transform 0.3s ease;
-                    /* เพิ่มการเปลี่ยนแปลงเมื่อโดน */
-                }
+                    if (isset($_SESSION["intLine"])) { //ถ้าไม่เป็นค่าว่างให้ทำงานใน {}
 
-                /* เมื่อโดนนั้น */
-                .highlight-on-hover img:hover {
-                    transform: scale(1.1);
-                    /* เพิ่มการเปลี่ยนแปลงเมื่อโดน */
-                }
-                </style>
+                        for ($i = 0; $i <= (int)$_SESSION["intLine"]; $i++) {
+                            if (($_SESSION["strProductID"][$i]) != "") {
+                                $sql1 = "select * from product where pro_id = '" . $_SESSION["strProductID"][$i] . "' ";
+                                $result1 = mysqli_query($conn, $sql1);
+                                $row_pro = mysqli_fetch_array($result1);
 
-                <div class="highlight-on-hover">
-                    <img src="img/<?=$row['image']?>" width="350px" class="mt-5 p-2 my-2 border img-fluid">
-                </div>
+                                $_SESSION["price"] = $row_pro['price'];
+                                $Total = $_SESSION["strQty"][$i];
+                                $sum = $Total * $row_pro['price'];
+                                $sumPrice = $sumPrice + $sum;
+                                $_SESSION["sum_price"] = $sumPrice;
+                                $sumTotal = $sumTotal + $Total;
 
-            </div>
+                    ?>
+                    <tr>
+                        <td><input type="checkbox" aria-label="Checkbox for following text input"></td>
+                        <td><img src="img/<?=$row_pro['image']?>" width="80" height="85" class="border">
+                            <?=$row_pro['pro_name']?></td>
+                        <td></td>
+                        <td><?= $row_pro['price'] ?></td>
+                        <td><?= $_SESSION["strQty"][$i] ?></td>
+                        <td><?= $sum ?></td>
+                        <td>
 
-            <div class="col-md-6">
-                <br><br><br>
-                <span class="pink-color">ID: <?= $row['pro_id'] ?></span>
-                <b>
-                    <h5 class="pink-color2"><?= $row['pro_name'] ?>
-                </b></h5>
-                ประเภทสินค้า :<?=$row['type_name']?> <br>
-                รายละเอียดสินค้า :<?=$row['detail']?> <br>
-                ราคา <b class="text-danger"><?= number_format($row['price'], 2) ?></b> บาท<br>
-                <a class="btn btn-outline-success mt-3" href="order.php?id=<?=$row['pro_id']?>"> Add cart </a>
-            </div>
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="11" stroke="black" stroke-width="2" fill="none" />
+                                <text x="9" y="17" font-family="Arial" font-size="16" fill="black">+</text>
+                            </svg>
+                            <span>1</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="11" stroke="black" stroke-width="2" fill="none" />
+                                <text x="9" y="17" font-family="Arial" font-size="16" fill="black">-</text>
+                            </svg>
 
+                        </td>
+                        <td><a href="pro_delete.php?Line=<?= $i ?>"><i class="fas fa-trash"></i></a></td>
+                    </tr>
+                    <?php
+                            }
+                        }
+                    } //endif
+                    mysqli_close($conn);
+                    ?>
+                    <tr>
+                        <td></td>
+                        <td colspan="5">รวมเป็นเงิน</td>
+                        <td class="text-center"><?= number_format($sumPrice); ?></td>
+                        <td>บาท</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
-        <!-- เพิ่มส่วนที่แสดงสินค้าที่มีชื่อคล้ายกัน -->
-        <div class="row mt-5">
-            <div class="col-md-12">
-                <h3>สินค้าที่คล้ายกัน</h3>
-            </div>
-            <?php
-                // เลือกสินค้าที่มีชื่อคล้ายกัน
-                $similar_name = $row['pro_name'];
-                $similar_sql = "SELECT * FROM product WHERE pro_name LIKE '%$similar_name%' AND pro_id != '$ids'"; // เลือกสินค้าที่มีชื่อคล้ายกันแต่ไม่ใช่สินค้าปัจจุบัน
-                $similar_result = mysqli_query($conn, $similar_sql);
-                while ($similar_row = mysqli_fetch_assoc($similar_result)) {
-            ?>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= $similar_row['pro_name'] ?></h5>
-                        <p class="card-text">ราคา: <?= number_format($similar_row['price'], 2) ?> บาท</p>
-                        <a href="product_detail.php?id=<?= $similar_row['pro_id'] ?>"
-                            class="btn btn-primary">ดูรายละเอียด</a>
-                    </div>
-                </div>
-            </div>
-            <?php } ?>
-        </div>
-        <!-- สิ้นสุดส่วนที่แสดงสินค้าที่มีชื่อคล้ายกัน -->
-
     </div>
-
-    <?php
-    mysqli_close($conn); 
-    ?>
-
 </body>
 
 </html>
