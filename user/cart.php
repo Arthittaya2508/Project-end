@@ -2,6 +2,7 @@
 
 include 'condb.php';
 session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +30,21 @@ session_start();
                     <div class="alert alert-custom h4 text-center text-black" role="alert">
                         การสั่งซื้อสินค้า
                     </div>
-
+                    <!-- <div id="notification" class="alert alert-warning" role="alert" style="display: none;">
+                        ยังไม่มีสินค้าในตะกร้า โปรดทำการเพิ่มสินค้า
+                    </div>
+                    <script>
+                    // อัพเดทฟังก์ชันเพื่อแสดงแจ้งเตือนเมื่อไม่มีสินค้าที่เลือก
+                    function showNotification() {
+                        var notification = document.getElementById('notification');
+                        if (!checkSelectedItems() &&
+                            <?php echo isset($_SESSION["intLine"]) ? $_SESSION["intLine"] : 0; ?> == 0) {
+                            notification.style.display = 'block';
+                        } else {
+                            notification.style.display = 'none';
+                        }
+                    }
+                    </script> -->
                     <table class="table table-striped table-hover">
                         <tr>
                             <th><input type="checkbox" id="selectAllCheckbox" aria-label="Checkbox for selecting all">
@@ -64,22 +79,21 @@ session_start();
                                     $sumTotal = $sumTotal + $Total;
 
                         ?>
-                        <tr>
-                            <td><input type="checkbox" class="itemCheckbox"
-                                    aria-label="Checkbox for following text input">
-                            </td>
+                                    <tr>
+                                        <td><input type="checkbox" class="itemCheckbox" aria-label="Checkbox for following text input">
+                                        </td>
 
-                            <!-- <td><?= $m ?></td> -->
-                            <td class="centered-cell">
-                                <img src="img/<?= $row_pro['image'] ?>" width="80" height="85" class="border">
-                                <?= $row_pro['pro_name'] ?>
-                            </td>
-                            <td class="null">สินค้าคงเหลือ (<?php echo $row_pro['amount']; ?>)</td>
-                            <td><?= $row_pro['price'] ?></td>
+                                        <!-- <td><?= $m ?></td> -->
+                                        <td class="centered-cell">
+                                            <img src="img/<?= $row_pro['image'] ?>" width="80" height="85" class="border">
+                                            <?= $row_pro['pro_name'] ?>
+                                        </td>
+                                        <td class="null">สินค้าคงเหลือ (<?php echo $row_pro['amount']; ?>)</td>
+                                        <td><?= $row_pro['price'] ?></td>
 
 
-                            <td>
-                                <?php
+                                        <td>
+                                            <?php
                                             $productID = $row_pro['pro_id'];
 
                                             $sql_product = "SELECT * FROM product WHERE pro_id = '$productID'";
@@ -99,11 +113,11 @@ session_start();
                                                 echo '<a id="increment" class="button1" onclick="incrementAmount()"  href="order.php?id=' . $row_pro['pro_id'] . '">+</a>';
                                             }
                                             ?>
-                            <td><?= $sum ?></td>
-                            </td>
-                            <td class="delete"><a href="pro_delete.php?Line=<?= $i ?>"><i class="fas fa-trash"></i></a>
-                            </td>
-                        </tr>
+                                        <td><?= $sum ?></td>
+                                        </td>
+                                        <td class="delete"><a href="pro_delete.php?Line=<?= $i ?>"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
                         <?php
                                     $m = $m + 1;
                                 }
@@ -120,30 +134,28 @@ session_start();
                     </table>
                     <p class="text-end">จำนวนสินค้าที่สั่งซื้อ <?= $sumTotal ?> ชิ้น</p>
                     <div style="text-align:right">
-                        <a href="all_products.php"> <button type="button"
-                                class="btn btn-outline-secondary">เลือกสินค้า</button> </a>
+                        <a href="all_products.php"> <button type="button" class="btn btn-outline-secondary">เลือกสินค้า</button> </a>
                         <!-- Button trigger modal -->
 
-                        <button id="orderButton" type="button" class="btn btn-outline-success" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">สั่งซื้อสินค้า </button>
+                        <button id="orderButton" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">สั่งซื้อสินค้า </button>
 
                         <script>
-                        function showExistingAddress() {
-                            document.getElementById('existingAddressForm').classList.remove('hide');
-                            document.getElementById('newAddressForm').classList.add('hide');
-                            document.getElementById('fullname').readOnly = true;
-                            document.getElementById('userID').readOnly = true;
-                            document.getElementById('tel').readOnly = true;
-                        }
+                            function showExistingAddress() {
+                                document.getElementById('existingAddressForm').classList.remove('hide');
+                                document.getElementById('newAddressForm').classList.add('hide');
+                                document.getElementById('fullname').readOnly = true;
+                                document.getElementById('userID').readOnly = true;
+                                document.getElementById('tel').readOnly = true;
+                            }
 
-                        function showNewAddress() {
-                            document.getElementById('newAddressForm').classList.remove('hide');
-                            document.getElementById('existingAddressForm').classList.add('hide');
-                            document.getElementById('fullname').readOnly = false;
-                            document.getElementById('userID').readOnly = true;
-                            document.getElementById('tel').readOnly = false;
+                            function showNewAddress() {
+                                document.getElementById('newAddressForm').classList.remove('hide');
+                                document.getElementById('existingAddressForm').classList.add('hide');
+                                document.getElementById('fullname').readOnly = false;
+                                document.getElementById('userID').readOnly = true;
+                                document.getElementById('tel').readOnly = false;
 
-                        }
+                            }
                         </script>
                         <?php
                         include 'condb.php';
@@ -166,31 +178,24 @@ session_start();
                         }
 
                         ?>
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">เลือกที่อยู่สำหรับจัดส่ง</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="but">
-                                            <button class="form-check form-check-inline"
-                                                onclick="showExistingAddress()">
-                                                <input class="form-check-input" type="radio" name="addressOption"
-                                                    id="existingAddressOption" value="existing" checked>
-                                                <label class="form-check-label"
-                                                    for="existingAddressOption">ที่อยู่ที่มีอยู่ในระบบ</label>
-                                            </button>
-                                            <button class="form-check form-check-inline" onclick="showNewAddress()">
-                                                <input class="form-check-input" type="radio" name="addressOption"
-                                                    id="newAddressOption" value="new">
-                                                <label class="form-check-label"
-                                                    for="newAddressOption">แก้ไขข้อมูลที่อยู่</label>
-                                            </button>
+                                            <a class="form-check form-check-inline" onclick="showExistingAddress()">
+                                                <input class="form-check-input" type="radio" name="addressOption" id="existingAddressOption" value="existing" checked>
+                                                <label class="form-check-label" for="existingAddressOption">ที่อยู่ที่มีอยู่ในระบบ</label>
+                                            </a>
+                                            <a class="form-check form-check-inline" onclick="showNewAddress()">
+                                                <input class="form-check-input" type="radio" name="addressOption" id="newAddressOption" value="new">
+                                                <label class="form-check-label" for="newAddressOption">แก้ไขข้อมูลที่อยู่</label>
+                                            </a>
                                         </div>
                                         <br><br>
 
@@ -202,11 +207,8 @@ session_start();
                                                     <label for="fullname" class="text02">
                                                         ชื่อ-นามสกุล
                                                     </label>
-                                                    <input type="text" class="form-control" id="fullname"
-                                                        name="fullname"
-                                                        value="<?php echo htmlspecialchars($fullname); ?>" readonly>
-                                                    <input type="hidden" class="form-control" id="userID" name="userID"
-                                                        value="<?php echo htmlspecialchars($userID); ?>" readonly>
+                                                    <input type="text" class="form-control" id="fullname" name="fullname" value="<?php echo htmlspecialchars($fullname); ?>" readonly>
+                                                    <input type="hidden" class="form-control" id="userID" name="userID" value="<?php echo htmlspecialchars($userID); ?>" readonly>
                                                 </div>
 
                                                 <div id="existingAddressForm">
@@ -214,9 +216,7 @@ session_start();
                                                         <label for="existingAddress" class="text02">
                                                             ที่อยู่ที่มีอยู่ในระบบ
                                                         </label>
-                                                        <input type="text" class="form-control" id="existingAddress"
-                                                            name="existingAddress"
-                                                            value="<?php echo htmlspecialchars($address); ?>" readonly>
+                                                        <input type="text" class="form-control" id="existingAddress" name="existingAddress" value="<?php echo htmlspecialchars($address); ?>" readonly>
                                                     </div>
                                                     <hr>
                                                 </div>
@@ -226,8 +226,7 @@ session_start();
                                                         <label for="newAddress" class="text02">
                                                             ที่อยู่ใหม่ (กรอกเฉพาะกรณีที่ต้องการเปลี่ยนที่อยู่)
                                                         </label>
-                                                        <textarea class="form-control" id="newAddress" name="newAddress"
-                                                            rows="3"><?php echo htmlspecialchars($address); ?></textarea>
+                                                        <textarea class="form-control" id="newAddress" name="newAddress" rows="3"><?php echo htmlspecialchars($address); ?></textarea>
                                                     </div>
                                                     <hr>
                                                 </div>
@@ -236,8 +235,7 @@ session_start();
                                                     <label for="tel" class="text02">
                                                         เบอร์โทรศัพท์
                                                     </label>
-                                                    <input type="tel" class="form-control" id="tel" name="tel"
-                                                        value="<?php echo htmlspecialchars($telephone); ?>" readonly>
+                                                    <input type="tel" class="form-control" id="tel" name="tel" value="<?php echo htmlspecialchars($telephone); ?>" readonly>
                                                 </div>
                                             </div>
 
@@ -247,8 +245,7 @@ session_start();
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">ปิด</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
                                         <button type="submit" class="btn btn-primary">ยืนยัน</button>
 
                                     </div>
@@ -262,45 +259,45 @@ session_start();
         </form>
     </div>
     <script>
-    // Function to check if any item is selected
-    function checkSelectedItems() {
-        var checkboxes = document.querySelectorAll('.itemCheckbox');
-        var selected = false;
-        checkboxes.forEach(function(checkbox) {
-            if (checkbox.checked) {
-                selected = true;
-            }
-        });
-        return selected;
-    }
-
-    // Function to show notification if no item is selected
-    function showNotification() {
-        var notification = document.getElementById('notification');
-        if (!checkSelectedItems()) {
-            notification.style.display = 'block';
-        } else {
-            notification.style.display = 'none';
+        // Function to check if any item is selected
+        function checkSelectedItems() {
+            var checkboxes = document.querySelectorAll('.itemCheckbox');
+            var selected = false;
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    selected = true;
+                }
+            });
+            return selected;
         }
-    }
 
-    // Listen for checkbox changes
-    var checkboxes = document.querySelectorAll('.itemCheckbox');
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            showNotification();
-            calculateTotal(); // Recalculate total when checkbox changes
-        });
-    });
-    // Function to handle checkbox toggle
-    document.getElementById('selectAllCheckbox').addEventListener('click', function() {
+        // Function to show notification if no item is selected
+        function showNotification() {
+            var notification = document.getElementById('notification');
+            if (!checkSelectedItems()) {
+                notification.style.display = 'block';
+            } else {
+                notification.style.display = 'none';
+            }
+        }
+
+        // Listen for checkbox changes
         var checkboxes = document.querySelectorAll('.itemCheckbox');
         checkboxes.forEach(function(checkbox) {
-            checkbox.checked = document.getElementById('selectAllCheckbox').checked;
+            checkbox.addEventListener('change', function() {
+                showNotification();
+                calculateTotal(); // Recalculate total when checkbox changes
+            });
         });
-        showNotification(); // Check if any item is selected after toggling select all
-        calculateTotal(); // Recalculate total when select all checkbox changes
-    });
+        // Function to handle checkbox toggle
+        document.getElementById('selectAllCheckbox').addEventListener('click', function() {
+            var checkboxes = document.querySelectorAll('.itemCheckbox');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = document.getElementById('selectAllCheckbox').checked;
+            });
+            showNotification(); // Check if any item is selected after toggling select all
+            calculateTotal(); // Recalculate total when select all checkbox changes
+        });
     </script>
 </body>
 

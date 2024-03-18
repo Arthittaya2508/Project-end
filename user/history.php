@@ -3,8 +3,9 @@ include 'condb.php';
 session_start();
 
 // ดึงข้อมูลคำสั่งซื้อทั้งหมดจากฐานข้อมูล
-$sql = "SELECT `orderID`, `cus_name`, `address`, `total_price`, `reg_date` FROM `tb_order` ORDER BY `cus_id` ASC";
-
+$sql = "SELECT o.orderID, m.id, o.cus_name, o.address, o.total_price, o.reg_date
+        FROM tb_order o
+        INNER JOIN member m ON cus_id = id";
 $result = mysqli_query($conn, $sql);
 ?>
 
@@ -20,47 +21,47 @@ $result = mysqli_query($conn, $sql);
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <style>
-    body {
-        background-color: #f4f4f4;
-        font-family: Arial, sans-serif;
-    }
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
 
-    .container {
-        padding: 20px;
-    }
+        .container {
+            padding: 20px;
+        }
 
-    .table {
-        background-color: #fff;
-        border-radius: 5px;
-    }
+        .table {
+            background-color: #fff;
+            border-radius: 5px;
+        }
 
-    .table th,
-    .table td {
-        border-top: none;
-    }
+        .table th,
+        .table td {
+            border-top: none;
+        }
 
-    .table th {
-        background-color: #e1bee7;
-        color: #333;
+        .table th {
+            background-color: #e1bee7;
+            color: #333;
 
-    }
+        }
 
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: #f2f2f2;
-    }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f2f2f2;
+        }
 
-    .table-striped tbody tr:hover {
-        background-color: #e0e0e0;
-    }
+        .table-striped tbody tr:hover {
+            background-color: #e0e0e0;
+        }
 
-    h2 {
-        color: #333;
-    }
+        h2 {
+            color: #333;
+        }
     </style>
 </head>
 
 <body>
-    <?php include 'menu.php';?>
+    <?php include 'menu.php'; ?>
     <div class="container">
         <div class="row mt-4">
             <div class="col-md-12">
@@ -88,7 +89,7 @@ $result = mysqli_query($conn, $sql);
                             echo "<td>" . $row['total_price'] . "</td>";
                             echo "</tr>";
                         }
-                        
+
                         ?>
                     </tbody>
                 </table>

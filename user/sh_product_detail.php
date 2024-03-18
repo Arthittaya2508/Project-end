@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include 'condb.php';
 session_start();
@@ -21,18 +21,18 @@ session_start();
 </head>
 
 <body>
-    <?php include 'menu.php';?>
+    <?php include 'menu.php'; ?>
     <div class="container  mt-5">
         <div class="row justify-content-center align-items-center">
 
             <?php
-  $ids=$_GET['id'];
-$sql ="SELECT * FROM product
+            $ids = $_GET['id'];
+            $sql = "SELECT * FROM product
       LEFT JOIN type ON product.type_id = type.type_id
       WHERE product.pro_id='$ids'";
-$result = mysqli_query($conn,$sql);
-$row=mysqli_fetch_array($result);
-    ?>
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($result);
+            ?>
             <div class="col-md-4">
 
                 <style>
@@ -58,7 +58,7 @@ $row=mysqli_fetch_array($result);
                 </style>
 
                 <div class="highlight-on-hover">
-                    <img src="img/<?=$row['image']?>" width="350px" class="mt-5 p-2 my-2 border img-fluid">
+                    <img src="img/<?= $row['image'] ?>" width="350px" class="mt-5 p-2 my-2 border img-fluid">
                 </div>
 
             </div>
@@ -69,17 +69,85 @@ $row=mysqli_fetch_array($result);
                 <b>
                     <h5 class="pink-color2"><?= $row['pro_name'] ?>
                 </b></h5>
-                ประเภทสินค้า :<?=$row['type_name']?> <br>
-                รายละเอียดสินค้า :<?=$row['detail']?> <br>
+                ประเภทสินค้า :<?= $row['type_name'] ?> <br>
+                รายละเอียดสินค้า :<?= $row['detail'] ?> <br>
                 ราคา <b class="text-danger"><?= number_format($row['price'], 2) ?></b> บาท<br>
-                <a class="btn btn-outline-success mt-3" href="order.php?id=<?=$row['pro_id']?>"> Add cart </a>
+                <a class="btn btn-outline-success mt-3" href="order.php?id=<?= $row['pro_id'] ?>"> Add cart </a>
             </div>
+            <style>
+            .card-footer {
+                text-align: center;
+                margin-top: 20px;
+
+            }
+
+            .highlight-on-hover {
+                transition: transform 0.3s ease;
+
+            }
+
+            .highlight-on-hover:hover {
+                transform: scale(1.1);
+
+            }
+
+            .card-footer .row {
+                justify-content: center;
+
+            }
+
+            .card-footer .row .highlight-on-hover {
+                width: 300px;
+                margin: 10px;
+            }
+
+            .card-footer .row .highlight-on-hover img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .card-footer .row .highlight-on-hover p {
+                margin-top: 10px;
+            }
+            </style>
+
+            </style>
+            <div class="card-footer">
+                <h3>เซ็ตคู่สินค้า</h3>
+                <div class="row">
+                    <?php
+                    // Query to get one product of each type except the current one
+                    $similar_products_sql = "SELECT * FROM type
+                                LEFT JOIN (SELECT * FROM product WHERE pro_id IN (SELECT MIN(pro_id) FROM product GROUP BY type_id)) AS p
+                                ON type.type_id = p.type_id
+                                WHERE type.type_id != (SELECT type_id FROM product WHERE pro_id = '$ids')";
+                    $similar_products_result = mysqli_query($conn, $similar_products_sql);
+                    while ($similar_product_row = mysqli_fetch_assoc($similar_products_result)) {
+                        echo '<div class="highlight-on-hover col-md-3">';
+                        echo '<img src="img/' . $similar_product_row['image'] . '" width="60%" class="mt-2 p-2 border img-fluid">';
+                        echo '<p>' . $similar_product_row['pro_name'] . '</p>';
+
+                        // Check if the product is available
+                        if ($similar_product_row['amount'] > 0) {
+                            echo '<a class="btn btn-outline-success mt-3 mb-3" href="order.php?id=' . $similar_product_row['pro_id'] . '">เพิ่มลงในตะกร้า</a>';
+                        } else {
+                            echo '<button class="btn btn-danger mt-3 mb-3" disabled>สินค้าหมด</button>';
+                        }
+
+                        echo '</div>';
+                    }
+                    ?>
+                </div>
+            </div>
+
+
+
 
         </div>
     </div>
     <?php
-mysqli_close($conn); 
-?>
+    mysqli_close($conn);
+    ?>
 
 </body>
 
