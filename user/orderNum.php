@@ -14,7 +14,7 @@ $total_price = $rs['total_price'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Number</title>
+    <title>Order Details</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -81,7 +81,10 @@ $total_price = $rs['total_price'];
                     ?>
                     <tr>
                         <td><?=$row['pro_id']?></td>
-                        <td><img src="image/<?=$row['image']?>" width="100" height="100"></td>
+                        <td class="highlight-on-hover">
+                            <img src="img/<?=$row['image']?>" width="100px" height="100">
+                        </td>
+
                         <td><?=$row['pro_name']?></td>
                         <td><?=$row['orderPrice']?></td>
                         <td><?=$row['orderQty']?></td>

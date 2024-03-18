@@ -1,4 +1,5 @@
-<?php include 'condb.php';?>
+<?php include 'condb.php';
+session_start();?>
 
 <!DOCTYPE html>
 <html lang="en">

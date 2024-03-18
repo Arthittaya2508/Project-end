@@ -14,11 +14,8 @@ $type_id = '003';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ploynappan</title>
-    <!-- Bootstrap CSS -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- CSS -->
     <link rel="stylesheet" href="product.css">
 
 </head>
@@ -32,7 +29,7 @@ $type_id = '003';
         </h2>
         <div class="row">
             <?php
-            // Retrieve products belonging to the specified type
+           
             $sql ="SELECT * FROM product WHERE type_id = '$type_id' ORDER BY pro_id DESC";
             $result = mysqli_query($conn,$sql);
             while($row=mysqli_fetch_array($result)){
@@ -42,18 +39,15 @@ $type_id = '003';
                 <div class="text-center">
 
                     <style>
-                    /* เมื่อนำเมาส์ไปวางที่รูป */
                     .highlight-on-click img {
                         transition: transform 0.3s ease;
-                        /* เพิ่มการเปลี่ยนแปลงเมื่อคลิก */
+
                     }
                     </style>
 
                     <style>
-                    /* เมื่อนำเมาส์โดนรูป */
                     .highlight-on-hover img {
                         transition: transform 0.3s ease;
-                        /* เพิ่มการเปลี่ยนแปลงเมื่อโดน */
                     }
 
                     /* เมื่อโดนนั้น */
@@ -81,7 +75,7 @@ $type_id = '003';
                     ราคา <b class="text-danger"><?= number_format($row['price'], 2) ?></b> บาท<br>
 
                     <?php if($amount1 <= 0){ ?>
-                    <a class="btn btn-danger mt-3" href="#"> สินค้าหมด </a>
+                    <a class="btn btn-danger mt-3 " href="#"> สินค้าหมด </a>
                     <?php } else { ?>
                     <a class="btn btn-outline-success mt-3 mb-3" href="sh_product_detail.php?id=<?=$row['pro_id']?>">
                         รายละเอียดสินค้า
@@ -90,6 +84,7 @@ $type_id = '003';
                         เพิ่มลงในตะกร้า
                     </a>
                     <?php } ?>
+
 
 
                 </div>
