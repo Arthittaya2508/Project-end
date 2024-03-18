@@ -1,0 +1,200 @@
+.content {
+  /* background-color: #D3D3D3; */
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  color: #4d4c5b;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-weight: normal;
+}
+
+th.centered-cell,
+td.centered-cell {
+  text-align: left;
+}
+
+th.null,
+td.null {
+  width: 200px;
+  text-align: left;
+  color: #4d4c5b;
+}
+
+th.delete,
+td.delete {
+  width: 50px;
+}
+
+th.sum,
+td.sum {
+  width: 100px;
+}
+
+.button1 {
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.box {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  margin-top: 10px;
+}
+
+#p {
+  margin-top: 50px;
+}
+
+#increment,
+#decrement {
+  background-color: #cc99ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+#increment:hover,
+#decrement:hover {
+  background-color: #45a049;
+}
+
+#amount-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px 20px;
+  display: inline-block;
+}
+
+#amount {
+  font-size: 16px;
+}
+
+#myButton {
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+a {
+  color: #333;
+  /* สีของลิงก์ */
+  text-decoration: none;
+  /* ไม่มีขีดเส้นใต้ลิงก์ */
+}
+
+a:hover {
+  color: #ff0000;
+  /* สีของลิงก์เมื่อเมาส์ผ่าน */
+}
+
+.fa-trash {
+  color: #ff0000;
+  /* สีของไอคอนลบ (Trash icon) */
+}
+
+.fa-trash:hover {
+  color: #cc0000;
+  /* สีของไอคอนลบเมื่อเมาส์ผ่าน */
+}
+.modal-dialog {
+  width: auto;
+}
+
+.but {
+  display: flex;
+}
+
+.form-check {
+  margin: 0 20px;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  padding: 20px 30px;
+  background-color: transparent;
+  color: #007bff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 250px;
+  height: 100px;
+}
+
+.form-check-label {
+  font-size: medium;
+}
+
+.form-check-input {
+  margin-left: 50px;
+  font-size: medium;
+}
+
+.form-check:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.form-check-inline:focus-within label {
+  color: #fff;
+}
+
+.form-check-inline:focus-within {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.hide {
+  display: none;
+}
+
+.form01 {
+  text-align: left;
+}
+
+.text02 {
+  font-size: medium;
+  margin-bottom: 8px;
+  justify-content: left;
+  text-align: left;
+}
+
+.sm {
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  width: 15%;
+  height: 50%;
+  margin-top: 30px;
+  margin-left: 305px;
+  color: #fff;
+}
+
+.sm:hover {
+  background-color: #008714;
+  color: #fff;
+}

@@ -2,11 +2,11 @@
 session_start();
 include 'condb.php';
 
-// Check if any product is selected before confirming the order
-if (!isset($_SESSION["intLine"]) || $_SESSION["intLine"] <= 0) {
-    echo "<script>alert('กรุณาเลือกสินค้าก่อนยืนยันคำสั่งซื้อ'); window.location='cart.php';</script>";
-    exit; // Stop further execution
-}
+// // Check if any product is selected before confirming the order
+// if (!isset($_SESSION["intLine"]) || $_SESSION["intLine"] <= 0) {
+//     echo "<script>alert('กรุณาเลือกสินค้าก่อนยืนยันคำสั่งซื้อ'); window.location='cart.php';</script>";
+//     exit; // Stop further execution
+// }
 
 $cusName = $_POST['cus_name'];
 $cusAddress = $_POST['cus_add'];
@@ -50,5 +50,25 @@ unset($_SESSION["strProductID"]);
 unset($_SESSION["strQty"]);
 unset($_SESSION["sum_price"]);
 
-echo "<script>alert('บันทึกข้อมูลเรียบร้อยแล้ว'); window.location='address.php';</script>";
+
+
+include 'condb.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // ตรวจสอบและกำหนดค่าตัวแปร session สำหรับชื่อ-นามสกุล, ที่อยู่ และเบอร์โทรศัพท์
+    $_SESSION["fullname"] = $_POST["fullname"];
+
+    // ตรวจสอบว่าผู้ใช้เลือกใช้ที่อยู่ที่มีอยู่ในระบบหรือเพิ่มที่อยู่ใหม่
+    if ($_POST["addressOption"] == "existing") {
+        $_SESSION["address"] = $_POST["existingAddress"];
+    } else {
+        $_SESSION["address"] = $_POST["newAddress"];
+    }
+
+    $_SESSION["telephone"] = $_POST["tel"];
+
+    // Redirect ไปยังหน้า orderNum.php
+    header("Location: orderNum.php");
+    exit();
+}
 ?>
