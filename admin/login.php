@@ -17,6 +17,12 @@ session_start();
     <div class="container">
         <br><br>
         <div class="row">
+
+        <div class=" col-md-8 mx-auto justify-center">
+                <!-- นี่คือที่ใส่รูปภาพ -->
+                <img src="image\ploynappan02.png" class="img" alt="Image" width="1000" height="500">
+            </div>
+
             <div class="col-md-4 badge bg-light text-dark ">
                 <h5>Login</h5>
                 <form method="POST" action="login_check.php">

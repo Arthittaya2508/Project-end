@@ -11,7 +11,7 @@ $imge = $_POST['txtimg'];
 //อัพโหลดรูปภาพ
 if  (is_uploaded_file($_FILES['file1']['tmp_name'])){
     $new_image_name = 'pr_' . uniqid() . "." . pathinfo($_FILES['file1']['name'], PATHINFO_EXTENSION);
-    $image_upload_path = "./img/" . $new_image_name;
+    $image_upload_path = "./image/" . $new_image_name;
     move_uploaded_file($_FILES['file1']['tmp_name'], $image_upload_path);
 }else{
 $new_image_name = "image";

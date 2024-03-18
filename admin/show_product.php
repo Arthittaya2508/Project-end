@@ -1,12 +1,11 @@
 <?php
 session_start();
-if(!isset($_SESSION["id"]))
-{
-$row=header("location:login.php");
+if (!isset ($_SESSION["id"])) {
+    $row = header("location:login.php");
 }
 ?>
 
-<?php include 'condb.php';?>
+<?php include 'condb.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -64,31 +63,43 @@ $row=header("location:login.php");
                                                 </tr>
                                             </thead>
                                             <?php
-    $sql="SELECT * FROM product
+                                            $sql = "SELECT * FROM product
     LEFT JOIN type ON type.type_id = product.type_id;";
-    $hand = mysqli_query($conn,$sql);
-    while($row=mysqli_fetch_array($hand)){
-    ?>
-                                            <tr>
-                                                <td><?=$row['pro_id']?></td>
-                                                <td><?=$row['pro_name']?></td>
-                                                <td><?=$row['detail']?></td>
-                                                <td><?=$row['type_name']?></td>
-                                                <td><?=$row['price']?></td>
-                                                <td><?=$row['amount']?></td>
-                                                <td><img src="image/<?=$row['image']?>" width="80px" hieght="100px">
-                                                </td>
-                                                <td><a a href="edit_product.php?id=<?=$row['pro_id']?>"
-                                                        class="btn btn-success">Edit</a></td>
-                                                <td><a href="delete_product.php?id=<?=$row['pro_id']?>"
-                                                        class="btn btn-danger"
-                                                        onclick="Del(this.href);return false;">Delete</a></td>
-                                            </tr>
+                                            $hand = mysqli_query($conn, $sql);
+                                            while ($row = mysqli_fetch_array($hand)) {
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        <?= $row['pro_id'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $row['pro_name'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $row['detail'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $row['type_name'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $row['price'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $row['amount'] ?>
+                                                    </td>
+                                                    <td><img src="image/<?= $row['image'] ?>" width="80px" hieght="100px">
+                                                    </td>
+                                                    <td><a a href="edit_product.php?id=<?= $row['pro_id'] ?>"
+                                                            class="btn btn-success">Edit</a></td>
+                                                    <td><a href="delete_product.php?id=<?= $row['pro_id'] ?>"
+                                                            class="btn btn-danger"
+                                                            onclick="Del(this.href);return false;">Delete</a></td>
+                                                </tr>
 
-                                            <?php
-}
-mysqli_close($conn);
-?>
+                                                <?php
+                                            }
+                                            mysqli_close($conn);
+                                            ?>
                                         </table>
 
                                     </div>
@@ -98,12 +109,12 @@ mysqli_close($conn);
 </html>
 
 <script language="JavaScript">
-function Del(mypage) {
-    var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
-    if (agree) {
-        window.location = mypage;
+    function Del(mypage) {
+        var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
+        if (agree) {
+            window.location = mypage;
+        }
     }
-}
 </script>
 
 </div>
@@ -127,8 +138,8 @@ function Del(mypage) {
 
 </html>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>

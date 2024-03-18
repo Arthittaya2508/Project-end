@@ -3,23 +3,11 @@ include 'condb.php';
 session_start();
 
 // ดึงข้อมูลคำสั่งซื้อทั้งหมดจากฐานข้อมูล
-$sql = "SELECT * FROM tb_order";
+$sql = "SELECT `orderID`, `cus_name`, `address`, `total_price`, `reg_date` FROM `tb_order` ORDER BY `cus_id` ASC";
+
 $result = mysqli_query($conn, $sql);
-
-// เรียกข้อมูลที่อยู่และเบอร์โทรศัพท์ของผู้ใช้งานที่ล็อกอิน
-$username = $_SESSION['username'];
-$sql_user = "SELECT * FROM member WHERE username = '$username'";
-$result_user = $conn->query($sql_user);
-
-if ($result_user->num_rows > 0) {
-    while ($row_user = $result_user->fetch_assoc()) {
-        $name = $row_user['name'];
-        $lastname = $row_user['lastname'];
-        $address = $row_user['address'];
-        $fullname = $name . " " . $lastname;
-    }
-} 
 ?>
+
 
 
 <!DOCTYPE html>
@@ -29,12 +17,9 @@ if ($result_user->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ประวัติคำสั่งซื้อ</title>
-    <!-- Bootstrap CSS -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <style>
-    /* Custom styles */
     body {
         background-color: #f4f4f4;
         font-family: Arial, sans-serif;
@@ -97,13 +82,13 @@ if ($result_user->num_rows > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<tr>";
                             echo "<td>" . $row['orderID'] . "</td>";
-                            // ใช้ข้อมูลจาก session ของผู้ใช้ที่ล็อกอินเท่านั้น
-                            echo "<td>" . $fullname . "</td>";
-                            echo "<td>" . $address . "</td>";
+                            echo "<td>" . $row['cus_name'] . "</td>";
+                            echo "<td>" . $row['address'] . "</td>";
                             echo "<td>" . $row['reg_date'] . "</td>";
                             echo "<td>" . $row['total_price'] . "</td>";
                             echo "</tr>";
                         }
+                        
                         ?>
                     </tbody>
                 </table>

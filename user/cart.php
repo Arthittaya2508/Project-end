@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include 'condb.php';
 session_start();
@@ -20,7 +20,7 @@ session_start();
 </head>
 
 <body>
-    <?php include 'menu.php';?>
+    <?php include 'menu.php'; ?>
     <br><br>
     <div class="container">
         <form id="form1" method="POST" action="insert_cart.php">
@@ -43,74 +43,74 @@ session_start();
                         </tr>
                         <?php
 
-$Total = 0;
-$sumPrice = 0;
-$m = 1;
-$sumTotal=0;
+                        $Total = 0;
+                        $sumPrice = 0;
+                        $m = 1;
+                        $sumTotal = 0;
 
-if(isset($_SESSION["intLine"]))  {  //ถ้าไม่เป็นค่าว่างให้ทำงานใน {}
+                        if (isset($_SESSION["intLine"])) {  //ถ้าไม่เป็นค่าว่างให้ทำงานใน {}
 
-for ($i=0; $i <= (int)$_SESSION["intLine"]; $i++){
-  if(($_SESSION["strProductID"][$i]) != ""){
-    $sql1="select * from product where pro_id = '" . $_SESSION["strProductID"][$i] . "' " ;
-    $result1 = mysqli_query($conn,$sql1);
-    $row_pro = mysqli_fetch_array($result1);
+                            for ($i = 0; $i <= (int)$_SESSION["intLine"]; $i++) {
+                                if (($_SESSION["strProductID"][$i]) != "") {
+                                    $sql1 = "select * from product where pro_id = '" . $_SESSION["strProductID"][$i] . "' ";
+                                    $result1 = mysqli_query($conn, $sql1);
+                                    $row_pro = mysqli_fetch_array($result1);
 
-    $_SESSION["price"] = $row_pro['price'];
-    $Total = $_SESSION["strQty"][$i];
-    $sum = $Total * $row_pro['price'];
-    $sumPrice = $sumPrice + $sum;
-    $_SESSION["sum_price"] = $sumPrice ;
-    $sumTotal=$sumTotal+ $Total;
+                                    $_SESSION["price"] = $row_pro['price'];
+                                    $Total = $_SESSION["strQty"][$i];
+                                    $sum = $Total * $row_pro['price'];
+                                    $sumPrice = $sumPrice + $sum;
+                                    $_SESSION["sum_price"] = $sumPrice;
+                                    $sumTotal = $sumTotal + $Total;
 
-?>
+                        ?>
                         <tr>
                             <td><input type="checkbox" class="itemCheckbox"
                                     aria-label="Checkbox for following text input">
                             </td>
 
-                            <!-- <td><?=$m?></td> -->
+                            <!-- <td><?= $m ?></td> -->
                             <td class="centered-cell">
-                                <img src="img/<?=$row_pro['image']?>" width="80" height="85" class="border">
-                                <?=$row_pro['pro_name']?>
+                                <img src="img/<?= $row_pro['image'] ?>" width="80" height="85" class="border">
+                                <?= $row_pro['pro_name'] ?>
                             </td>
                             <td class="null">สินค้าคงเหลือ (<?php echo $row_pro['amount']; ?>)</td>
-                            <td><?=$row_pro['price']?></td>
+                            <td><?= $row_pro['price'] ?></td>
 
 
                             <td>
                                 <?php
-    $productID = $row_pro['pro_id']; 
+                                            $productID = $row_pro['pro_id'];
 
-    $sql_product = "SELECT * FROM product WHERE pro_id = '$productID'";
-    $result_product = mysqli_query($conn, $sql_product);
-    $row_product = mysqli_fetch_assoc($result_product);
+                                            $sql_product = "SELECT * FROM product WHERE pro_id = '$productID'";
+                                            $result_product = mysqli_query($conn, $sql_product);
+                                            $row_product = mysqli_fetch_assoc($result_product);
 
-    $maxStock = $row_product['amount']; 
+                                            $maxStock = $row_product['amount'];
 
-    if ($_SESSION["strQty"][$i]) {
-        echo '<a id="decrement" class="button1" onclick="decrementAmount()" href="order_del.php?id=' . $row_pro['pro_id'] . '">-</a>';
-    }
+                                            if ($_SESSION["strQty"][$i]) {
+                                                echo '<a id="decrement" class="button1" onclick="decrementAmount()" href="order_del.php?id=' . $row_pro['pro_id'] . '">-</a>';
+                                            }
 
-echo '<div id="amount-container"> <span  id="amount">' . $_SESSION["strQty"][$i] . '</span></div>';
-    
-    
-    if ($_SESSION["strQty"][$i] ) {
-        echo '<a id="increment" class="button1" onclick="incrementAmount()"  href="order.php?id=' . $row_pro['pro_id'] . '">+</a>';
-    }
-?>
-                            <td><?=$sum?></td>
+                                            echo '<div id="amount-container"> <span  id="amount">' . $_SESSION["strQty"][$i] . '</span></div>';
+
+
+                                            if ($_SESSION["strQty"][$i]) {
+                                                echo '<a id="increment" class="button1" onclick="incrementAmount()"  href="order.php?id=' . $row_pro['pro_id'] . '">+</a>';
+                                            }
+                                            ?>
+                            <td><?= $sum ?></td>
                             </td>
                             <td class="delete"><a href="pro_delete.php?Line=<?= $i ?>"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                         <?php
- $m=$m+1;
-}
-}
-} //endif
-mysqli_close($conn);
-?>
+                                    $m = $m + 1;
+                                }
+                            }
+                        } //endif
+                        mysqli_close($conn);
+                        ?>
                         <tr>
                             <td class="text-end" colspan="5">รวมเป็นเงิน</td>
                             <td class="text-center"><?= number_format($sumPrice); ?></td>
@@ -118,7 +118,7 @@ mysqli_close($conn);
                         </tr>
 
                     </table>
-                    <p class="text-end">จำนวนสินค้าที่สั่งซื้อ <?= $sumTotal?> ชิ้น</p>
+                    <p class="text-end">จำนวนสินค้าที่สั่งซื้อ <?= $sumTotal ?> ชิ้น</p>
                     <div style="text-align:right">
                         <a href="all_products.php"> <button type="button"
                                 class="btn btn-outline-secondary">เลือกสินค้า</button> </a>
@@ -132,6 +132,7 @@ mysqli_close($conn);
                             document.getElementById('existingAddressForm').classList.remove('hide');
                             document.getElementById('newAddressForm').classList.add('hide');
                             document.getElementById('fullname').readOnly = true;
+                            document.getElementById('userID').readOnly = true;
                             document.getElementById('tel').readOnly = true;
                         }
 
@@ -139,30 +140,32 @@ mysqli_close($conn);
                             document.getElementById('newAddressForm').classList.remove('hide');
                             document.getElementById('existingAddressForm').classList.add('hide');
                             document.getElementById('fullname').readOnly = false;
+                            document.getElementById('userID').readOnly = true;
                             document.getElementById('tel').readOnly = false;
 
                         }
                         </script>
                         <?php
-include 'condb.php';
+                        include 'condb.php';
 
 
-// เรียกข้อมูลที่อยู่และเบอร์โทรศัพท์ของผู้ใช้งานที่ล็อกอิน
-$username = $_SESSION['username'];
-$sql = "SELECT * FROM member WHERE username = '$username'";
-$result = $conn->query($sql);
+                        // เรียกข้อมูลที่อยู่และเบอร์โทรศัพท์ของผู้ใช้งานที่ล็อกอิน
+                        $username = $_SESSION['username'];
+                        $sql = "SELECT * FROM member WHERE username = '$username'";
+                        $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $name = $row['name'];
-        $lastname = $row['lastname']; // เพิ่มการดึงนามสกุล
-        $address = $row['address'];
-        $telephone = $row['telephone'];
-        $fullname = $name . " " . $lastname; // รวมชื่อและนามสกุลเข้าด้วยกัน
-    }
-}
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $name = $row['name'];
+                                $lastname = $row['lastname']; // เพิ่มการดึงนามสกุล
+                                $address = $row['address'];
+                                $telephone = $row['telephone'];
+                                $userID = $row['id'];
+                                $fullname = $name . " " . $lastname; // รวมชื่อและนามสกุลเข้าด้วยกัน
+                            }
+                        }
 
-?>
+                        ?>
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
 
@@ -202,6 +205,8 @@ if ($result->num_rows > 0) {
                                                     <input type="text" class="form-control" id="fullname"
                                                         name="fullname"
                                                         value="<?php echo htmlspecialchars($fullname); ?>" readonly>
+                                                    <input type="hidden" class="form-control" id="userID" name="userID"
+                                                        value="<?php echo htmlspecialchars($userID); ?>" readonly>
                                                 </div>
 
                                                 <div id="existingAddressForm">

@@ -13,7 +13,7 @@ $sql = "INSERT INTO tb_order (cus_id, cus_name, address, telephone, total_price,
         VALUES ('$cusID', '$cusName', '$cusAddress', '$cusTel', '" . $_SESSION["sum_price"] . "', '1')";
 mysqli_query($conn, $sql);
 
-$orderID = mysqli_insert_id($conn);
+$orderID = mysqli_insert_id($conn); // เก็บค่า ID ของ order ที่เพิ่มลงในฐานข้อมูล
 $_SESSION["order_id"] = $orderID;
 
 for ($i = 0; $i <= (int)$_SESSION["intLine"]; $i++) {
@@ -36,6 +36,7 @@ for ($i = 0; $i <= (int)$_SESSION["intLine"]; $i++) {
         }
     }
 }
+
 
 // Line Notify
 // Code for Line Notify goes here

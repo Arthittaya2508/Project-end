@@ -1,39 +1,43 @@
 <?php
+// เชื่อมต่อกับฐานข้อมูล
 include 'condb.php';
 
+// เริ่ม session
 session_start();
-if (!isset($_SESSION["id"])) {
-    header("location: login.php");
-    exit;
-}
 
+// ตรวจสอบว่ามีการส่งค่าผ่านเมธอด POST หรือไม่
 if ($_SERVER["REQUEST_METHOD"] == "POST") { 
-    // Check if all required fields are set
-    if (
-        isset($_POST['orderID'], $_POST['import_date'], $_POST['pid'], $_POST['pname'], $_POST['price'], $_POST['name_company'])
-    ) {
-        
-        $import_date = mysqli_real_escape_string($conn, $_POST['import_date']);
-        $p_id = mysqli_real_escape_string($conn, $_POST['pid']);
-        $p_name = mysqli_real_escape_string($conn, $_POST['pname']);
-        $price = mysqli_real_escape_string($conn, $_POST['price']);
-        $name_company = mysqli_real_escape_string($conn, $_POST['name_company']);
+    // ดึงค่า orderID จากฟอร์ม
+    $orderID = mysqli_real_escape_string($conn, $_POST['orderID']);
+    // ดึงค่า import_date จากฟอร์ม
+    $import_date = mysqli_real_escape_string($conn, $_POST['import_date']);
+    // ดึงค่า name_company จากฟอร์ม
+    $name_company = mysqli_real_escape_string($conn, $_POST['name_company']);
 
-        // Perform the insertion into the database
-        $sql = "INSERT INTO import(orderID, import_date, pid, pname, price, name_company) 
-                VALUES('$orderID', '$import_date', '$p_id', '$p_name', '$price', '$name_company')";
-        $result = mysqli_query($conn, $sql);
+    // ตรวจสอบว่ามีสินค้าที่ถูกเลือกหรือไม่
+    if(isset($_POST['selected_products']) && !empty($_POST['selected_products'])){
+        foreach($_POST['selected_products'] as $selected_product){
+            // แยกค่า pro_id และ type_id
+            $selected_values = explode("_", $selected_product);
+            $pro_id = $selected_values[0];
+            $type_id = $selected_values[1];
 
-        // Check if the query was successful
-        if ($result) {
-            echo "<script> alert('บันทึกข้อมูลเรียบร้อย'); </script>";
-            echo "<script> window.location='show_import.php'; </script>";
-            exit; // จบการทำงานหลังบันทึกข้อมูล
-        } else {
-            echo "<script> alert('ไม่สามารถบันทึกข้อมูลได้'); </script>";
+            // ทำสิ่งที่ต้องการกับค่า pro_id และ type_id ที่ได้
+            // เช่น บันทึกลงในฐานข้อมูล
+            $sql = "INSERT INTO `import` (orderID, pro_id, type_id, import_date, name_company) VALUES ('$orderID', '$pro_id', '$type_id', '$import_date', '$name_company')";
+            $result = mysqli_query($conn, $sql);
+
+            // ตรวจสอบว่าคำสั่ง SQL ทำงานสำเร็จหรือไม่
+            if (!$result) {
+                echo "<script> alert('ไม่สามารถบันทึกข้อมูลได้ ข้อมูลไม่ถูกต้อง'); </script>";
+            }
         }
+        echo "<script> alert('บันทึกข้อมูลเรียบร้อย'); </script>";
+        // ส่งผลการบันทึกข้อมูลกลับไปยังหน้าที่ต้องการ
+        echo "<script> window.location='show_import.php'; </script>";
+        exit; // จบการทำงานหลังบันทึกข้อมูล
     } else {
-        echo "<script> alert('กรุณากรอกข้อมูลให้ครบถ้วน'); </script>";
+        echo "<script> alert('กรุณาเลือกสินค้าอย่างน้อย 1 รายการ'); </script>";
     }
 } else {
     echo "<script> alert('การเข้าถึงไม่ถูกต้อง'); </script>";
