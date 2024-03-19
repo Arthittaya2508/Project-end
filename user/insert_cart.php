@@ -51,6 +51,6 @@ $_SESSION["fullname"] = $_POST["fullname"];
 $_SESSION["address"] = $_POST["newAddress"];
 $_SESSION["telephone"] = $_POST["tel"];
 
-// หลังจากนั้นก็เรียกหน้า orderNum.php
+$_SESSION["order_id"] = $orderID;
 header("Location: orderNum.php");
 exit();

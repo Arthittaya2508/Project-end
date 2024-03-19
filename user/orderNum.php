@@ -1,20 +1,7 @@
 <?php
 session_start();
 include 'condb.php';
-
-$sql = "SELECT * FROM tb_order WHERE orderID = '" . $_SESSION["order_id"] . "'";
-$result = mysqli_query($conn, $sql);
-$result = mysqli_query($conn, $sql);
-if (!$result) {
-    echo "Error: " . mysqli_error($conn);
-    // Handle the error appropriately, such as redirecting the user or displaying a friendly message.
-} else {
-    // Fetch the data
-    $rs = mysqli_fetch_array($result);
-    // Continue with your code
-}
-
-
+$total_price = 0;
 
 ?>
 
@@ -50,20 +37,24 @@ if (!$result) {
 </head>
 
 <body>
+
     <?php include 'menu.php'; ?>
     <br><br>
     <div class="content">
+
         <h3 class="text-center">รายละเอียดการสั่งซื้อ</h3>
         <div class="card">
             <div class="card-body">
-                <!-- แสดงรายละเอียดการสั่งซื้อ -->
-                <h4><strong>เลขที่ใบสั่งซื้อ:</strong> <?= $rs['orderID'] ?> </i></h4> <br>
+
+                <h4><strong>เลขที่ใบสั่งซื้อ:</strong><?= isset($_SESSION['order_id']) ? $_SESSION['order_id'] : ''; ?>
+                </h4><br>
                 <p><strong>ชื่อ-นามสกุล:</strong> <?= isset($_SESSION["fullname"]) ? $_SESSION["fullname"] : "" ?></p>
                 <p><strong>ที่อยู่จัดส่ง:</strong> <?= isset($_SESSION["address"]) ? $_SESSION["address"] : "" ?></p>
                 <p><strong>เบอร์โทรศัพท์:</strong> <?= isset($_SESSION["telephone"]) ? $_SESSION["telephone"] : "" ?>
                 </p>
             </div>
         </div>
+
         <div class="card md-4 mt-4">
             <div class="card-body">
                 <table class="table table-hover">
@@ -77,38 +68,43 @@ if (!$result) {
                             <th>ราคารวม</th>
                         </tr>
                     </thead>
-
-
                     <?php
-                    $sql1 = "SELECT d.pro_id, p.pro_name, p.image, d.orderPrice, d.orderQty, d.Total 
-                   FROM order_detail d 
-                   JOIN product p ON d.pro_id = p.pro_id 
-                   WHERE d.orderID = '" . $_SESSION["order_id"] . "'";
+                    // Check if $_SESSION['order_id'] is set
+                    if (isset($_SESSION['order_id'])) {
+                        // Prepare SQL query to retrieve order details
+                        $sql1 = "SELECT d.pro_id, p.pro_name, p.image, d.orderPrice, d.orderQty, d.Total 
+             FROM order_detail d 
+             JOIN product p ON d.pro_id = p.pro_id 
+             WHERE d.orderID = '" . mysqli_real_escape_string($conn, $_SESSION['order_id']) . "'";
 
-                    $sql = "SELECT * FROM product p,type t WHERE p.type_id=t.type_id";
-                    $result1 = mysqli_query($conn, $sql1);
-                    while ($row = mysqli_fetch_array($result1)) {
+                        // Execute SQL query
+                        $result1 = mysqli_query($conn, $sql1);
+
+                        // Fetch and display order details
+                        while ($row = mysqli_fetch_array($result1)) {
+                            $total_price += $row['Total']; // Accumulate total price
                     ?>
                     <tr>
                         <td><?= $row['pro_id'] ?></td>
                         <td class="highlight-on-hover">
                             <img src="img/<?= $row['image'] ?>" width="100px" height="100">
                         </td>
-
                         <td><?= $row['pro_name'] ?></td>
                         <td><?= $row['orderPrice'] ?></td>
                         <td><?= $row['orderQty'] ?></td>
                         <td><?= $row['Total'] ?></td>
                     </tr>
                     <?php
+                        }
                     }
                     ?>
-
                 </table>
+                <!-- Total price -->
                 <h6 class="text-end"> รวมเป็นเงิน <?= number_format($total_price, 2) ?> บาท</h6>
             </div>
         </div>
         <br>
+        <!-- Payment button -->
         <div class="text-center">
             <button class="btn btn-primary" onclick="window.location.href = 'select_pay.php';">จ่ายเงิน</button>
         </div>

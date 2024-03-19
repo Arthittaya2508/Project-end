@@ -29,90 +29,67 @@ if (!isset($_SESSION["id"])) {
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-
-
                 <div class="card mb-4 mt-4">
                     <div class="card-header alert">
                         <div class="card-body">
-                            <div class="row">
-
-                                <div class="alert alert-info h4 text-center mb-4 mt-4 " role="alert">
-                                    แสดงข้อมูลการสั่งซื้อสินค้า
-                                </div>
-
-                                <div class="card-body">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">วันที่สั่งซื้อสินค้า</th>
-                                                <th scope="col">เลขที่ใบสั่งซื้อ</th>
-                                                <th scope="col">ชื่อสินค้า</th>
-                                                <th scope="col">ประเภทสินค้า</th>
-                                                <th scope="col">จำนวนที่สั่ง</th>
-                                                <th scope="col">ราคารวม</th>
-                                                <th scope="col">ชื่อบริษัท</th>
-                                            </tr>
-                                        </thead>
-                                        <?php
-                                        $previousOrderID = null;
-                                        $orderTotalPrice = 0;
-                                        $grandTotalPrice = 0;
-                                        $sql = "SELECT *
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">วันที่สั่งซื้อสินค้า</th>
+                                        <th scope="col">เลขที่ใบสั่งซื้อ</th>
+                                        <th scope="col">ราคารวม</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <?php
+                                $totalQuantity = 0;
+                                $totalPrice = 0;
+                                $previous_orderID = null; // ตัวแปรเพื่อเก็บ orderID ก่อนหน้า
+                                $sql = "SELECT *,
+                SUM(Total) AS total_order
                 FROM order_import
                 LEFT JOIN type ON order_import.typeID = type.type_id
                 LEFT JOIN product ON order_import.pro_id = product.pro_id
-                ORDER BY orderID";
-                                        $hand = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_array($hand)) {
-                                            // ตรวจสอบเลขที่ใบสั่งซื้อ
-                                            if ($previousOrderID !== $row['orderID']) {
-                                                // แสดงข้อมูลใบสั่งซื้อใหม่
-                                                if ($previousOrderID !== null) {
-                                                    // แสดงราคารวมของใบสั่งซื้อก่อนหน้า
-                                                    echo '<tr>';
-                                                    echo '<td colspan="5"></td>';
-                                                    echo '<td><strong>รวม</strong></td>';
-                                                    echo '<td><strong>' . $orderTotalPrice . '</strong></td>';
-                                                    echo '</tr>';
-                                                    // รีเซ็ตค่าราคารวมใบสั่งซื้อใหม่
-                                                    $orderTotalPrice = 0;
-                                                }
-                                                // ตั้งค่าเลขที่ใบสั่งซื้อใหม่
-                                                $previousOrderID = $row['orderID'];
-                                            }
-                                            // นับราคารวมของสินค้าในใบสั่งซื้อ
-                                            $orderTotalPrice += $row['Total'];
-                                            // รวมราคารวมทั้งหมด
-                                            $grandTotalPrice += $row['Total'];
-                                        ?>
-                                        <tr>
-                                            <td><?= $row['order_import_date'] ?></td>
-                                            <td><?= $row['orderID'] ?></td>
-                                            <td><?= $row['pro_name'] ?></td>
-                                            <td><?= $row['type_name'] ?></td>
-                                            <td><?= $row['orderQty'] ?></td>
-                                            <td><?= $row['Total'] ?></td>
-                                            <td><?= $row['name_company'] ?></td>
-                                        </tr>
-                                        <?php
-                                        }
-                                        // แสดงราคารวมของใบสั่งซื้อสุดท้าย
-                                        if ($previousOrderID !== null) {
-                                            echo '<tr>';
-                                            echo '<td colspan="5"></td>';
-                                            echo '<td><strong>รวม</strong></td>';
-                                            echo '<td><strong>' . $orderTotalPrice . '</strong></td>';
-                                            echo '</tr>';
-                                        }
-                                        ?>
-                                        <tr>
-                                            <td colspan="6"><strong>ราคารวมทั้งหมด</strong></td>
-                                            <td><strong><?= $grandTotalPrice ?></strong></td>
-                                        </tr>
-                                    </table>
-                                </div>
+                GROUP BY orderID"; // ใช้ GROUP BY เพื่อรวม Total ของแต่ละ orderID
+                                $hand = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($hand)) {
+                                    $totalQuantity += $row['orderQty'];
+                                    $totalPrice += $row['total_order']; // ใช้ค่า total_order ที่รวมแล้วแทน Total เดิม
 
-                            </div>
+                                    // ตรวจสอบว่า orderID เป็น orderID เดียวกันหรือไม่
+                                    if ($row['orderID'] !== $previous_orderID) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?= $row['order_import_date'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row['orderID'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row['total_order'] ?>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary"
+                                            href="show_detail_import.php?orderID=<?= $row['orderID'] ?>"
+                                            role="button">รายละเอียด</a>
+                                    </td>
+                                </tr>
+                                <?php
+                                    }
+                                    $previous_orderID = $row['orderID']; // อัปเดตค่า orderID เพื่อใช้ในการเปรียบเทียบในรอบต่อไป
+                                }
+                                ?>
+                                <tr>
+                                    <td colspan="2"><strong>รวม</strong></td>
+                                    <td><strong>
+                                            <?= $totalPrice ?>
+                                        </strong></td>
+                                </tr>
+                                <?php
+                                mysqli_close($conn);
+                                ?>
+                            </table>
                         </div>
                     </div>
                 </div>
