@@ -24,12 +24,12 @@
                     <input type="text" name="username" class="form-control" required placeholder="username"> <br>
                     <input type="password" name="password" class="form-control" required placeholder="password"> <br>
                     <?php
-                if(isset($_SESSION["Error"])){
-                    echo "<div class='text-danger'> ";
-                    echo $_SESSION["Error"];
-                    echo "</div>";   
-                }
-                ?>
+                    if (isset($_SESSION["Error"])) {
+                        echo "<div class='text-danger'> ";
+                        echo $_SESSION["Error"];
+                        echo "</div>";
+                    }
+                    ?>
                     <input type="submit" name="submit" class="btn btn-success" value="Login">
                     <br><br>
                     <a href="register.php" class="text-left"> Register </a>

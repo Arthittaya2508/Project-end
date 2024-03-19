@@ -18,16 +18,17 @@ session_start();
         <br><br>
         <div class="row">
 
-        <div class=" col-md-8 mx-auto justify-center">
+            <div class=" col-md-8 mx-auto justify-center">
                 <!-- นี่คือที่ใส่รูปภาพ -->
-                <img src="image\ploynappan02.png" class="img" alt="Image" width="1000" height="500">
+                <img src="image\ploynappan03.png" class="img" alt="Image" width="1000" height="500">
             </div>
 
             <div class="col-md-4 badge bg-light text-dark ">
                 <h5>Login</h5>
                 <form method="POST" action="login_check.php">
                     <input type="text" class="form-control" maxlength="10" name="username" placeholder="Username"> <br>
-                    <input type="password" maxlength="10" class="form-control" name="password" placeholder="Password"> <br>
+                    <input type="password" maxlength="10" class="form-control" name="password" placeholder="Password">
+                    <br>
                     <?php
                     if (isset($_SESSION["Error"])) {
                         echo "<div class='text-danger'>";

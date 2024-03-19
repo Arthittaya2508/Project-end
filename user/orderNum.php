@@ -4,8 +4,16 @@ include 'condb.php';
 
 $sql = "SELECT * FROM tb_order WHERE orderID = '" . $_SESSION["order_id"] . "'";
 $result = mysqli_query($conn, $sql);
-$rs = mysqli_fetch_array($result);
-$total_price = $rs['total_price'];
+$result = mysqli_query($conn, $sql);
+if (!$result) {
+    echo "Error: " . mysqli_error($conn);
+    // Handle the error appropriately, such as redirecting the user or displaying a friendly message.
+} else {
+    // Fetch the data
+    $rs = mysqli_fetch_array($result);
+    // Continue with your code
+}
+
 
 
 ?>
@@ -21,23 +29,23 @@ $total_price = $rs['total_price'];
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <style>
-        p {
-            font-size: large;
-        }
+    p {
+        font-size: large;
+    }
 
-        body {
-            background-color: #F5F5F5;
-        }
+    body {
+        background-color: #F5F5F5;
+    }
 
-        .content {
-            width: 1300px;
-            padding: 20px;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-        }
+    .content {
+        width: 1300px;
+        padding: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
     </style>
 </head>
 
@@ -81,17 +89,17 @@ $total_price = $rs['total_price'];
                     $result1 = mysqli_query($conn, $sql1);
                     while ($row = mysqli_fetch_array($result1)) {
                     ?>
-                        <tr>
-                            <td><?= $row['pro_id'] ?></td>
-                            <td class="highlight-on-hover">
-                                <img src="img/<?= $row['image'] ?>" width="100px" height="100">
-                            </td>
+                    <tr>
+                        <td><?= $row['pro_id'] ?></td>
+                        <td class="highlight-on-hover">
+                            <img src="img/<?= $row['image'] ?>" width="100px" height="100">
+                        </td>
 
-                            <td><?= $row['pro_name'] ?></td>
-                            <td><?= $row['orderPrice'] ?></td>
-                            <td><?= $row['orderQty'] ?></td>
-                            <td><?= $row['Total'] ?></td>
-                        </tr>
+                        <td><?= $row['pro_name'] ?></td>
+                        <td><?= $row['orderPrice'] ?></td>
+                        <td><?= $row['orderQty'] ?></td>
+                        <td><?= $row['Total'] ?></td>
+                    </tr>
                     <?php
                     }
                     ?>

@@ -44,60 +44,74 @@ if (!isset($_SESSION["id"])) {
                                     <table class="table">
                                         <thead>
                                             <tr>
+                                                <th scope="col">วันที่สั่งซื้อสินค้า</th>
                                                 <th scope="col">เลขที่ใบสั่งซื้อ</th>
                                                 <th scope="col">ชื่อสินค้า</th>
                                                 <th scope="col">ประเภทสินค้า</th>
                                                 <th scope="col">จำนวนที่สั่ง</th>
                                                 <th scope="col">ราคารวม</th>
+                                                <th scope="col">ชื่อบริษัท</th>
                                             </tr>
                                         </thead>
                                         <?php
-                                        $totalQuantity = 0;
-                                        $totalPrice = 0;
+                                        $previousOrderID = null;
+                                        $orderTotalPrice = 0;
+                                        $grandTotalPrice = 0;
                                         $sql = "SELECT *
-                                FROM order_import
-                                LEFT JOIN type ON order_import.typeID = type.type_id
-                                LEFT JOIN product ON order_import.pro_id = product.pro_id";
+                FROM order_import
+                LEFT JOIN type ON order_import.typeID = type.type_id
+                LEFT JOIN product ON order_import.pro_id = product.pro_id
+                ORDER BY orderID";
                                         $hand = mysqli_query($conn, $sql);
                                         while ($row = mysqli_fetch_array($hand)) {
-                                            $totalQuantity += $row['orderQty'];
-                                            $totalPrice += $row['Total'];
-                                            ?>
-                                            <tr>
-                                                <td>
-                                                    <?= $row['orderID'] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row['pro_name'] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row['type_name'] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row['orderQty'] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row['Total'] ?>
-                                                </td>
-                                            </tr>
-
-                                            <?php
+                                            // ตรวจสอบเลขที่ใบสั่งซื้อ
+                                            if ($previousOrderID !== $row['orderID']) {
+                                                // แสดงข้อมูลใบสั่งซื้อใหม่
+                                                if ($previousOrderID !== null) {
+                                                    // แสดงราคารวมของใบสั่งซื้อก่อนหน้า
+                                                    echo '<tr>';
+                                                    echo '<td colspan="5"></td>';
+                                                    echo '<td><strong>รวม</strong></td>';
+                                                    echo '<td><strong>' . $orderTotalPrice . '</strong></td>';
+                                                    echo '</tr>';
+                                                    // รีเซ็ตค่าราคารวมใบสั่งซื้อใหม่
+                                                    $orderTotalPrice = 0;
+                                                }
+                                                // ตั้งค่าเลขที่ใบสั่งซื้อใหม่
+                                                $previousOrderID = $row['orderID'];
+                                            }
+                                            // นับราคารวมของสินค้าในใบสั่งซื้อ
+                                            $orderTotalPrice += $row['Total'];
+                                            // รวมราคารวมทั้งหมด
+                                            $grandTotalPrice += $row['Total'];
+                                        ?>
+                                        <tr>
+                                            <td><?= $row['order_import_date'] ?></td>
+                                            <td><?= $row['orderID'] ?></td>
+                                            <td><?= $row['pro_name'] ?></td>
+                                            <td><?= $row['type_name'] ?></td>
+                                            <td><?= $row['orderQty'] ?></td>
+                                            <td><?= $row['Total'] ?></td>
+                                            <td><?= $row['name_company'] ?></td>
+                                        </tr>
+                                        <?php
+                                        }
+                                        // แสดงราคารวมของใบสั่งซื้อสุดท้าย
+                                        if ($previousOrderID !== null) {
+                                            echo '<tr>';
+                                            echo '<td colspan="5"></td>';
+                                            echo '<td><strong>รวม</strong></td>';
+                                            echo '<td><strong>' . $orderTotalPrice . '</strong></td>';
+                                            echo '</tr>';
                                         }
                                         ?>
                                         <tr>
-                                            <td colspan="3"><strong>รวม</strong></td>
-                                            <td><strong>
-                                                    <?= $totalQuantity ?>
-                                                </strong></td>
-                                            <td><strong>
-                                                    <?= $totalPrice ?>
-                                                </strong></td>
+                                            <td colspan="6"><strong>ราคารวมทั้งหมด</strong></td>
+                                            <td><strong><?= $grandTotalPrice ?></strong></td>
                                         </tr>
-                                        <?php
-                                        mysqli_close($conn);
-                                        ?>
                                     </table>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -109,12 +123,12 @@ if (!isset($_SESSION["id"])) {
 </html>
 
 <script language="JavaScript">
-    function Del(mypage) {
-        var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
-        if (agree) {
-            window.location = mypage;
-        }
+function Del(mypage) {
+    var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
+    if (agree) {
+        window.location = mypage;
     }
+}
 </script>
 
 </div>
@@ -138,8 +152,8 @@ if (!isset($_SESSION["id"])) {
 
 </html>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+</script>
 <script src="js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>

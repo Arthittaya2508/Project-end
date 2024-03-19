@@ -12,17 +12,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty(file_get_contents('php://inp
 
     // วนลูปเพื่อเพิ่มข้อมูลการสั่งซื้อลงในฐานข้อมูล
     foreach ($orderData as $order) {
+        $import_date = $order['import_date'];
         $pro_id = $order['proId'];
         $typeID = $order['typeId'];
         $price = $order['price'];
         $orderQty = $order['orderQty'];
+        $company = $order['company'];
 
         // คำนวณค่ารวม (Total)
         $total = $price * $orderQty;
 
         // เพิ่มข้อมูลการสั่งซื้อลงในฐานข้อมูล
-        $sql = "INSERT INTO order_import (orderID, pro_id, typeID, orderPrice, orderQty, Total) 
-                VALUES ('$orderID', '$pro_id', '$typeID', '$price', '$orderQty', '$total')";
+        $sql = "INSERT INTO order_import (orderID, pro_id, typeID, orderPrice, orderQty, Total, name_company, order_import_date) 
+                VALUES ('$orderID', '$pro_id', '$typeID', '$price', '$orderQty', '$total', '$company', now())";
         $result = mysqli_query($conn, $sql);
 
         // ตรวจสอบว่าคำสั่ง SQL ทำงานสำเร็จหรือไม่
@@ -37,4 +39,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty(file_get_contents('php://inp
 }
 
 mysqli_close($conn);
-?>

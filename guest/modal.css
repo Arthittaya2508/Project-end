@@ -1,0 +1,50 @@
+.login {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #008d00;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.login:hover {
+  background-color: #5ba15e;
+}
+
+.rgt {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #a40000;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.rgt:hover {
+  background-color: #bd434d;
+}
+
+.modal {
+  width: 300px;
+}
+
+.modal-content {
+  background-color: #aaa;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.formlog {
+  width: 400px;
+}

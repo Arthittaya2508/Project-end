@@ -4,18 +4,18 @@ include 'condb.php';
 
 // รับค่าไอดีผู้ใช้งานจากฟอร์มที่ส่งมา
 $cusID = $_POST['userID'];
-
 $cusName = $_POST['fullname']; // แก้ชื่อฟิลด์ตรงนี้ตามฟอร์มของคุณ
-$cusAddress = $_POST['existingAddress']; // แก้ชื่อฟิลด์ตรงนี้ตามฟอร์มของคุณ
+$cusAddress = $_POST['newAddress']; // แก้ชื่อฟิลด์ตรงนี้ตามฟอร์มของคุณ
 $cusTel = $_POST['tel']; // แก้ชื่อฟิลด์ตรงนี้ตามฟอร์มของคุณ
 
 $sql = "INSERT INTO tb_order (cus_id, cus_name, address, telephone, total_price, order_status)
         VALUES ('$cusID', '$cusName', '$cusAddress', '$cusTel', '" . $_SESSION["sum_price"] . "', '1')";
+
 mysqli_query($conn, $sql);
 
 $orderID = mysqli_insert_id($conn); // เก็บค่า ID ของ order ที่เพิ่มลงในฐานข้อมูล
-$_SESSION["order_id"] = $orderID;
 
+// เพิ่มรายละเอียดสินค้าในตะกร้าลงในตาราง order_detail
 for ($i = 0; $i <= (int)$_SESSION["intLine"]; $i++) {
     if (($_SESSION["strProductID"][$i]) != "") {
         // Get product data
@@ -37,11 +37,10 @@ for ($i = 0; $i <= (int)$_SESSION["intLine"]; $i++) {
     }
 }
 
-
 // Line Notify
 // Code for Line Notify goes here
 
-mysqli_close($conn);
+// ปิด Session และลบข้อมูลต่าง ๆ
 unset($_SESSION["intLine"]);
 unset($_SESSION["strProductID"]);
 unset($_SESSION["strQty"]);
@@ -49,10 +48,9 @@ unset($_SESSION["sum_price"]);
 
 // เก็บข้อมูลที่อยู่และเบอร์โทรศัพท์ลงใน session
 $_SESSION["fullname"] = $_POST["fullname"];
-$_SESSION["address"] = $_POST["existingAddress"]; // หรือจะเปลี่ยนเป็น $_POST["newAddress"] ก็ได้ตามที่ต้องการ
+$_SESSION["address"] = $_POST["newAddress"];
 $_SESSION["telephone"] = $_POST["tel"];
 
 // หลังจากนั้นก็เรียกหน้า orderNum.php
 header("Location: orderNum.php");
 exit();
-?>

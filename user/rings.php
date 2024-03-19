@@ -38,61 +38,62 @@ $type_id = '002';
             while ($row = mysqli_fetch_array($result)) {
                 $amount1 = $row['amount'];
             ?>
-                <div class="col-sm-3">
-                    <div class="text-center">
+            <div class="col-sm-3">
+                <div class="text-center">
 
-                        <style>
-                            /* เมื่อนำเมาส์ไปวางที่รูป */
-                            .highlight-on-click img {
-                                transition: transform 0.3s ease;
-                                /* เพิ่มการเปลี่ยนแปลงเมื่อคลิก */
-                            }
-                        </style>
+                    <style>
+                    /* เมื่อนำเมาส์ไปวางที่รูป */
+                    .highlight-on-click img {
+                        transition: transform 0.3s ease;
+                        /* เพิ่มการเปลี่ยนแปลงเมื่อคลิก */
+                    }
+                    </style>
 
-                        <style>
-                            /* เมื่อนำเมาส์โดนรูป */
-                            .highlight-on-hover img {
-                                transition: transform 0.3s ease;
-                                /* เพิ่มการเปลี่ยนแปลงเมื่อโดน */
-                            }
+                    <style>
+                    /* เมื่อนำเมาส์โดนรูป */
+                    .highlight-on-hover img {
+                        transition: transform 0.3s ease;
+                        /* เพิ่มการเปลี่ยนแปลงเมื่อโดน */
+                    }
 
-                            /* เมื่อโดนนั้น */
-                            .highlight-on-hover img:hover {
-                                transform: scale(1.1);
-                                /* เพิ่มการเปลี่ยนแปลงเมื่อโดน */
-                            }
-                        </style>
+                    /* เมื่อโดนนั้น */
+                    .highlight-on-hover img:hover {
+                        transform: scale(1.1);
+                        /* เพิ่มการเปลี่ยนแปลงเมื่อโดน */
+                    }
+                    </style>
 
-                        <div class="highlight-on-hover">
-                            <img src="img/<?= $row['image'] ?>" width="200px" height="220" class="mt-5 p-2 my-2 border img-fluid">
-                        </div>
-
-
-                        <!-- HTML -->
-
-                        <span class="pink-color">ID: <?= $row['pro_id'] ?></span>
-                        <br>
-                        <b>
-                            <h5 class="pink-color2"><?= $row['pro_name'] ?>
-                        </b></h5>
-
-
-                        ราคา <b class="text-danger"><?= number_format($row['price'], 2) ?></b> บาท<br>
-
-                        <?php if ($amount1 <= 0) { ?>
-                            <a class="btn btn-danger mt-3" href="#"> สินค้าหมด </a>
-                        <?php } else { ?>
-                            <a class="btn btn-outline-success mt-3 mb-3" href="sh_product_detail.php?id=<?= $row['pro_id'] ?>">
-                                รายละเอียดสินค้า
-                            </a>
-                            <a class="btn btn-outline-primary mt-3 mb-3" href="order.php?id=<?= $row['pro_id'] ?>">
-                                เพิ่มลงในตะกร้า
-                            </a>
-                        <?php } ?>
-
-
+                    <div class="highlight-on-hover">
+                        <img src="img/<?= $row['image'] ?>" width="200px" height="220"
+                            class="mt-5 p-2 my-2 border img-fluid">
                     </div>
+
+
+                    <!-- HTML -->
+
+                    <span class="pink-color">ID: <?= $row['pro_id'] ?></span>
+                    <br>
+                    <b>
+                        <h5 class="pink-color2"><?= $row['pro_name'] ?>
+                    </b></h5>
+
+
+                    ราคา <b class="text-danger"><?= number_format($row['price'], 2) ?></b> บาท<br>
+
+                    <?php if ($amount1 <= 0) { ?>
+                    <a class="btn btn-danger mt-3" href="#"> สินค้าหมด </a>
+                    <?php } else { ?>
+                    <a class="btn btn-outline-success mt-3 mb-3" href="sh_product_detail.php?id=<?= $row['pro_id'] ?>">
+                        รายละเอียดสินค้า
+                    </a>
+                    <a class="btn btn-outline-primary mt-3 mb-3" href="order.php?id=<?= $row['pro_id'] ?>">
+                        เพิ่มลงในตะกร้า
+                    </a>
+                    <?php } ?>
+
+
                 </div>
+            </div>
             <?php
             }
             mysqli_close($conn);
