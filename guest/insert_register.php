@@ -9,7 +9,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 // เช็คว่ามีไฟล์รูปถูกอัปโหลดหรือไม่
-if(isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     $image = $_FILES['image']['name'];
     $temp_name = $_FILES['image']['tmp_name'];
     // ย้ายไฟล์รูปไปยังโฟลเดอร์ที่เหมาะสมบนเซิร์ฟเวอร์
@@ -28,20 +28,20 @@ $check_duplicate_sql = "SELECT * FROM member WHERE username = '$username' OR (na
 $check_duplicate_result = mysqli_query($conn, $check_duplicate_sql);
 
 if (mysqli_num_rows($check_duplicate_result) > 0) {
-    echo "<script> alert('มีผู้ใช้งานหรือชื่อ-นามสกุลนี้แล้ว'); </script> ";
-    echo "<script> window.location='register.php'; </script> ";
+    echo "<script>alert('มีผู้ใช้งานหรือชื่อ-นามสกุลนี้แล้ว');</script>";
+    echo "<script>window.location='register.php';</script>";
 } else {
     $insert_sql = "INSERT INTO member(name, lastname, address, telephone, username, password, image)
         VALUES ('$name', '$lastname', '$address', '$phone', '$username', '$password', '$image')";
     $insert_result = mysqli_query($conn, $insert_sql);
 
     if ($insert_result) {
-        echo "<script> alert('บันทึกข้อมูลเรียบร้อย'); </script> ";
-        echo "<script> window.location='login.php'; </script> ";
+        echo "<script>alert('บันทึกข้อมูลเรียบร้อย');</script>";
+        echo "<script>window.location='login.php';</script>";
     } else {
-        echo "<script> alert('<div class=\"error-message\">บันทึกข้อมูลไม่ได้</div>'); </script> ";
+        echo "<script>alert('บันทึกข้อมูลไม่ได้');</script>";
+        echo "<script>window.location='register.php';</script>";
     }
 }
 
 mysqli_close($conn);
-?>
