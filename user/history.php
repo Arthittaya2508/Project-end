@@ -3,13 +3,12 @@ include 'condb.php';
 session_start();
 
 // ดึงข้อมูลคำสั่งซื้อทั้งหมดจากฐานข้อมูล
-$sql = "SELECT o.orderID, m.id, o.cus_name, o.address, o.total_price, o.reg_date
+$sql = "SELECT o.orderID, m.id, o.cus_name, o.address, o.total_price, o.reg_date, o.order_status
         FROM tb_order o
-        INNER JOIN member m ON cus_id = id";
+        INNER JOIN member m ON cus_id = id
+        ORDER BY o.reg_date DESC";
 $result = mysqli_query($conn, $sql);
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +73,8 @@ $result = mysqli_query($conn, $sql);
                             <th>ที่อยู่จัดส่ง</th>
                             <th>วันที่สั่งซื้อ</th>
                             <th>ยอดรวม</th>
-
+                            <th>สถานะ</th>
+                            <th>รายละเอียด</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,6 +87,25 @@ $result = mysqli_query($conn, $sql);
                             echo "<td>" . $row['address'] . "</td>";
                             echo "<td>" . $row['reg_date'] . "</td>";
                             echo "<td>" . $row['total_price'] . "</td>";
+                            $status = "";
+                            switch ($row['order_status']) {
+                                case 0:
+                                    $status = "<span class='text-danger'>ยกเลิก</span>";
+                                    break;
+                                case 1:
+                                    $status = "<span class='text-warning'>ยังไม่ชำระเงิน</span>";
+                                    break;
+                                case 2:
+                                    $status = "<span class='text-primary'>ชำระเงินแล้ว</span>";
+                                    break;
+                                case 3:
+                                    $status = "<span class='text-info'>ส่งสินค้าเรียบร้อย</span>";
+                                    break;
+                                default:
+                                    $status = "ไม่ทราบสถานะ";
+                            }
+                            echo "<td>" . $status . "</td>";
+                            echo '<td><a class="btn btn-primary" href="history_order_detail.php?orderID=' . $row['orderID'] . '" role="button">รายละเอียด</a></td>';
                             echo "</tr>";
                         }
 
