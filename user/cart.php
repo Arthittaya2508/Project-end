@@ -14,9 +14,197 @@ session_start();
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- CSS -->
-    <!-- <link rel="stylesheet" href="cart.css"> -->
-    <link rel="stylesheet" href="up_cart.css">
+    <style>
+    .content {
+
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        color: #4d4c5b;
+
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        font-weight: normal;
+    }
+
+    th.centered-cell,
+    td.centered-cell {
+        text-align: left;
+    }
+
+
+    th.null,
+    td.null {
+        width: 200px;
+        text-align: left;
+        color: #4d4c5b;
+    }
+
+    th.delete,
+    td.delete {
+        width: 50px;
+    }
+
+    th.sum,
+    td.sum {
+        width: 100px;
+    }
+
+    .button1 {
+        padding: 5px 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .box {
+        display: flex;
+        justify-content: flex-end;
+        margin-left: auto;
+        margin-top: 10px;
+    }
+
+    #p {
+        margin-top: 50px;
+    }
+
+    #increment,
+    #decrement {
+        background-color: #CCB7E5;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+
+    #increment:hover,
+    #decrement:hover {
+        background-color: #45a049;
+    }
+
+    #amount-container {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px 20px;
+        display: inline-block;
+    }
+
+    #amount {
+        font-size: 16px;
+    }
+
+    #myButton {
+        background-color: blue;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    a {
+        color: #333;
+        /* สีของลิงก์ */
+        text-decoration: none;
+        /* ไม่มีขีดเส้นใต้ลิงก์ */
+    }
+
+    a:hover {
+        color: #ff0000;
+        /* สีของลิงก์เมื่อเมาส์ผ่าน */
+    }
+
+    .fa-trash {
+        color: #ff0000;
+        /* สีของไอคอนลบ (Trash icon) */
+    }
+
+    .fa-trash:hover {
+        color: #cc0000;
+        /* สีของไอคอนลบเมื่อเมาส์ผ่าน */
+    }
+
+    .modal-dialog {
+        width: auto;
+    }
+
+    .but {
+        display: flex;
+    }
+
+    .form-check {
+        margin: 0 20px;
+        border: 2px solid #CCB7E5;
+        border-radius: 10px;
+        padding: 20px 30px;
+        background-color: transparent;
+        color: #000000;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 250px;
+        height: 80px;
+    }
+
+    .form-check-label {
+        font-size: medium;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .form-check-input {
+        margin-left: 50px;
+        font-size: medium;
+    }
+
+    .form-check:hover {
+        background-color: #CCB7E5;
+        color: #000000;
+    }
+
+    .form-check-inline:focus-within label {
+        color: #fff;
+    }
+
+    .form-check-inline:focus-within {
+        background-color: #CCB7E5;
+        color: #fff;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .form01 {
+        text-align: left;
+    }
+
+    .text02 {
+        font-size: medium;
+        margin-bottom: 8px;
+        justify-content: left;
+        text-align: left;
+    }
+    </style>
 
 </head>
 
@@ -30,21 +218,7 @@ session_start();
                     <div class="alert alert-custom h4 text-center text-black" role="alert">
                         การสั่งซื้อสินค้า
                     </div>
-                    <!-- <div id="notification" class="alert alert-warning" role="alert" style="display: none;">
-                        ยังไม่มีสินค้าในตะกร้า โปรดทำการเพิ่มสินค้า
-                    </div>
-                    <script>
-                    // อัพเดทฟังก์ชันเพื่อแสดงแจ้งเตือนเมื่อไม่มีสินค้าที่เลือก
-                    function showNotification() {
-                        var notification = document.getElementById('notification');
-                        if (!checkSelectedItems() &&
-                            <?php echo isset($_SESSION["intLine"]) ? $_SESSION["intLine"] : 0; ?> == 0) {
-                            notification.style.display = 'block';
-                        } else {
-                            notification.style.display = 'none';
-                        }
-                    }
-                    </script> -->
+
                     <table class="table table-striped table-hover">
                         <tr>
                             <th><input type="checkbox" id="selectAllCheckbox" aria-label="Checkbox for selecting all">

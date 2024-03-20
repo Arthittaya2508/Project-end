@@ -1,5 +1,4 @@
 .content {
-  /* background-color: #D3D3D3; */
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
@@ -23,6 +22,7 @@ td {
 
 th {
   color: #4d4c5b;
+
   padding: 10px;
   text-align: center;
   border-bottom: 1px solid #ddd;
@@ -70,7 +70,7 @@ td.sum {
 
 #increment,
 #decrement {
-  background-color: #cc99ff;
+  background-color: #ccb7e5;
   color: white;
   border: none;
   border-radius: 5px;
@@ -133,11 +133,11 @@ a:hover {
 
 .form-check {
   margin: 0 20px;
-  border: 2px solid #007bff;
+  border: 2px solid #ccb7e5;
   border-radius: 10px;
   padding: 20px 30px;
   background-color: transparent;
-  color: #007bff;
+  color: #000000;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -157,8 +157,8 @@ a:hover {
 }
 
 .form-check:hover {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #ccb7e5;
+  color: #000000;
 }
 
 .form-check-inline:focus-within label {
@@ -166,7 +166,7 @@ a:hover {
 }
 
 .form-check-inline:focus-within {
-  background-color: #007bff;
+  background-color: #ccb7e5;
   color: #fff;
 }
 
@@ -183,20 +183,4 @@ a:hover {
   margin-bottom: 8px;
   justify-content: left;
   text-align: left;
-}
-
-.sm {
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  width: 15%;
-  height: 50%;
-  margin-top: 30px;
-  margin-left: 305px;
-  color: #fff;
-}
-
-.sm:hover {
-  background-color: #008714;
-  color: #fff;
 }

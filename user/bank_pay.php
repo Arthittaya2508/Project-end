@@ -85,7 +85,9 @@
 </head>
 
 <body>
+
     <?php include 'menu.php'; ?>
+    <br><br><br><br>
     <h3>โอนเงินผ่านธนาคาร</h3>
     <div class="contant">
 
@@ -106,7 +108,7 @@
             <img src='img/ไทยพาณิชย์.jpg' alt='รูปบัญชีธนาคาร'>
             <div class='account-details'>
                 <p> บัญชีธนาคารไทยพาณิชย์</p>
-                <p>ชื่อบัญชี: อาทิตยา ธรรมศิริ </p>
+                <p>ชื่อบัญชี: ศราวุธ แก้วจันทร์เพ็ง </p>
                 <p>เลขที่บัญชี:
                     <a for="account_number_2" id="account_number_2"> 4092152190</a>
                 </p>

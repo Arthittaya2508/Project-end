@@ -22,9 +22,8 @@ session_start();
 
 <body>
     <?php include 'menu.php'; ?>
-    <div class="container  mt-5">
+    <div class="container">
         <div class="row justify-content-center align-items-center">
-
             <?php
             $ids = $_GET['id'];
             $sql = "SELECT * FROM product
@@ -34,37 +33,12 @@ session_start();
             $row = mysqli_fetch_array($result);
             ?>
             <div class="col-md-4">
-
-                <style>
-                /* เมื่อนำเมาส์ไปวางที่รูป */
-                .highlight-on-click img {
-                    transition: transform 0.3s ease;
-                    /* เพิ่มการเปลี่ยนแปลงเมื่อคลิก */
-                }
-                </style>
-
-                <style>
-                /* เมื่อนำเมาส์โดนรูป */
-                .highlight-on-hover img {
-                    transition: transform 0.3s ease;
-                    /* เพิ่มการเปลี่ยนแปลงเมื่อโดน */
-                }
-
-                /* เมื่อโดนนั้น */
-                .highlight-on-hover img:hover {
-                    transform: scale(1.1);
-                    /* เพิ่มการเปลี่ยนแปลงเมื่อโดน */
-                }
-                </style>
-
                 <div class="highlight-on-hover">
                     <img src="img/<?= $row['image'] ?>" width="350px" class="mt-5 p-2 my-2 border img-fluid">
                 </div>
-
             </div>
 
             <div class="col-md-6">
-                <br><br><br>
                 <span class="pink-color">ID: <?= $row['pro_id'] ?></span>
                 <b>
                     <h5 class="pink-color2"><?= $row['pro_name'] ?>
@@ -75,7 +49,7 @@ session_start();
                 <a class="btn btn-outline-success mt-3" href="order.php?id=<?= $row['pro_id'] ?>"> Add cart </a>
             </div>
             <style>
-            .card-footer {
+            .footer {
                 text-align: center;
                 margin-top: 20px;
 
@@ -91,28 +65,28 @@ session_start();
 
             }
 
-            .card-footer .row {
+            .footer .row {
                 justify-content: center;
 
             }
 
-            .card-footer .row .highlight-on-hover {
+            .footer .row .highlight-on-hover {
                 width: 300px;
                 margin: 10px;
             }
 
-            .card-footer .row .highlight-on-hover img {
+            .footer .row .highlight-on-hover img {
                 max-width: 100%;
                 height: auto;
             }
 
-            .card-footer .row .highlight-on-hover p {
+            .footer .row .highlight-on-hover p {
                 margin-top: 10px;
             }
             </style>
 
             </style>
-            <div class="card-footer">
+            <div class="footer">
                 <h3>เซ็ตคู่สินค้า</h3>
                 <div class="row">
                     <?php
@@ -148,7 +122,6 @@ session_start();
     <?php
     mysqli_close($conn);
     ?>
-
 </body>
 
 </html>

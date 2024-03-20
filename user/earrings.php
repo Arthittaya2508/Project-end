@@ -14,12 +14,62 @@ $type_id = '020';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ploynappan</title>
-    <!-- Bootstrap CSS -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- CSS -->
-    <link rel="stylesheet" href="product.css">
+
+    <!-- <link rel="stylesheet" href="product.css"> -->
+    <style>
+    body {
+        background-color: #FFF0F5;
+    }
+
+    .btn {
+        padding: 10px;
+        font-size: 15px;
+        color: white;
+        background: #FF99FF;
+        border: none;
+        border-radius: 5px;
+    }
+
+
+    .btn {
+        padding: 10px;
+        font-size: 15px;
+        color: white;
+        background: #f893b5;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .btn-danger {
+        padding: 10px;
+        font-size: 15px;
+        color: white;
+        background: #FF0033;
+        border: none;
+        border-radius: 5px;
+    }
+
+    body {
+        font-size: 120%;
+        background: #f8f8f8;
+    }
+
+    /* CSS file or within <style> tags */
+    .pink-color {
+        color: #f893b5;
+    }
+
+    .pink-color2 {
+        color: #FF69B4;
+
+    }
+
+    .pink-color3 {
+        color: #fac9db;
+    }
+    </style>
 
 </head>
 
