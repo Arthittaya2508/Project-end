@@ -26,63 +26,70 @@ if (isset($_POST['payment_method'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เลือกวิธีการชำระเงิน</title>
+
+    <link rel="stylesheet" href="style.css">
+    <!-- Bootstrap CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
 
-        .container {
-            width: 50%;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    .content {
+        width: 50%;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 120px;
+    }
 
-        h2 {
-            text-align: center;
-        }
+    h2 {
+        text-align: center;
+    }
 
-        form {
-            text-align: center;
-        }
+    form {
+        text-align: center;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
 
-        select {
-            width: 80%;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
+    select {
+        width: 80%;
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
 
-        input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #007bff;
-            border: none;
-            color: #fff;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #007bff;
+        border: none;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
 
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
     </style>
 </head>
 
 <body>
-
-    <div class="container">
+    <?php include 'menu.php'; ?>
+    <div class="content">
         <h2>เลือกวิธีการชำระเงิน:</h2>
         <form method="post" class="pay-form">
             <label for="payment_method">Choose Payment Method:</label>

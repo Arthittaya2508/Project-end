@@ -1,3 +1,9 @@
+<?php
+
+include 'condb.php';
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,24 +11,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan QR Code Payment</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Bootstrap CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
 
-        .container {
+        .card {
+            margin-top: 30px;
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content {
             background-color: #fff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
+            text-align: center;
         }
 
         h2 {
@@ -32,7 +44,7 @@
         img {
             display: block;
             margin: 0 auto;
-            max-width: 50%;
+            max-width: 300px;
             height: auto;
         }
 
@@ -42,29 +54,30 @@
         }
 
         .scan-img {
-
             background-color: #E18AAA;
             border: none;
             border-radius: 5px;
             height: 48px;
             color: #ffff;
             font-size: large;
-            margin-left: 350px;
+            cursor: pointer;
+            margin-top: 10px;
         }
 
         .scan-img:hover {
             background-color: #E4A0B7;
-
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Scan QR Code Payment</h2>
-        <img src="img/คิวอาร์โค้ด01.jpg" alt="QR Code">
-        <p>Please scan the QR code to proceed with the payment.</p>
-        <br><br>
+    <?php include 'menu.php'; ?>
+    <div class="content">
+        <div class="card">
+            <h2>Scan QR Code Payment</h2>
+            <img src="img/คิวอาร์โค้ด01.jpg" alt="QR Code">
+            <p>Please scan the QR code to proceed with the payment.</p>
+        </div>
         <input class="scan-img" type="submit" value="อัพโหลดใบเสร็จจ่ายเงิน" onclick="window.location.href = 'pay_ment.php';">
     </div>
 </body>

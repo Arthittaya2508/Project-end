@@ -7,17 +7,17 @@
     <!-- <link rel="stylesheet" href="style.css"> -->
 
     <style>
-    .nav-link.active {
-        color: #007bff;
-    }
+        .nav-link.active {
+            color: #007bff;
+        }
 
-    .nav-item:hover .nav-link {
-        color: #6c757d;
-    }
+        .nav-item:hover .nav-link {
+            color: #6c757d;
+        }
 
-    .dropdown-menu .dropdown-item:hover {
-        background-color: #f8f9fa;
-    }
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
     </style>
 </head>
 
@@ -39,9 +39,7 @@
             <a class="navbar-brand" href="#">
                 <img src="img/logo4.png" width="70px" height="70px" alt="">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -52,8 +50,7 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             </i> Product
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -101,8 +98,7 @@
 
                 <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
                             <?php
                             // คำสั่ง SQL เพื่อดึงข้อมูลรูปภาพจากตาราง users
@@ -119,9 +115,20 @@
 
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="select_pay.php">
+                                    </i>
+                                    Select Payment
+                                </a></li>
+                            <li><a href=""></a></li>
 
-                            <li><a class="dropdown-item" href="logout.php"><i
-                                        class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                            <li><a class="dropdown-item" href="contact.php">
+                                    </i>
+                                    Contact
+                                </a></li>
+                            <hr class="dropdown-divider">
+                            <li><a class="dropdown-item" href="logout.php"><i class="fa-solid fa-right-from-bracket">
+                                    </i>
+                                    Logout</a></li>
                         </ul>
                     </li>
                 </ul>
