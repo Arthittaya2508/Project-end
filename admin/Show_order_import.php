@@ -32,6 +32,9 @@ if (!isset($_SESSION["id"])) {
                 <div class="card mb-4 mt-4">
                     <div class="card-header alert">
                         <div class="card-body">
+                            <div class="alert alert-success h4" role="alert">
+                                ข้อมูลการสั่งซื้อสินค้า
+                            </div>
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -59,22 +62,20 @@ if (!isset($_SESSION["id"])) {
                                     // ตรวจสอบว่า orderID เป็น orderID เดียวกันหรือไม่
                                     if ($row['orderID'] !== $previous_orderID) {
                                 ?>
-                                <tr>
-                                    <td>
-                                        <?= $row['order_import_date'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $row['orderID'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $row['total_order'] ?>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-primary"
-                                            href="show_detail_import.php?orderID=<?= $row['orderID'] ?>"
-                                            role="button">รายละเอียด</a>
-                                    </td>
-                                </tr>
+                                        <tr>
+                                            <td>
+                                                <?= $row['order_import_date'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $row['orderID'] ?>
+                                            </td>
+                                            <td>
+                                                <?= $row['total_order'] ?>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary" href="show_detail_import.php?orderID=<?= $row['orderID'] ?>" role="button">รายละเอียด</a>
+                                            </td>
+                                        </tr>
                                 <?php
                                     }
                                     $previous_orderID = $row['orderID']; // อัปเดตค่า orderID เพื่อใช้ในการเปรียบเทียบในรอบต่อไป
@@ -100,12 +101,12 @@ if (!isset($_SESSION["id"])) {
 </html>
 
 <script language="JavaScript">
-function Del(mypage) {
-    var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
-    if (agree) {
-        window.location = mypage;
+    function Del(mypage) {
+        var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
+        if (agree) {
+            window.location = mypage;
+        }
     }
-}
 </script>
 
 </div>
@@ -135,6 +136,5 @@ function Del(mypage) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
 <script src="assets/demo/chart-bar-demo.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>

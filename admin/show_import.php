@@ -29,88 +29,87 @@ if (!isset($_SESSION["id"])) {
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-
-
                 <div class="card mb-4 mt-4">
                     <div class="card-header alert">
-
-                        <div>
-                        </div>
-
                         <div class="card-body">
-
-
-
                             <div class="row">
-
-
-                                <form method="POST" action="insert_import.php">
-
-                                    <div class="alert alert-success h4" role="alert">
-                                        ข้อมูลการรับเข้าสินค้า
-                                    </div>
-
-                                    <table class="table table-striped">
-                                        <tr>
-                                            <th>รหัสใบสั่งซื้อ</th>
-                                            <th>วันที่นำเข้ารับสินค้า</th>
-                                            <th>ชื่อสินค้า</th>
-                                            <th>ประเภทสินค้า</th>
-                                            <th>ราคาสินค้า</th>
-                                            <th>ชื่อบริษัท</th>
-                                            <!-- <th>แก้ไข</th>
-                                            <th>ลบ</th> -->
-                                        </tr>
-                                        <?php
-                                        $sql = "SELECT DISTINCT import.*, order_import.orderPrice, product.pro_name, type.type_name
-                                        FROM `import`
-                                        LEFT JOIN order_import ON import.orderID = order_import.orderID
-                                        LEFT JOIN product ON import.pro_id = product.pro_id
-                                        LEFT JOIN type ON import.type_id = type.type_id;";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_array($result)) {
-                                            ?>
-                                            <tr>
-                                                <td>
-                                                    <?= $row["orderID"] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row["import_date"] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row["pro_name"] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row["type_name"] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row["orderPrice"] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $row["name_company"] ?>
-                                                </td>
-                                                <!-- <td><a href="edit_import.php?id=<?= $row["id"] ?>"
-                                                        class="btn btn-success">Edit</a></td>
-                                                <td><a href="delete_import.php?id=<?= $row["id"] ?>" class="btn btn-danger"
-                                                        onclick="Del(this.href);return false;">Delete</a></td> -->
-                                            </tr>
-                                            <?php
+                                <div class="alert alert-success h4" role="alert">
+                                    ข้อมูลการรับเข้าสินค้า
+                                </div>
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th scope="col">วันที่สั่งซื้อสินค้า</th>
+                                        <th scope="col">เลขที่ใบสั่งซื้อ</th>
+                                        <th scope="col">ราคารวม</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    <?php
+                                    $totalPrice = 0;
+                                    $previous_orderID = null;
+                                    $sql = "SELECT i.*, COALESCE(total_order.total, 0) AS total_order
+                                    FROM import AS i
+                                    LEFT JOIN (
+                                        SELECT orderID, SUM(Total) AS total
+                                        FROM order_import
+                                         GROUP BY orderID
+                                    ) AS total_order ON i.orderID = total_order.orderID
+                                     GROUP BY orderID                                    
+                                    ";
+                                    $result = mysqli_query($conn, $sql);
+                                    while ($row = mysqli_fetch_array($result)) {
+                                        $totalPrice += $row['total_order'];
+                                        if ($row['orderID'] !== $previous_orderID) {
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <?= $row['import_date'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['orderID'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['total_order'] ?>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary"
+                                                href="show_tb_detail_import.php?orderID=<?= $row['orderID'] ?>"
+                                                role="button">รายละเอียด</a>
+                                        </td>
+                                    </tr>
+                                    <?php
                                         }
-                                        mysqli_close($conn); //ปิดการการเชื่อมต่อฐานข้อมูล
-                                        ?>
-                                    </table>
+                                        $previous_orderID = $row['orderID']; // อัปเดตค่า orderID เพื่อใช้ในการเปรียบเทียบในรอบต่อไป
+                                    }
+                                    ?>
+                                    <tr>
+                                        <td colspan="2"><strong>รวม</strong></td>
+                                        <td><strong>
+                                                <?= $totalPrice ?>
+                                            </strong></td>
+                                    </tr>
+                                    <?php
 
+                                    mysqli_close($conn); //ปิดการการเชื่อมต่อฐานข้อมูล
+                                    ?>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <main>
+    </div>
 </body>
 
 </html>
 
 <script language="JavaScript">
-    function Del(mypage) {
-        var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
-        if (agree) {
-            window.location = mypage;
-        }
+function Del(mypage) {
+    var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
+    if (agree) {
+        window.location = mypage;
     }
+}
 </script>
 
 </div>
@@ -134,8 +133,8 @@ if (!isset($_SESSION["id"])) {
 
 </html>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+</script>
 <script src="js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>

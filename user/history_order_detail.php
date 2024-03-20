@@ -15,9 +15,9 @@ LEFT JOIN product AS p ON od.pro_id = p.pro_id
 LEFT JOIN type AS t ON p.type_id = t.type_id
 LEFT JOIN tb_order AS tbo ON od.orderID = tbo.orderID
 WHERE od.orderID = '$orderID'";
-$result = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($result); // เพิ่มบรรทัดนี้เพื่อดึงข้อมูลสถานะเดียวกันมาแสดงที่หัวข้อ h3
-$order_status = $row['order_status'];
+$result11 = mysqli_query($conn, $sql);
+$row11 = mysqli_fetch_assoc($result11); // เพิ่มบรรทัดนี้เพื่อดึงข้อมูลสถานะเดียวกันมาแสดงที่หัวข้อ h3
+$order_status = $row11['order_status'];
 
 // กำหนดข้อความสถานะตามค่าที่ได้รับ
 switch ($order_status) {
@@ -51,23 +51,33 @@ switch ($order_status) {
     <!-- CSS -->
     <!-- <link rel="stylesheet" href="cart.css"> -->
     <link rel="stylesheet" href="up_cart.css">
+    <script>
+    function confirmCancellation(orderID) {
+        var confirmation = confirm("คุณแน่ใจหรือไม่ว่าต้องการยกเลิกสินค้าเลขที่ใบสั่งซื้อ " + orderID + " ?");
+        if (confirmation) {
+            window.location.href = "cancel_order.php?orderID=" + orderID; // ส่งคำขอยกเลิกไปยังไฟล์ cancel_order.php
+        } else {
+            // ไม่ต้องทำอะไรเมื่อผู้ใช้ยกเลิกการยกเลิกสินค้า
+        }
+    }
+    </script>
     <style>
-        /* CSS เพิ่มสีตามสถานะ */
-        .text-danger {
-            color: red;
-        }
+    /* CSS เพิ่มสีตามสถานะ */
+    .text-danger {
+        color: red;
+    }
 
-        .text-warning {
-            color: yellow;
-        }
+    .text-warning {
+        color: yellow;
+    }
 
-        .text-primary {
-            color: blue;
-        }
+    .text-primary {
+        color: blue;
+    }
 
-        .text-info {
-            color: lightblue;
-        }
+    .text-info {
+        color: lightblue;
+    }
     </style>
 </head>
 
@@ -96,8 +106,8 @@ switch ($order_status) {
                                     }
                                     ?>"><?php echo $status_text; ?></span></h3>
         <?php if ($order_status == 3) { ?>
-            <!-- แสดงหมายเลข EMS เมื่อสถานะเป็น 3 -->
-            <h3>รายละเอียดหมายเลขพัสดุ : <?php echo $row['id_ems']; ?></h3>
+        <!-- แสดงหมายเลข EMS เมื่อสถานะเป็น 3 -->
+        <h3>รายละเอียดหมายเลขพัสดุ : <?php echo $row11['id_ems']; ?></h3>
         <?php } ?>
         <table class="table table-bordered">
             <thead>
@@ -111,17 +121,16 @@ switch ($order_status) {
             <tbody>
                 <?php
                 // วนลูปแสดงข้อมูลคำสั่งซื้อทั้งหมด
-                mysqli_data_seek($result, 0); // ย้าย pointer กลับไปที่แถวแรก
-                while ($row = mysqli_fetch_assoc($result)) {
+                mysqli_data_seek($result11, 0); // ย้าย pointer กลับไปที่แถวแรก
+                while ($row11 = mysqli_fetch_assoc($result11)) {
                     echo "<tr>";
-                    echo "<td style='width : 100px'><img class='rounded float-start w-100' src='img/" . $row['image'] . "'></td>";
-                    echo "<td class='text-start fs-4'>ชื่อ: " . $row['pro_name'] . "<br>ประเภท: " . $row['type_name'] . "</td>";
-                    echo "<td>" . $row['price'] . "</td>";
-                    echo "<td>" . $row['orderQty'] . "</td>";
-                    echo "<td>" . $row['Total'] . "</td>";
+                    echo "<td style='width : 50px'><img class='rounded float-start w-100' src='img/" . $row11['image'] . "'></td>";
+                    echo "<td class='text-start fs-4'>ชื่อ: " . $row11['pro_name'] . "<br>ประเภท: " . $row11['type_name'] . "</td>";
+                    echo "<td>" . $row11['price'] . "</td>";
+                    echo "<td>" . $row11['orderQty'] . "</td>";
+                    echo "<td>" . $row11['Total'] . "</td>";
                     echo "</tr>";
-
-                    $total_sum += $row['Total'];
+                    $total_sum += $row11['Total'];
                 }
                 ?>
             </tbody>
@@ -132,6 +141,9 @@ switch ($order_status) {
                 </tr>
             </tfoot>
         </table>
+        <td><a class="btn btn-danger" href="#" onclick="confirmCancellation('<?php echo $orderID; ?>')"
+                role="button">ยกเลิกสินค้า</a></td>
+
     </div>
 </body>
 

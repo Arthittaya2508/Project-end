@@ -15,6 +15,7 @@ $row = mysqli_fetch_array($result);
 
 if ($row > 0) {
     // $_SESSION["id"] = $row['id'];
+    $_SESSION["image"] = $row['image'];
     $_SESSION["username"] = $row['username'];
     $_SESSION["pw"] = $row['password'];
     $_SESSION["firstname"] = $row['name'];

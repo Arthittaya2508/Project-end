@@ -36,8 +36,7 @@ if (!isset($_SESSION["id"])) {
                                     <div class="alert alert-primary h4 text-center mb-4 mt-4" role="alert">
                                         เพิ่มข้อมูลรับเข้าสินค้า
                                     </div>
-                                    <form name="form1" method="POST" action="insert_import.php"
-                                        enctype="multipart/form-data">
+                                    <form name="form1" method="POST" action="insert_import.php" enctype="multipart/form-data">
 
                                         <input type="text" id="orderID" name="orderID" style="display: none;"><br><br>
 
@@ -49,12 +48,15 @@ if (!isset($_SESSION["id"])) {
                                             placeholder="รหัสสินค้า..." required>  -->
                                         <?php
                                         // ดึงข้อมูล orderID จากตาราง order_import
-                                        $query = "SELECT DISTINCT orderID FROM `order_import`";
+                                        $query = "SELECT DISTINCT oi.orderID 
+                                        FROM order_import AS oi
+                                        LEFT JOIN import AS i ON oi.orderID = i.orderID
+                                        WHERE i.orderID IS NULL;
+                                        ";
                                         $result = mysqli_query($conn, $query);
                                         ?>
 
-                                        <select class="form-select" name="orderID" aria-label="Default select example"
-                                            id="orderIDSelect">
+                                        <select class="form-select" name="orderID" aria-label="Default select example" id="orderIDSelect">
                                             <option selected>กรุณาเลือกรหัสสินค้า</option>
                                             <?php
                                             // ตรวจสอบว่ามีข้อมูลที่ได้จากการคิวรี่หรือไม่
@@ -69,45 +71,40 @@ if (!isset($_SESSION["id"])) {
                                             ?>
                                         </select><br>
 
-                                        <label>ชื่อสินค้า / ประเภทสินค้า:</label>
+                                        <!-- <label>ชื่อบริษัท:</label>
+                                        <input class="form-control" type="text" required placeholder="ชื่อบริษัท:"
+                                            name="name_company"> <br> -->
+
+                                        <!-- <label>ชื่อสินค้า / ประเภทสินค้า:</label> -->
                                         <div class="form-check" id="productInfo">
                                             <!-- ข้อมูลจะถูกแสดงที่นี่ -->
                                         </div><br>
 
                                         <!-- ส่วนของ JavaScript -->
 
-
-                                        <label>ชื่อบริษัท:</label>
-                                        <div class="form-check" name="name_company" id="name_company">
-                                            <!-- ข้อมูลจะถูกแสดงที่นี่ -->
-                                        </div><br>
-                                        <!-- <label>ชื่อบริษัท:</label>
-                                        <input class="form-control" type="text" required placeholder="ชื่อบริษัท:"
-                                            name="name_company"> <br> -->
-
                                         <script>
-                                        // เมื่อมีการเลือก option จาก select element
-                                        document.getElementById("orderIDSelect").addEventListener("change", function() {
-                                            var orderID = this.value; // รหัสสั่งซื้อที่ถูกเลือก
+                                            // เมื่อมีการเลือก option จาก select element
+                                            document.getElementById("orderIDSelect").addEventListener("change", function() {
+                                                var orderID = this.value; // รหัสสั่งซื้อที่ถูกเลือก
 
-                                            // ส่ง request ไปยังไฟล์ PHP เพื่อดึงข้อมูล pro_id และ typeID
-                                            var xhr = new XMLHttpRequest();
-                                            xhr.onreadystatechange = function() {
-                                                if (xhr.readyState == XMLHttpRequest.DONE) {
-                                                    if (xhr.status == 200) {
-                                                        // เมื่อได้ข้อมูลกลับมาแสดงใน div ชื่อ productInfo
-                                                        document.getElementById("productInfo").innerHTML =
-                                                            xhr.responseText;
-                                                    } else {
-                                                        // กรณีเกิดข้อผิดพลาดในการร้องขอ
-                                                        console.log('เกิดข้อผิดพลาด: ' + xhr.status);
+                                                // ส่ง request ไปยังไฟล์ PHP เพื่อดึงข้อมูล pro_id และ typeID
+                                                var xhr = new XMLHttpRequest();
+                                                xhr.onreadystatechange = function() {
+                                                    if (xhr.readyState == XMLHttpRequest.DONE) {
+                                                        if (xhr.status == 200) {
+                                                            // เมื่อได้ข้อมูลกลับมาแสดงใน div ชื่อ productInfo
+                                                            document.getElementById("productInfo").innerHTML =
+                                                                xhr.responseText;
+                                                        } else {
+                                                            // กรณีเกิดข้อผิดพลาดในการร้องขอ
+                                                            console.log('เกิดข้อผิดพลาด: ' + xhr.status);
+                                                        }
                                                     }
-                                                }
-                                            };
-                                            // สร้าง request และส่งไปยังไฟล์ PHP ที่จะดึงข้อมูล
-                                            xhr.open("GET", "get_product_info.php?orderID=" + orderID, true);
-                                            xhr.send();
-                                        });
+                                                };
+                                                // สร้าง request และส่งไปยังไฟล์ PHP ที่จะดึงข้อมูล
+                                                xhr.open("GET", "get_product_info.php?orderID=" + orderID, true);
+                                                xhr.send();
+                                            });
                                         </script>
                                         <input type="submit" name="submit" class="btn btn-success">
                                         <a href="show_product.php" class="btn btn-danger">Cancel</a>
@@ -131,6 +128,5 @@ if (!isset($_SESSION["id"])) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
 <script src="assets/demo/chart-bar-demo.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>

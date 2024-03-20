@@ -7,41 +7,39 @@
     <!-- <link rel="stylesheet" href="style.css"> -->
 
     <style>
-    .nav-link.active {
-        color: #007bff;
-    }
+        .nav-link.active {
+            color: #007bff;
+        }
 
-    .nav-item:hover .nav-link {
-        color: #6c757d;
-    }
+        .nav-item:hover .nav-link {
+            color: #6c757d;
+        }
 
-    .dropdown-menu .dropdown-item:hover {
-        background-color: #f8f9fa;
-    }
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
     </style>
 </head>
 
 <body>
     <?php
-include 'condb.php';
+    include 'condb.php';
 
-$sql ="SELECT * FROM `member` ORDER BY `member`.`image` ASC";
-if(isset($_SESSION['username'])) {
-    $username = $_SESSION['username']; 
-}
+    if (isset($_SESSION['username'])) {
+        $username = $_SESSION['username'];
+        if (isset($row['image'])) {
+            $_SESSION["image"] = $row['image'];
+        }
+    }
 
-?>
-
-
+    ?>
 
     <nav class="navbar  navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
                 <img src="img/logo4.png" width="70px" height="70px" alt="">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -52,8 +50,7 @@ if(isset($_SESSION['username'])) {
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             </i> Product
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -76,6 +73,10 @@ if(isset($_SESSION['username'])) {
                         <a class="nav-link active" href="pay_ment.php"><i class="fa-solid fa-credit-card"></i>
                             Payment</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="history.php"><i class="fa-solid fa-file-lines"></i>
+                            History</a>
+                    </li>
 
                 </ul>
 
@@ -87,36 +88,39 @@ if(isset($_SESSION['username'])) {
                 <!-- แสดงชื่อผู้ใช้ -->
                 <!-- แสดงชื่อผู้ใช้ -->
                 <?php
-    if(isset($username)) {
-        echo '<span class="navbar-text ms-3 text-white">'.$username.'</span>';
-        }
-?>
+                if (isset($username)) {
+                    echo '<span class="navbar-text ms-3 text-white">' . $username . '</span>';
+                }
+                ?>
 
 
                 <!-- รูปโปรไฟล์ -->
 
                 <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-                            <img src="img/<?=$row['image']?>" width="30" height="30" class="rounded-circle">
+                            <?php
+                            // คำสั่ง SQL เพื่อดึงข้อมูลรูปภาพจากตาราง users
+                            $sql = "SELECT image FROM member WHERE username = '$username'";
+                            $result = mysqli_query($conn, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                // ดึงข้อมูลรูปภาพจากผลลัพธ์ที่ได้
+                                $row = mysqli_fetch_assoc($result);
+                                // แสดงรูปภาพ
+                                echo '<img src="img/' . $row['image'] . '" width="30" height="30" class="rounded-circle">';
+                            }
+                            ?>
+
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href=""><i class="fa-solid fa-user"></i> My Account</a></li>
-                            <li><a class="dropdown-item" href="history.php"><i class="fa-solid fa-file-lines"></i>
-                                    History</a>
-                            </li>
-                            <li><a class="dropdown-item" href="setting.php"><i class="fa-solid fa-gear"></i> Setting</a>
-                            </li>
                             <hr class="dropdown-divider">
-                            <li><a class="dropdown-item" href="logout.php"><i
-                                        class="fa-solid fa-right-from-bracket"></i>
-                                    Logout</a></li>
-
+                            <li><a class="dropdown-item" href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
                         </ul>
                     </li>
                 </ul>
+
             </div>
         </div>
     </nav>

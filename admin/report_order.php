@@ -35,10 +35,14 @@ if (!isset($_SESSION["id"])) {
 
                         <br>
 
-                        <a href="report_order.php"><button type="button" class="btn btn-secondary">ยังไม่ชำระเงิน</button> </a>
-                        <a href="report_order_yes.php"><button type="button" class="btn btn-outline-success">ชำระเงินแล้ว</button> </a>
-                        <a href="report_order_send.php"><button type="button" class="btn btn-outline-primary">ส่งสินค้าเรียบร้อย</button> </a>
-                        <a href="report_order_no.php"><button type="button" class="btn btn-outline-danger">ยกเลิกการสั่งซื้อ</button> </a>
+                        <a href="report_order.php"><button type="button"
+                                class="btn btn-secondary">ยังไม่ชำระเงิน</button> </a>
+                        <a href="report_order_yes.php"><button type="button"
+                                class="btn btn-outline-success">ชำระเงินแล้ว</button> </a>
+                        <a href="report_order_send.php"><button type="button"
+                                class="btn btn-outline-primary">ส่งสินค้าเรียบร้อย</button> </a>
+                        <a href="report_order_no.php"><button type="button"
+                                class="btn btn-outline-danger">ยกเลิกการสั่งซื้อ</button> </a>
                         <br><br>
 
                         <i class="fas fa-table me-1"></i>
@@ -74,7 +78,7 @@ if (!isset($_SESSION["id"])) {
                                         <th>เบอร์โทรศัพท์</th>
                                         <th>ราคารวมสุทธิ</th>
                                         <th>วันที่สั่งซื้อ</th>
-                                        <th>หลักฐานการชำระ</th>
+                                        <th>สถานะการสั่งซื้อ</th>
                                         <th>รายละเอียดสินค้า</th>
                                         <th>ยกเลิกการสั่งซื้อ</th>
                                     </tr>
@@ -95,42 +99,40 @@ if (!isset($_SESSION["id"])) {
 
                                 if (($ddt1 != "") & ($ddt2 != "")) {   //ต้องไม่เท่ากับค่าว่าง
                                     echo "ค้นหาจากวันที่ $ddt1 ถึง $ddt2 ";
-                                    $sql = "select * , m.pay_image 
-from tb_order t
-LEFT JOIN payment AS m ON t.orderID = m.orderID
-                                    where order_status='1' and reg_date BETWEEN '$ddt1' and '$add_date'
-                                    order by reg_date DESC";
+                                    $sql = "select * from tb_order where order_status='1' and reg_date BETWEEN '$ddt1' and '$add_date'
+order by reg_date DESC";
                                 } else {
-                                    $sql = "select * , m.pay_image 
-from tb_order t
-LEFT JOIN payment AS m ON t.orderID = m.orderID
-                                    where order_status='1' order by reg_date DESC";
+                                    $sql = "select * from tb_order where  order_status='1' order by reg_date DESC";
                                 }
 
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
-                                    $pay_image = $row['pay_image'];
+                                    $status = $row['order_status'];
                                 ?>
-                                    <tr>
-                                        <td><?= $row['orderID'] ?></td>
-                                        <td><?= $row['cus_name'] ?></td>
-                                        <td><?= $row['address'] ?></td>
-                                        <td><?= $row['telephone'] ?></td>
-                                        <td><?= $row['total_price'] ?></td>
-                                        <td><?= $row['reg_date'] ?></td>
-                                        <td>
-                                            <?php
-                                            if ($pay_image == null) {
-                                                echo "ไม่มีหลักฐาน";
-                                            } else {
-                                                echo "<b style='color:green'> มีหลักฐาน </b>";
+                                <tr>
+                                    <td><?= $row['orderID'] ?></td>
+                                    <td><?= $row['cus_name'] ?></td>
+                                    <td><?= $row['address'] ?></td>
+                                    <td><?= $row['telephone'] ?></td>
+                                    <td><?= $row['total_price'] ?></td>
+                                    <td><?= $row['reg_date'] ?></td>
+                                    <td>
+                                        <?php
+                                            if ($status == 1) {
+                                                echo "ยังไม่ชำระเงิน";
+                                            } else if ($status == 2) {
+                                                echo "<b style='color:green'> ชำระเงินแล้ว </b>";
+                                            } else if ($status == 0) {
+                                                echo "<b style='color:red'> ยกเลิกการสั่งซื้อ </b>";
                                             }
                                             ?>
 
-                                        </td>
-                                        <td><a href="report_order_detail.php?id=<?= $row['orderID'] ?>" class="btn btn-success">รายละเอียด</a></td>
-                                        <td><a href="cencel_order.php?id=<?= $row['orderID'] ?>" class="btn btn-danger" onclick="del(this.href); return false">ยกเลิก</a></td>
-                                    </tr>
+                                    </td>
+                                    <td><a href="report_order_detail.php?id=<?= $row['orderID'] ?>"
+                                            class="btn btn-success">รายละเอียด</a></td>
+                                    <td><a href="cencel_order.php?id=<?= $row['orderID'] ?>" class="btn btn-danger"
+                                            onclick="del(this.href); return false">ยกเลิก</a></td>
+                                </tr>
                                 <?php
                                 }
                                 mysqli_close($conn);
@@ -159,20 +161,21 @@ LEFT JOIN payment AS m ON t.orderID = m.orderID
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
 <script src="assets/demo/chart-bar-demo.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+    crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
 <script>
-    function del(mypage) {
-        var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
-        if (agree) {
-            window.location = mypage;
-        }
+function del(mypage) {
+    var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
+    if (agree) {
+        window.location = mypage;
     }
+}
 
-    function del1(mypage1) {
-        var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
-        if (agree) {
-            window.location = mypage1;
-        }
+function del1(mypage1) {
+    var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
+    if (agree) {
+        window.location = mypage1;
     }
+}
 </script>
