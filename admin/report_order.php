@@ -36,13 +36,14 @@ if (!isset($_SESSION["id"])) {
                         <br>
 
                         <a href="report_order.php"><button type="button"
-                                class="btn btn-secondary">ยังไม่ชำระเงิน</button> </a>
+                                class="btn btn-warning">ยังไม่ชำระเงิน</button></a>
                         <a href="report_order_yes.php"><button type="button"
-                                class="btn btn-outline-success">ชำระเงินแล้ว</button> </a>
+                                class="btn btn-success">ชำระเงินแล้ว</button></a>
                         <a href="report_order_send.php"><button type="button"
-                                class="btn btn-outline-primary">ส่งสินค้าเรียบร้อย</button> </a>
+                                class="btn btn-info">ส่งสินค้าเรียบร้อย</button></a>
                         <a href="report_order_no.php"><button type="button"
-                                class="btn btn-outline-danger">ยกเลิกการสั่งซื้อ</button> </a>
+                                class="btn btn-danger">ยกเลิกการสั่งซื้อ</button></a>
+
                         <br><br>
 
                         <i class="fas fa-table me-1"></i>

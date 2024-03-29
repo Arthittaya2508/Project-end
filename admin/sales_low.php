@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION["id"])) {
+if (!isset($_SESSION["id"])) {
     header("location: login.php");
     exit();
 }
@@ -38,27 +38,27 @@ include 'condb.php';
                                 </div>
 
                                 <?php
-                            $sql = "SELECT od.pro_id, SUM(od.orderQty) AS total_orderQty, p.pro_name,p.image
+                                $sql = "SELECT od.pro_id, SUM(od.orderQty) AS total_orderQty, p.pro_name,p.image
                             FROM order_detail AS od
                             LEFT JOIN product AS p ON od.pro_id = p.pro_id
                             GROUP BY od.pro_id
                             ORDER BY total_orderQty ASC
-                            LIMIT 3"; // เปลี่ยนเป็น ASC เพื่อแสดงสินค้าที่ขายได้น้อยที่สุด
-                            $result = $conn->query($sql);
+                            LIMIT 3";
+                                $result = $conn->query($sql);
 
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<div class='text-center'><br>";
-                                    echo "<h5>สินค้า: " . $row["pro_name"] . "</h5>";
-                                    echo "<img src='image/" . $row["image"] . "' alt='" . $row["pro_name"] . "' class='img-thumbnail mx-auto d-block' style='width: 300px; height: auto;' />";
-                                    echo "</div>";
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo "<div class='text-center'><br>";
+                                        echo "<h5>สินค้า: " . $row["pro_name"] . "</h5>";
+                                        echo "<img src='image/" . $row["image"] . "' alt='" . $row["pro_name"] . "' class='img-thumbnail mx-auto d-block' style='width: 300px; height: auto;' />";
+                                        echo "</div>";
+                                    }
+                                } else {
+                                    echo "ไม่มีรายการสินค้าขายได้น้อย";
                                 }
-                            } else {
-                                echo "ไม่มีรายการสินค้าขายได้น้อย";
-                            }
 
-                            $conn->close();
-                            ?>
+                                $conn->close();
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -77,8 +77,7 @@ include 'condb.php';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="assets/demo/chart-area-demo.js"></script>
     <script src="assets/demo/chart-bar-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
 </body>
 

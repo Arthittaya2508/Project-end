@@ -43,7 +43,7 @@ include 'condb.php';
                             LEFT JOIN product AS p ON od.pro_id = p.pro_id
                             GROUP BY od.pro_id
                             ORDER BY total_orderQty DESC
-                            LIMIT 3;"; // เลือกข้อมูลสินค้าที่ขายได้มากที่สุด 10 อันดับแรก
+                            LIMIT 3;"; // เลือกข้อมูลสินค้าที่ขายได้มากที่สุด 3 อันดับแรก
                                 $result = $conn->query($sql);
 
                                 if ($result->num_rows > 0) {

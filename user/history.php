@@ -21,46 +21,46 @@ $result99 = mysqli_query($conn, $sql99);
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <style>
-    body {
-        background-color: #f4f4f4;
-        font-family: Arial, sans-serif;
-    }
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
 
-    .content {
-        padding: 20px;
+        .content {
+            padding: 20px;
 
-    }
+        }
 
-    .table {
-        background-color: #fff;
-        border-radius: 5px;
-        width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+        .table {
+            background-color: #fff;
+            border-radius: 5px;
+            width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    .table th,
-    .table td {
-        border-top: none;
-    }
+        .table th,
+        .table td {
+            border-top: none;
+        }
 
-    .table th {
-        background-color: #E6E6FA;
-        color: #333;
+        .table th {
+            background-color: #E6E6FA;
+            color: #333;
 
-    }
+        }
 
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: #f2f2f2;
-    }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f2f2f2;
+        }
 
-    .table-striped tbody tr:hover {
-        background-color: #e0e0e0;
-    }
+        .table-striped tbody tr:hover {
+            background-color: #e0e0e0;
+        }
 
-    h2 {
-        color: #333;
-    }
+        h2 {
+            color: #333;
+        }
     </style>
 </head>
 
@@ -103,7 +103,7 @@ $result99 = mysqli_query($conn, $sql99);
                                 $status = "<span class='text-warning'>ยังไม่ชำระเงิน</span>";
                                 break;
                             case 2:
-                                $status = "<span class='text-primary'>ชำระเงินแล้ว</span>";
+                                $status = "<span class='text-success'>ชำระเงินแล้ว</span>";
                                 break;
                             case 3:
                                 $status = "<span class='text-info'>ส่งสินค้าเรียบร้อย</span>";

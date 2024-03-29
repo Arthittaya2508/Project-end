@@ -1,16 +1,17 @@
 <?php
 session_start();
-if (!isset($_SESSION["id"])) {
-    $row = header("location:login.php");
+if(!isset($_SESSION["id"]))
+{
+$row=header("location:login.php");
 }
 ?>
 
-<?php
+<?php 
 include 'condb.php';
-$ids = $_GET['id'];
-$sql = "SELECT * FROM product WHERE pro_id='$ids' ";
-$hand = mysqli_query($conn, $sql);
-$row = mysqli_fetch_array($hand);
+$ids=$_GET['id'];
+$sql="SELECT * FROM product WHERE pro_id='$ids' ";
+$hand=mysqli_query($conn,$sql);
+$row=mysqli_fetch_array($hand);
 
 ?>
 
@@ -47,23 +48,30 @@ $row = mysqli_fetch_array($hand);
 
                             <div class="row">
                                 <div class="col-sm-5">
+
+
                                     <form name="form1" method="POST" action="up_Stock.php">
+
                                         <div class="alert alert-success h4 text-center mb-4" role="alert">
                                             เพิ่มจำนวนสินค้าในสต๊อก
                                         </div>
+
                                         <label>รหัสสินค้า :</label>
                                         <input type="text" name="pid" class="form-control" readonly
-                                            value="<?= $row['pro_id'] ?>"> <br>
+                                            value="<?=$row['pro_id']?>"> <br>
                                         <label>ชื่อสินค้า :</label>
                                         <input type="text" name="pname" class="form-control" readonly
-                                            value="<?= $row['pro_name'] ?>"> <br>
+                                            value="<?=$row['pro_name']?>"> <br>
                                         <label>เพิ่มจำนวนสินค้า :</label>
                                         <input type="number" name="pnum" class="form-control"> <br>
                                         <input type="submit" name="submit" class="btn btn-success">
                                         <a href="index.php" class="btn btn-danger">Cencel</a>
                                     </form>
+
+
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
