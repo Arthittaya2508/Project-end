@@ -15,6 +15,7 @@ $type_id = '003';
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- CSS -->
     <style>
     .highlight-on-click img {
@@ -110,8 +111,7 @@ $type_id = '003';
                         <img src="img/<?= $row['image'] ?>" width="200px" height="220"
                             class="mt-5 p-2 my-2 border img-fluid">
                     </div>
-                    <span class="pink-color">ID: <?= $row['pro_id'] ?></span>
-                    <br>
+
                     <b>
                         <h5 class="pink-color2"><?= $row['pro_name'] ?>
                     </b></h5>
@@ -137,7 +137,17 @@ $type_id = '003';
                     <!-- Script แสดงแจ้งเตือน -->
                     <script>
                     function showAlert() {
-                        alert("กรุณาเข้าสู่ระบบเพื่อทำการสั่งซื้อสินค้า");
+                        Swal.fire({
+                            title: 'กรุณาเข้าสู่ระบบ',
+                            text: 'กรุณาเข้าสู่ระบบหรือลงทะเบียนก่อนทำการสั่งซื้อสินค้า',
+                            icon: 'warning',
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInUp animate__faster'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutDown animate__faster'
+                            }
+                        });
                     }
                     </script>
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset ($_SESSION["id"])) {
+if (!isset($_SESSION["id"])) {
     $row = header("location:login.php");
 }
 ?>
@@ -83,22 +83,22 @@ $image_bill = $row1['pay_image'];
                                 $sum_total = 0;
                                 while ($row = mysqli_fetch_array($result)) {
                                     $sum_total = $row['total_price'];
-                                    ?>
-                                    <tr>
-                                        <td>
-                                            <?= $row['pro_name'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $row['orderQty'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $row['orderPrice'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $row['Total'] ?>
-                                        </td>
-                                    </tr>
-                                    <?php
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?= $row['pro_name'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row['orderQty'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row['orderPrice'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row['Total'] ?>
+                                    </td>
+                                </tr>
+                                <?php
                                 }
                                 mysqli_close($conn);
                                 ?>
@@ -113,11 +113,11 @@ $image_bill = $row1['pay_image'];
                     </div>
                     <div>
                         <?php if ($image_bill <> "") { ?>
-                            <h5>ชำระแล้ว</h5>
-                            <img src="../user/img/payment/<?= $row1['pay_image'] ?>" width="300px">
+                        <h5>ชำระแล้ว</h5>
+                        <img src="../user/img/payment/<?= $row1['pay_image'] ?>" width="300px">
 
                         <?php } else { ?>
-                            <h5>ยังไม่ชำระ</h5>
+                        <h5>รอการตรวจสอบ</h5>
 
                         <?php } ?>
                     </div>
@@ -127,8 +127,9 @@ $image_bill = $row1['pay_image'];
                         <div class="col-md-3">
                             <label>การชำระเงิน</label>
                             <select class="form-select" name="status" aria-label="Default select example">
-                                <option value="1">ยังไม่ชำระเงิน</option>
-                                <option value="2">ชำระเงินเรียบร้อย</option>
+                                <option value="1">รอการตรวจสอบ</option>
+                                <option value="2">รอการดำเนินการ</option>
+                                <option value="3">ชำระเงินเรียบร้อย</option>
                                 <!-- <option value="3">จัดส่งสินค้าเรียบร้อย</option> -->
                                 <option value="0">ยกเลิกสินค้า</option>
                             </select><br>
@@ -147,8 +148,8 @@ $image_bill = $row1['pay_image'];
 
 </html>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+</script>
 <script src="js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
@@ -157,16 +158,17 @@ $image_bill = $row1['pay_image'];
     crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
 <script>
-    function del(mypage) {
-        var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
-        if (agree) {
-            window.location = mypage;
-        }
+function del(mypage) {
+    var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
+    if (agree) {
+        window.location = mypage;
     }
-    function del1(mypage1) {
-        var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
-        if (agree) {
-            window.location = mypage1;
-        }
+}
+
+function del1(mypage1) {
+    var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
+    if (agree) {
+        window.location = mypage1;
     }
+}
 </script>

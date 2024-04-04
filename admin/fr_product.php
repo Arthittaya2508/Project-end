@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset ($_SESSION["id"])) {
+if (!isset($_SESSION["id"])) {
     $row = header("location:login.php");
 }
 ?>
@@ -61,15 +61,16 @@ if (!isset ($_SESSION["id"])) {
                                             $sql = "SELECT * FROM type ORDER BY type_name";
                                             $hand = mysqli_query($conn, $sql);
                                             while ($row = mysqli_fetch_array($hand)) {
-                                                ?>
-                                                <option value="<?= $row['type_id'] ?>">
-                                                    <?= $row['type_name'] ?>
-                                                </option>
+                                            ?>
+                                            <option value="<?= $row['type_id'] ?>">
+                                                <?= $row['type_name'] ?>
+                                            </option>
                                             <?php
                                             }
                                             mysqli_close($conn);
                                             ?>
                                         </select>
+
                                         <br>
                                         <label>ราคาสินค้า :</label>
                                         <input type="number" name="price" class="form-control"
@@ -77,6 +78,7 @@ if (!isset ($_SESSION["id"])) {
                                         <label>จำนวนสินค้าคงเหลือ :</label>
                                         <input type="number" name="num" class="form-control"
                                             placeholder="จำนวนสินค้าคงเหลือ..." required> <br>
+
                                         <label>รูปภาพสินค้า :</label>
                                         <input type="file" name="file1" id="file-input" required> <br><br>
                                         <input type="submit" name="submit" class="btn btn-success">
@@ -101,8 +103,8 @@ if (!isset ($_SESSION["id"])) {
 
 </html>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+</script>
 <script src="js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>

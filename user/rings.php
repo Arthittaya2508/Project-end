@@ -114,20 +114,16 @@ $type_id = '002';
                     }
                     </style>
 
-                    <div class="highlight-on-hover">
+                    <div class="highlight-on-hover" onclick="showImage()">
                         <img src="img/<?= $row['image'] ?>" width="200px" height="220"
                             class="mt-5 p-2 my-2 border img-fluid">
                     </div>
 
 
-                    <!-- HTML -->
 
-                    <span class="pink-color">ID: <?= $row['pro_id'] ?></span>
-                    <br>
                     <b>
                         <h5 class="pink-color2"><?= $row['pro_name'] ?>
                     </b></h5>
-
 
                     ราคา <b class="text-danger"><?= number_format($row['price'], 2) ?></b> บาท<br>
 
@@ -149,7 +145,18 @@ $type_id = '002';
             }
             mysqli_close($conn);
             ?>
-
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+            function showImage() {
+                Swal.fire({
+                    title: '<?= $row['pro_name'] ?>',
+                    imageUrl: 'img/<?= $row['image'] ?>',
+                    imageWidth: 500,
+                    imageHeight: 500,
+                    imageAlt: '<?= $row['pro_name'] ?>'
+                });
+            }
+            </script>
         </div>
     </div>
 

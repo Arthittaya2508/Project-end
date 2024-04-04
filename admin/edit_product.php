@@ -1,24 +1,45 @@
 <?php
 session_start();
-if (!isset ($_SESSION["id"])) {
-    $row = header("location:login.php");
+if (!isset($_SESSION["id"])) {
+    header("location:login.php");
+    exit();
 }
-?>
 
-<?php include 'condb.php';
-$idpro = 'idpro'; // กำหนดค่าเริ่มต้นให้เป็นสตริงว่าง
-if (isset ($_GET['id'])) {
+include 'condb.php';
+
+$idpro = ''; // Initialize $idpro
+if (isset($_GET['id'])) {
     $idpro = $_GET['id'];
-    // ทำสิ่งที่ต้องการกับตัวแปร $idpro ที่ได้รับมา
-    // เช่น นำไปใช้ในการแก้ไขสินค้าในฐานข้อมูล
+    // Proceed with the logic for $idpro if needed
 } else {
-    // ไม่ได้รับค่า 'id' มาใน URL หรือค่า 'id' ไม่ถูกต้อง
-    // ดำเนินการที่ควรทำหากไม่มี 'id' หรือค่า 'id' ไม่ถูกต้อง
+    // Handle the case where 'id' is not set or invalid
 }
+
+// Fetch product details for editing
 $sql1 = "SELECT * FROM product WHERE pro_id='$idpro'";
 $result = mysqli_query($conn, $sql1);
 $rs = mysqli_fetch_array($result);
 $p_typeID = $rs['type_id'];
+
+// Handle form submission for updating product details
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $proid = $_POST['proid'];
+    $pname = $_POST['pname'];
+    $detail = $_POST['detail'];
+    $typeID = $_POST['typeID'];
+    $price = $_POST['price'];
+    $num = $_POST['num'];
+    $set_product = $_POST['set_product']; // Retrieve the new product type
+
+    // Update product details in the database
+    $sql_update = "UPDATE product SET pro_name='$pname', detail='$detail', type_id='$typeID', price='$price', amount='$num', set_product='$set_product' WHERE pro_id='$proid'";
+    if (mysqli_query($conn, $sql_update)) {
+        // Success message or redirection
+    } else {
+        // Error handling
+    }
+}
 ?>
 
 
@@ -68,7 +89,8 @@ $p_typeID = $rs['type_id'];
                                         <input type="text" name="proid" class="form-control" readonly
                                             value="<?= htmlspecialchars($rs['pro_id']) ?>"> <br>
                                         <label>ชื่อสินค้า :</label>
-                                        <input type="text" name="pname" class="form-control" value=<?= $rs['pro_name'] ?>>
+                                        <input type="text" name="pname" class="form-control"
+                                            value=<?= $rs['pro_name'] ?>>
                                         <br>
                                         <label>รายละเอียดสินค้า :</label>
                                         <textarea class="form-control" required placeholder="รายละเอียดสินค้า..."
@@ -80,12 +102,12 @@ $p_typeID = $rs['type_id'];
                                             $hand = mysqli_query($conn, $sql);
                                             while ($row = mysqli_fetch_array($hand)) {
                                                 $ttypeID = $row['type_id'];
-                                                ?>
-                                                <option value="<?= $row['type_id'] ?>" <?php if ($p_typeID == $ttypeID) {
-                                                    echo "selected=selected";
-                                                } ?>>
-                                                    <?= $row['type_name'] ?>
-                                                </option>
+                                            ?>
+                                            <option value="<?= $row['type_id'] ?>" <?php if ($p_typeID == $ttypeID) {
+                                                                                            echo "selected=selected";
+                                                                                        } ?>>
+                                                <?= $row['type_name'] ?>
+                                            </option>
                                             <?php
                                             }
                                             mysqli_close($conn);
@@ -95,15 +117,26 @@ $p_typeID = $rs['type_id'];
 
                                         <br>
                                         <label>ราคาสินค้า :</label>
-                                        <input type="number" name="price" class="form-control" value=<?= $rs['price'] ?>>
+                                        <input type="number" name="price" class="form-control"
+                                            value=<?= $rs['price'] ?>>
                                         <br>
                                         <label>จำนวนสินค้าคงเหลือ :</label>
                                         <input type="number" name="num" class="form-control" value=<?= $rs['amount'] ?>>
+                                        <label>ประเภทเซ็ทสินค้า :</label>
+                                        <select class="form-select" name="set_product"
+                                            aria-label="Default select example">
+                                            <option value="h">เซ็ทหัวใจ</option>
+                                            <option value="b">เซ็ทผีเสื้อ</option>
+                                            <option value="m">เซ็ทอวกาศ</option>
+                                            <option value="p">เซ็ทไข่มุก</option>
+                                            <option value="o">เซ็ทอื่นๆ</option>
+                                        </select><br>
                                         <br>
                                         <label>รูปภาพสินค้า :</label>
                                         <img src="image/<?= $rs['image'] ?>" width="120"> <br><br>
                                         <input type="file" name="file1" required> <br><br>
-                                        <input type="hidden" name="txtimg" class="form-control" value=<?= $rs['image'] ?>>
+                                        <input type="hidden" name="txtimg" class="form-control"
+                                            value=<?= $rs['image'] ?>>
                                         <br>
 
                                         <button type="submit" class="btn btn-success">Update</button>
@@ -131,8 +164,8 @@ $p_typeID = $rs['type_id'];
 
 </html>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+</script>
 <script src="js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>

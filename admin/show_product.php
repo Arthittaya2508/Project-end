@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset ($_SESSION["id"])) {
+if (!isset($_SESSION["id"])) {
     $row = header("location:login.php");
 }
 ?>
@@ -57,6 +57,7 @@ if (!isset ($_SESSION["id"])) {
                                                     <th>ประเภทสินค้า</th>
                                                     <th>ราคาสินค้า</th>
                                                     <th>จำนวนสินค้าคงเหลือ</th>
+                                                    <th>เซ็ทสินค้า</th>
                                                     <th>รูปภาพสินค้า</th>
                                                     <th>แก้ไข</th>
                                                     <th>ลบ</th>
@@ -64,10 +65,12 @@ if (!isset ($_SESSION["id"])) {
                                             </thead>
                                             <?php
                                             $sql = "SELECT * FROM product
-    LEFT JOIN type ON type.type_id = product.type_id;";
+                                                LEFT JOIN type ON type.type_id = product.type_id
+                                                LEFT JOIN `set` ON `set`.set_id = product.set_id;";
                                             $hand = mysqli_query($conn, $sql);
                                             while ($row = mysqli_fetch_array($hand)) {
-                                                ?>
+                                            ?>
+
                                                 <tr>
                                                     <td>
                                                         <?= $row['pro_id'] ?>
@@ -78,6 +81,7 @@ if (!isset ($_SESSION["id"])) {
                                                     <td>
                                                         <?= $row['detail'] ?>
                                                     </td>
+
                                                     <td>
                                                         <?= $row['type_name'] ?>
                                                     </td>
@@ -87,17 +91,16 @@ if (!isset ($_SESSION["id"])) {
                                                     <td>
                                                         <?= $row['amount'] ?>
                                                     </td>
+                                                    <td><?= $row['set_name'] ?></td>
                                                     <td><img src="image/<?= $row['image'] ?>" width="80px" hieght="100px">
                                                     </td>
-                                                    <td><a a href="edit_product.php?id=<?= $row['pro_id'] ?>"
-                                                            class="btn btn-success">Edit</a></td>
-                                                    <td><a href="delete_product.php?id=<?= $row['pro_id'] ?>"
-                                                            class="btn btn-danger"
-                                                            onclick="Del(this.href);return false;">Delete</a></td>
+                                                    <td><a a href="edit_product.php?id=<?= $row['pro_id'] ?>" class="btn btn-success">Edit</a></td>
+                                                    <td><a href="delete_product.php?id=<?= $row['pro_id'] ?>" class="btn btn-danger" onclick="Del(this.href);return false;">Delete</a></td>
                                                 </tr>
 
-                                                <?php
+                                            <?php
                                             }
+
                                             mysqli_close($conn);
                                             ?>
                                         </table>
@@ -116,21 +119,12 @@ if (!isset ($_SESSION["id"])) {
         }
     }
 </script>
-
 </div>
-
-
-
-
 </div>
 </div>
 </div>
 </main>
 <?php include 'footer.php'; ?>
-
-
-
-
 </div>
 </div>
 
@@ -138,12 +132,11 @@ if (!isset ($_SESSION["id"])) {
 
 </html>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+</script>
 <script src="js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
 <script src="assets/demo/chart-bar-demo.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>

@@ -52,32 +52,32 @@ switch ($order_status) {
     <!-- <link rel="stylesheet" href="cart.css"> -->
     <link rel="stylesheet" href="up_cart.css">
     <script>
-    function confirmCancellation(orderID) {
-        var confirmation = confirm("คุณแน่ใจหรือไม่ว่าต้องการยกเลิกสินค้าเลขที่ใบสั่งซื้อ " + orderID + " ?");
-        if (confirmation) {
-            window.location.href = "cancel_order.php?orderID=" + orderID; // ส่งคำขอยกเลิกไปยังไฟล์ cancel_order.php
-        } else {
-            // ไม่ต้องทำอะไรเมื่อผู้ใช้ยกเลิกการยกเลิกสินค้า
+        function confirmCancellation(orderID) {
+            var confirmation = confirm("คุณแน่ใจหรือไม่ว่าต้องการยกเลิกสินค้าเลขที่ใบสั่งซื้อ " + orderID + " ?");
+            if (confirmation) {
+                window.location.href = "cancel_order.php?orderID=" + orderID; // ส่งคำขอยกเลิกไปยังไฟล์ cancel_order.php
+            } else {
+                // ไม่ต้องทำอะไรเมื่อผู้ใช้ยกเลิกการยกเลิกสินค้า
+            }
         }
-    }
     </script>
     <style>
-    /* CSS เพิ่มสีตามสถานะ */
-    .text-danger {
-        color: red;
-    }
+        /* CSS เพิ่มสีตามสถานะ */
+        .text-danger {
+            color: red;
+        }
 
-    .text-warning {
-        color: yellow;
-    }
+        .text-warning {
+            color: yellow;
+        }
 
-    .text-primary {
-        color: blue;
-    }
+        .text-primary {
+            color: blue;
+        }
 
-    .text-info {
-        color: lightblue;
-    }
+        .text-info {
+            color: lightblue;
+        }
     </style>
 </head>
 
@@ -106,8 +106,8 @@ switch ($order_status) {
                                     }
                                     ?>"><?php echo $status_text; ?></span></h3>
         <?php if ($order_status == 3) { ?>
-        <!-- แสดงหมายเลข EMS เมื่อสถานะเป็น 3 -->
-        <h3>รายละเอียดหมายเลขพัสดุ : <?php echo $row11['id_ems']; ?></h3>
+            <!-- แสดงหมายเลข EMS เมื่อสถานะเป็น 3 -->
+            <h3>รายละเอียดหมายเลขพัสดุ : <?php echo $row11['id_ems']; ?></h3>
         <?php } ?>
         <table class="table table-bordered">
             <thead>
@@ -141,8 +141,7 @@ switch ($order_status) {
                 </tr>
             </tfoot>
         </table>
-        <td><a class="btn btn-danger" href="#" onclick="confirmCancellation('<?php echo $orderID; ?>')"
-                role="button">ยกเลิกสินค้า</a></td>
+        <td><a class="btn btn-danger" href="#" onclick="confirmCancellation('<?php echo $orderID; ?>')" role="button">ยกเลิกสินค้า</a></td>
 
     </div>
 </body>

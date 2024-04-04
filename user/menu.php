@@ -124,7 +124,7 @@
                                     Select Payment
                                 </a></li>
                             <li><a href=""></a></li>
-                            <hr class="dropdown-divider">
+
                             <li><a class="dropdown-item" href="contact.php">
                                     </i>
                                     Contact

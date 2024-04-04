@@ -100,11 +100,12 @@ $result99 = mysqli_query($conn, $sql99);
                                 $status = "<span class='text-danger'>ยกเลิก</span>";
                                 break;
                             case 1:
-                                $status = "<span class='text-warning'>ยังไม่ชำระเงิน</span>";
+                                $status = "<span class='text-warning'>รอการตรวจสอบ</span>";
                                 break;
                             case 2:
                                 $status = "<span class='text-success'>ชำระเงินแล้ว</span>";
                                 break;
+
                             case 3:
                                 $status = "<span class='text-info'>ส่งสินค้าเรียบร้อย</span>";
                                 break;

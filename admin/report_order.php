@@ -36,7 +36,7 @@ if (!isset($_SESSION["id"])) {
                         <br>
 
                         <a href="report_order.php"><button type="button"
-                                class="btn btn-warning">ยังไม่ชำระเงิน</button></a>
+                                class="btn btn-warning">รอการดำเนินการ</button></a>
                         <a href="report_order_yes.php"><button type="button"
                                 class="btn btn-success">ชำระเงินแล้ว</button></a>
                         <a href="report_order_send.php"><button type="button"
@@ -120,7 +120,7 @@ order by reg_date DESC";
                                     <td>
                                         <?php
                                             if ($status == 1) {
-                                                echo "ยังไม่ชำระเงิน";
+                                                echo "รอการตรวจสอบ";
                                             } else if ($status == 2) {
                                                 echo "<b style='color:green'> ชำระเงินแล้ว </b>";
                                             } else if ($status == 0) {

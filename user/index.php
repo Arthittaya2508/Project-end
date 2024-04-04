@@ -16,56 +16,56 @@ session_start();
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <style>
-        body {
-            background-color: #FFF0F5;
-        }
+    body {
+        background-color: #FFF0F5;
+    }
 
-        .btn {
-            padding: 10px;
-            font-size: 15px;
-            color: white;
-            background: #FF99FF;
-            border: none;
-            border-radius: 5px;
-        }
+    .btn {
+        padding: 10px;
+        font-size: 15px;
+        color: white;
+        background: #FF99FF;
+        border: none;
+        border-radius: 5px;
+    }
 
 
-        .btn {
-            padding: 10px;
-            font-size: 15px;
-            color: white;
-            background: #f893b5;
-            border: none;
-            border-radius: 5px;
-        }
+    .btn {
+        padding: 10px;
+        font-size: 15px;
+        color: white;
+        background: #f893b5;
+        border: none;
+        border-radius: 5px;
+    }
 
-        .btn-danger {
-            padding: 10px;
-            font-size: 15px;
-            color: white;
-            background: #FF0033;
-            border: none;
-            border-radius: 5px;
-        }
+    .btn-danger {
+        padding: 10px;
+        font-size: 15px;
+        color: white;
+        background: #FF0033;
+        border: none;
+        border-radius: 5px;
+    }
 
-        body {
-            font-size: 120%;
-            background: #f8f8f8;
-        }
+    body {
+        font-size: 120%;
+        background: #f8f8f8;
+    }
 
-        /* CSS file or within <style> tags */
-        .pink-color {
-            color: #f893b5;
-        }
+    /* CSS file or within <style> tags */
+    .pink-color {
+        color: #f893b5;
+    }
 
-        .pink-color2 {
-            color: #FF69B4;
+    .pink-color2 {
+        color: #FF69B4;
 
-        }
+    }
 
-        .pink-color3 {
-            color: #fac9db;
-        }
+    .pink-color3 {
+        color: #fac9db;
+    }
     </style>
 </head>
 
@@ -95,33 +95,35 @@ session_start();
                 while ($row = mysqli_fetch_array($result)) {
                     $amount1 = $row['amount'];
             ?>
-                    <div class="col-sm-3">
-                        <div class="text-center">
-                            <!-- Product Image -->
-                            <div class="highlight-on-hover">
-                                <img src="img/<?= $row['image'] ?>" width="200px" height="220" class="mt-5 p-2 my-2 border img-fluid">
-                            </div>
-
-                            <!-- Product Details -->
-                            <span class="pink-color">ID: <?= $row['pro_id'] ?></span><br>
-                            <b>
-                                <h5 class="pink-color2"><?= $row['pro_name'] ?></h5>
-                            </b>
-                            ราคา <b class="text-danger"><?= number_format($row['price'], 2) ?></b> บาท<br>
-
-                            <!-- Buttons -->
-                            <?php if ($amount1 <= 0) { ?>
-                                <a class="btn btn-danger mt-3" href="#"> สินค้าหมด </a>
-                            <?php } else { ?>
-                                <a class="btn btn-outline-success mt-3 mb-3" href="sh_product_detail.php?id=<?= $row['pro_id'] ?>">
-                                    รายละเอียดสินค้า
-                                </a>
-                                <a class="btn btn-outline-primary mt-3 mb-3" href="order.php?id=<?= $row['pro_id'] ?>">
-                                    เพิ่มลงในตะกร้า
-                                </a>
-                            <?php } ?>
-                        </div>
+            <div class="col-sm-3">
+                <div class="text-center">
+                    <!-- Product Image -->
+                    <div class="highlight-on-hover">
+                        <img src="img/<?= $row['image'] ?>" width="200px" height="220"
+                            class="mt-5 p-2 my-2 border img-fluid">
                     </div>
+
+                    <!-- Product Details -->
+
+                    <b>
+                        <h5 class="pink-color2"><?= $row['pro_name'] ?></h5>
+                    </b>
+                    ราคา <b class="text-danger"><?= number_format($row['price'], 2) ?></b> บาท<br>
+
+                    <!-- Buttons -->
+                    <?php if ($amount1 <= 0) { ?>
+                    <a class="btn btn-danger mt-3" href="#"> สินค้าหมด </a>
+                    <?php } else { ?>
+                    <a class="btn btn-outline-success mt-3 mb-3" href="sh_product_detail.php?id=<?= $row['pro_id'] ?>">
+                        รายละเอียดสินค้า
+                    </a>
+                    <a class="btn btn-outline-primary mt-3 mb-3" href="order.php?id=<?= $row['pro_id'] ?>">
+                        เพิ่มลงในตะกร้า
+                    </a>
+
+                    <?php } ?>
+                </div>
+            </div>
             <?php
                 }
             }

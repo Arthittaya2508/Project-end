@@ -1,9 +1,35 @@
 <?php
-
 include 'condb.php';
 session_start();
 
+// Initialize session variables if not already set
+if (!isset($_SESSION["intLine"])) {
+    $_SESSION["intLine"] = 0;
+    $_SESSION["strProductID"] = array();
+    $_SESSION["strQty"] = array();
+}
+
+if (isset($_POST['productID']) && isset($_POST['quantity'])) {
+    // Add item to the cart
+    $productID = $_POST['productID'];
+    $quantity = $_POST['quantity'];
+
+    // Check if product already exists in the cart
+    $key = array_search($productID, $_SESSION["strProductID"]);
+
+    if ($key !== false) {
+        // If product exists, update quantity
+        $_SESSION["strQty"][$key] += $quantity;
+    } else {
+        // If product does not exist, add it to the cart
+        $_SESSION["strProductID"][$_SESSION["intLine"]] = $productID;
+        $_SESSION["strQty"][$_SESSION["intLine"]] = $quantity;
+        $_SESSION["intLine"]++;
+    }
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -236,11 +262,10 @@ session_start();
                         $sumPrice = 0;
                         $m = 1;
                         $sumTotal = 0;
-
-                        if (isset($_SESSION["intLine"])) {  //ถ้าไม่เป็นค่าว่างให้ทำงานใน {}
-
+                        if (isset($_SESSION["intLine"]) && isset($_SESSION["strProductID"]) && isset($_SESSION["strQty"])) {
                             for ($i = 0; $i <= (int)$_SESSION["intLine"]; $i++) {
-                                if (($_SESSION["strProductID"][$i]) != "") {
+                                if (!empty($_SESSION["strProductID"][$i])) { // เพิ่มการตรวจสอบค่าของ $_SESSION["strProductID"][$i]
+                                    // รหัสอนุกรมและรายละเอียดสินค้า
                                     $sql1 = "select * from product where pro_id = '" . $_SESSION["strProductID"][$i] . "' ";
                                     $result1 = mysqli_query($conn, $sql1);
                                     $row_pro = mysqli_fetch_array($result1);
@@ -274,19 +299,19 @@ session_start();
                                             $result_product = mysqli_query($conn, $sql_product);
                                             $row_product = mysqli_fetch_assoc($result_product);
 
-                                            $maxStock = $row_product['amount'];
-
                                             if ($_SESSION["strQty"][$i]) {
                                                 echo '<a id="decrement" class="button1" onclick="decrementAmount()" href="order_del.php?id=' . $row_pro['pro_id'] . '">-</a>';
                                             }
 
                                             echo '<div id="amount-container"> <span  id="amount">' . $_SESSION["strQty"][$i] . '</span></div>';
 
-
-                                            if ($_SESSION["strQty"][$i]) {
+                                            // เพิ่มเงื่อนไขตรวจสอบว่าจำนวนสินค้าไม่เกินในสต็อกก่อนที่จะเรียกใช้ฟังก์ชัน incrementAmount()
+                                            if ($_SESSION["strQty"][$i] < $row_product['amount']) {
                                                 echo '<a id="increment" class="button1" onclick="incrementAmount()"  href="order.php?id=' . $row_pro['pro_id'] . '">+</a>';
                                             }
                                             ?>
+
+                                        </td>
                                         <td><?= $sum ?></td>
                                         </td>
                                         <td class="delete"><a href="pro_delete.php?Line=<?= $i ?>"><i class="fas fa-trash"></i></a>
@@ -432,47 +457,10 @@ session_start();
             </div>
         </form>
     </div>
-    <script>
-        // Function to check if any item is selected
-        function checkSelectedItems() {
-            var checkboxes = document.querySelectorAll('.itemCheckbox');
-            var selected = false;
-            checkboxes.forEach(function(checkbox) {
-                if (checkbox.checked) {
-                    selected = true;
-                }
-            });
-            return selected;
-        }
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert library -->
 
-        // Function to show notification if no item is selected
-        function showNotification() {
-            var notification = document.getElementById('notification');
-            if (!checkSelectedItems()) {
-                notification.style.display = 'block';
-            } else {
-                notification.style.display = 'none';
-            }
-        }
 
-        // Listen for checkbox changes
-        var checkboxes = document.querySelectorAll('.itemCheckbox');
-        checkboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                showNotification();
-                calculateTotal(); // Recalculate total when checkbox changes
-            });
-        });
-        // Function to handle checkbox toggle
-        document.getElementById('selectAllCheckbox').addEventListener('click', function() {
-            var checkboxes = document.querySelectorAll('.itemCheckbox');
-            checkboxes.forEach(function(checkbox) {
-                checkbox.checked = document.getElementById('selectAllCheckbox').checked;
-            });
-            showNotification(); // Check if any item is selected after toggling select all
-            calculateTotal(); // Recalculate total when select all checkbox changes
-        });
-    </script>
+
 </body>
 
 </html>

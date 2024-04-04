@@ -17,6 +17,8 @@ session_start();
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- CSS -->
     <link rel="stylesheet" href="product.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </head>
 
@@ -31,6 +33,8 @@ session_start();
       WHERE product.pro_id='$ids'";
             $result = mysqli_query($conn, $sql);
             $row = mysqli_fetch_array($result);
+            // Get remaining quantity
+            $amount = $row['amount'];
             ?>
             <div class="col-md-4">
                 <div class="highlight-on-hover">
@@ -39,13 +43,14 @@ session_start();
             </div>
 
             <div class="col-md-6">
-                <span class="pink-color">ID: <?= $row['pro_id'] ?></span>
                 <b>
                     <h5 class="pink-color2"><?= $row['pro_name'] ?>
-                </b></h5>
+                    </h5>
+                </b>
                 ประเภทสินค้า :<?= $row['type_name'] ?> <br>
                 รายละเอียดสินค้า :<?= $row['detail'] ?> <br>
-                ราคา <b class="text-danger"><?= number_format($row['price'], 2) ?></b> บาท<br>
+                ราคา <b class="text-danger"><?= number_format($row['price'], 2) ?></b> บาท <br>
+                <span class="qt"> จำนวนที่เหลือ: <?= $amount ?> ชิ้น </span> <br>
                 <button class="btn btn-outline-success mt-3" onclick="showAlert()"> Add cart </button>
             </div>
             <style>
@@ -83,6 +88,10 @@ session_start();
                 .footer .row .highlight-on-hover p {
                     margin-top: 10px;
                 }
+
+                .qt {
+                    color: brown;
+                }
             </style>
 
             </style>
@@ -90,22 +99,19 @@ session_start();
                 <h3>เซ็ตคู่สินค้า</h3>
                 <div class="row">
                     <?php
-                    // Query to get one product of each type except the current one
-                    $similar_products_sql = "SELECT * FROM type
-                                LEFT JOIN (SELECT * FROM product WHERE pro_id IN (SELECT MIN(pro_id) FROM product GROUP BY type_id)) AS p
-                                ON type.type_id = p.type_id
-                                WHERE type.type_id != (SELECT type_id FROM product WHERE pro_id = '$ids')";
-                    $similar_products_result = mysqli_query($conn, $similar_products_sql);
-                    while ($similar_product_row = mysqli_fetch_assoc($similar_products_result)) {
+                    // Query to get three products of the same set
+                    $set_products_sql = "SELECT * FROM product WHERE set_id = (SELECT set_id FROM product WHERE pro_id = '$ids') AND pro_id != '$ids' LIMIT 3";
+                    $set_products_result = mysqli_query($conn, $set_products_sql);
+                    while ($set_product_row = mysqli_fetch_assoc($set_products_result)) {
                         echo '<div class="highlight-on-hover col-md-3">';
-                        echo '<img src="img/' . $similar_product_row['image'] . '" width="60%" class="mt-2 p-2 border img-fluid">';
-                        echo '<p>' . $similar_product_row['pro_name'] . '</p>';
+                        echo '<img src="img/' . $set_product_row['image'] . '" width="60%" class="mt-2 p-2 border img-fluid">';
+                        echo '<p>' . $set_product_row['pro_name'] . '</p>';
 
                         // Check if the product is available
-                        if ($similar_product_row['amount'] > 0) {
-                            echo '<button class="btn btn-outline-success mt-3" onclick="showAlert()"> Add cart </button>';
+                        if ($set_product_row['amount'] > 1) {
+                            echo '<a class="btn btn-outline-success mt-3 mb-3"  onclick="showAlert()">เพิ่มลงในตะกร้า</a>';
                         } else {
-                            echo '<button class="btn btn-danger mt-3 mb-3"  disabled>สินค้าหมด</button>';
+                            echo '<button class="btn btn-danger mt-3 mb-3"   disabled>สินค้าหมด</button>';
                         }
 
                         echo '</div>';
@@ -115,7 +121,17 @@ session_start();
             </div>
             <script>
                 function showAlert() {
-                    alert("กรุณาเข้าสู่ระบบเพื่อทำการสั่งซื้อสินค้า");
+                    Swal.fire({
+                        title: 'กรุณาเข้าสู่ระบบ',
+                        text: 'กรุณาเข้าสู่ระบบหรือลงทะเบียนก่อนทำการสั่งซื้อสินค้า',
+                        icon: 'warning',
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInUp animate__faster'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutDown animate__faster'
+                        }
+                    });
                 }
             </script>
 

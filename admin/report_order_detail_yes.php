@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset ($_SESSION["id"])) {
+if (!isset($_SESSION["id"])) {
     $row = header("location:login.php");
 }
 ?>
@@ -78,22 +78,22 @@ $_SESSION["id_order"] = $ids;
                                 $sum_total = 0;
                                 while ($row = mysqli_fetch_array($result)) {
                                     $sum_total = $row['total_price'];
-                                    ?>
-                                    <tr>
-                                        <td>
-                                            <?= $row['pro_name'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $row['orderQty'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $row['orderPrice'] ?>
-                                        </td>
-                                        <td>
-                                            <?= $row['Total'] ?>
-                                        </td>
-                                    </tr>
-                                    <?php
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?= $row['pro_name'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row['orderQty'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row['orderPrice'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $row['Total'] ?>
+                                    </td>
+                                </tr>
+                                <?php
                                 }
                                 mysqli_close($conn);
                                 ?>
@@ -112,11 +112,14 @@ $_SESSION["id_order"] = $ids;
                         <div class="col-md-3">
                             <label>การชำระเงิน</label>
                             <select class="form-select" name="status" aria-label="Default select example">
+
                                 <option value="2">ชำระเงินเรียบร้อย</option>
                                 <option value="3">จัดส่งสินค้าเรียบร้อย</option>
                             </select><br>
                             <label>เลขที่การจัดส่งสินค้า</label>
                             <input type="text" name='idEMS' class="foem-control"><br><br>
+                            <label>บริษัทที่จัดส่งสินค้า</label>
+                            <input type="text" name='transport' class="foem-control"><br><br>
                             <button type="submit" class="btn btn-primary">บันทึก</button>
                         </div>
                     </div>
@@ -130,8 +133,8 @@ $_SESSION["id_order"] = $ids;
 
 </html>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+</script>
 <script src="js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
@@ -140,16 +143,17 @@ $_SESSION["id_order"] = $ids;
     crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
 <script>
-    function del(mypage) {
-        var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
-        if (agree) {
-            window.location = mypage;
-        }
+function del(mypage) {
+    var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
+    if (agree) {
+        window.location = mypage;
     }
-    function del1(mypage1) {
-        var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
-        if (agree) {
-            window.location = mypage1;
-        }
+}
+
+function del1(mypage1) {
+    var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
+    if (agree) {
+        window.location = mypage1;
     }
+}
 </script>
