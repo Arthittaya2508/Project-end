@@ -101,8 +101,9 @@ $total_price = $rs['total_price'];
             </div>
         </div>
         <br>
+
         <div class="text-center">
-            <button class="btn btn-primary" onclick="window.location.href = 'select_pay.php';">จ่ายเงิน</button>
+            <button class="btn btn-primary" onclick="window.location.href = 'pay_ment.php?orderID=<?= $rs['orderID'] ?>';">จ่ายเงิน</button>
         </div>
     </div>
 </body>

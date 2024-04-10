@@ -29,12 +29,10 @@ if (!isset($_SESSION["id"])) {
         <main>
             <div class="container-fluid px-4">
 
-
                 <div class="card mb-4 mt-4">
                     <div class="card-header">
 
                         <br>
-
                         <style>
                             .btn-warning {
                                 background-color: orange;
@@ -76,8 +74,9 @@ if (!isset($_SESSION["id"])) {
 
                         <br><br>
 
+
                         <i class="fas fa-table me-1"></i>
-                        แสดงข้อมูลการสั่งซื้อสินค้า (จัดส่งสินค้าแล้ว)
+                        แสดงข้อมูลการสั่งซื้อสินค้า (รอการจัดส่งสินค้า)
                         <div>
 
                         </div>
@@ -95,43 +94,49 @@ if (!isset($_SESSION["id"])) {
                                         <th>สถานะการสั่งซื้อ</th>
                                     </tr>
                                 </thead>
+
                                 <tfoot>
-                                    <tr>
-                                        <th>orderID</th>
-                                        <th>cus_name</th>
-                                        <th>address</th>
-                                        <th>telephone</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
+
                                 </tfoot>
 
                                 <?php
-                                $sql = "select * from tb_order where  order_status='6' order by reg_date DESC";
+                                $sql = "select * from tb_order where  order_status='5' order by reg_date DESC";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
                                     $status = $row['order_status'];
                                 ?>
                                     <tr>
-                                        <td><?= $row['orderID'] ?></td>
-                                        <td><?= $row['cus_name'] ?></td>
-                                        <td><?= $row['address'] ?></td>
-                                        <td><?= $row['telephone'] ?></td>
-                                        <td><?= $row['total_price'] ?></td>
-                                        <td><?= $row['reg_date'] ?></td>
+                                        <td>
+                                            <?= $row['orderID'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['cus_name'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['address'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['telephone'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['total_price'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['reg_date'] ?>
+                                        </td>
                                         <td>
                                             <?php
                                             if ($status == 1) {
-                                                echo "รอการตรวจสอบ";
-                                            } else if ($status == 6) {
-                                                echo "<b style='color:green'> จัดส่งสินค้าแล้ว </b>";
+                                                echo "ยังไม่ชำระเงิน";
+                                            } else if ($status == 5) {
+                                                echo "<b style='color:green'> รอการจัดส่งสินค้า</b>";
                                             } else if ($status == 0) {
                                                 echo "<b style='color:red'> ยกเลิกการสั่งซื้อ </b>";
                                             }
                                             ?>
 
                                         </td>
-
+                                        <td><a href="report_order_waitdetail.php?id=<?= $row['orderID'] ?>" class="btn btn-success">รายละเอียด</a></td>
 
 
                                     </tr>
@@ -146,10 +151,6 @@ if (!isset($_SESSION["id"])) {
                 </div>
         </main>
         <?php include 'footer.php'; ?>
-
-
-
-
     </div>
     </div>
 

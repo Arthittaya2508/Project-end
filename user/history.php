@@ -84,6 +84,32 @@ $result99 = mysqli_query($conn, $sql99);
                     </tr>
 
                 </thead>
+                <style>
+                    /* CSS เพิ่มสีตามสถานะ */
+                    .text-danger {
+                        color: red;
+                    }
+
+                    .text-warning {
+                        color: yellow;
+                    }
+
+                    .text-primary {
+                        color: blue;
+                    }
+
+                    .text-suc {
+                        color: #006400;
+                    }
+
+                    .text-wait {
+                        color: #9400D3;
+                    }
+
+                    .text-send {
+                        color: #000080;
+                    }
+                </style>
                 <tbody>
                     <?php
                     // วนลูปแสดงข้อมูลคำสั่งซื้อทั้งหมด
@@ -100,19 +126,35 @@ $result99 = mysqli_query($conn, $sql99);
                                 $status = "<span class='text-danger'>ยกเลิก</span>";
                                 break;
                             case 1:
-                                $status = "<span class='text-warning'>รอการตรวจสอบ</span>";
+                                $status = "<span class='text-warning'>ที่ต้องชำระ</span>";
                                 break;
                             case 2:
-                                $status = "<span class='text-success'>ชำระเงินแล้ว</span>";
+                                $status = "<span class='text-info'>รอการตรวจสอบ</span>";
+                                break;
+                            case 3:
+                                $status = "<span class='text-suc'>ชำระเงินแล้ว</span>";
+                                break;
+                            case 4:
+                                $status = "<span class='text-wait'>กำลังจัดเตรียมสินค้า</span>";
+                                break;
+                            case 5:
+                                $status = "<span class='text-primary'>รอการจัดส่งสินค้า</span>";
+                                break;
+                            case 6:
+                                $status = "<span class='text-send'>จัดส่งสินค้าแล้ว</span>";
                                 break;
 
-                            case 3:
-                                $status = "<span class='text-info'>ส่งสินค้าเรียบร้อย</span>";
-                                break;
                             default:
                                 $status = "ไม่ทราบสถานะ";
                         }
-                        echo "<td>" . $status . "</td>";
+                        echo "<td>";
+                        if ($row99['order_status'] == 1) {
+                            echo '<a class="btn btn-warning" href="pay_ment.php?orderID=' . $row99['orderID'] . '" role="button">ที่ต้องชำระ</a>';
+                        } else {
+                            echo $status;
+                        }
+                        echo "</td>";
+
                         echo '<td><a class="btn btn-primary" href="history_order_detail.php?orderID=' . $row99['orderID'] . '" role="button">รายละเอียด</a></td>';
                         echo "</tr>";
                     }

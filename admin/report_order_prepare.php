@@ -63,6 +63,11 @@ if (!isset($_SESSION["id"])) {
                             background-color: violet;
                             color: white;
                         }
+
+                        .btn-check {
+                            background-color: #FF1493;
+                            color: white;
+                        }
                         </style>
 
                         <a href="report_order.php"><button type="button"
@@ -79,10 +84,8 @@ if (!isset($_SESSION["id"])) {
                                 class="btn btn-danger">ยกเลิกการสั่งซื้อ</button></a>
 
                         <br><br>
-
-
                         <i class="fas fa-table me-1"></i>
-                        แสดงข้อมูลการสั่งซื้อสินค้า (ชำระเงินแล้ว)
+                        แสดงข้อมูลการสั่งซื้อสินค้า (รอการจัดเตรียมสินค้า)
                         <div>
 
                         </div>
@@ -104,9 +107,8 @@ if (!isset($_SESSION["id"])) {
                                 <tfoot>
 
                                 </tfoot>
-
                                 <?php
-                                $sql = "select * from tb_order where  order_status='3' order by reg_date DESC";
+                                $sql = "select * from tb_order where  order_status='4' order by reg_date DESC";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
                                     $status = $row['order_status'];
@@ -134,15 +136,15 @@ if (!isset($_SESSION["id"])) {
                                         <?php
                                             if ($status == 1) {
                                                 echo "รอการชำระเงิน";
-                                            } else if ($status == 3) {
-                                                echo "<b style='color:green'> ชำระเงินแล้ว </b>";
+                                            } else if ($status == 4) {
+                                                echo "<b style='color:green'> จัดเตรียมสินค้า </b>";
                                             } else if ($status == 0) {
                                                 echo "<b style='color:red'> ยกเลิกการสั่งซื้อ </b>";
                                             }
                                             ?>
 
                                     </td>
-                                    <td><a href="report_order_detail_yes.php?id=<?= $row['orderID'] ?>"
+                                    <td><a href="report_order_predetail.php?id=<?= $row['orderID'] ?>"
                                             class="btn btn-success">รายละเอียด</a></td>
 
 
@@ -158,12 +160,6 @@ if (!isset($_SESSION["id"])) {
                 </div>
         </main>
         <?php include 'footer.php'; ?>
-
-
-
-
-
-
     </div>
     </div>
 

@@ -39,8 +39,7 @@ $_SESSION["id_order"] = $ids;
                         <i class="fas fa-table me-1"></i>
                         แสดงรายการสินค้า
                         <div>
-                            <a href="report_order_yes.php"><button type="button"
-                                    class="btn btn-success">กลับหน้าหลัก</button>
+                            <a href="report_order_yes.php"><button type="button" class="btn btn-success">กลับหน้าหลัก</button>
                             </a>
                         </div>
 
@@ -73,26 +72,26 @@ $_SESSION["id_order"] = $ids;
                                 from tb_order as tbo
                                 LEFT JOIN order_detail AS od ON tbo.orderID = od.orderID
                                 LEFT JOIN product ON od.pro_id = product.pro_id
-                                where order_status='2' and od.orderID = '$ids'";
+                                where order_status='3' and od.orderID = '$ids'";
                                 $result = mysqli_query($conn, $sql);
                                 $sum_total = 0;
                                 while ($row = mysqli_fetch_array($result)) {
                                     $sum_total = $row['total_price'];
                                 ?>
-                                <tr>
-                                    <td>
-                                        <?= $row['pro_name'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $row['orderQty'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $row['orderPrice'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $row['Total'] ?>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            <?= $row['pro_name'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['orderQty'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['orderPrice'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['Total'] ?>
+                                        </td>
+                                    </tr>
                                 <?php
                                 }
                                 mysqli_close($conn);
@@ -113,17 +112,16 @@ $_SESSION["id_order"] = $ids;
                             <label>การชำระเงิน</label>
                             <select class="form-select" name="status" aria-label="Default select example">
 
-                                <option value="2">ชำระเงินเรียบร้อย</option>
-                                <option value="3">จัดส่งสินค้าเรียบร้อย</option>
+                                <option value="3">ชำระเงินเรียบร้อย</option>
+                                <option value="4">จัดเตรียมสินค้า</option>
                             </select><br>
-                            <label>เลขที่การจัดส่งสินค้า</label>
+                            <!-- <label>เลขที่การจัดส่งสินค้า</label>
                             <input type="text" name='idEMS' class="foem-control"><br><br>
                             <label>บริษัทที่จัดส่งสินค้า</label>
-                            <input type="text" name='transport' class="foem-control"><br><br>
+                            <input type="text" name='transport' class="foem-control"><br><br> -->
                             <button type="submit" class="btn btn-primary">บันทึก</button>
                         </div>
                     </div>
-
                 </form>
         </main>
         <?php include 'footer.php'; ?>
@@ -139,21 +137,20 @@ $_SESSION["id_order"] = $ids;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
 <script src="assets/demo/chart-bar-demo.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
 <script>
-function del(mypage) {
-    var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
-    if (agree) {
-        window.location = mypage;
+    function del(mypage) {
+        var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
+        if (agree) {
+            window.location = mypage;
+        }
     }
-}
 
-function del1(mypage1) {
-    var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
-    if (agree) {
-        window.location = mypage1;
+    function del1(mypage1) {
+        var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
+        if (agree) {
+            window.location = mypage1;
+        }
     }
-}
 </script>

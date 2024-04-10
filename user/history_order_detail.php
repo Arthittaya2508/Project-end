@@ -9,7 +9,7 @@ if (isset($_GET['orderID'])) {
     // ทำสิ่งที่ต้องการด้วย orderID ที่ได้รับ
 }
 $total_sum = 0;
-$sql = "SELECT p.pro_name , p.detail , p.price, od.orderQty, od.Total, p.image, t.type_name, tbo.order_status, tbo.id_ems
+$sql = "SELECT p.pro_name , p.detail , p.price, od.orderQty, od.Total, p.image, t.type_name, tbo.order_status, tbo.id_ems,tbo.transport
 FROM order_detail AS od
 LEFT JOIN product AS p ON od.pro_id = p.pro_id
 LEFT JOIN type AS t ON p.type_id = t.type_id
@@ -25,13 +25,22 @@ switch ($order_status) {
         $status_text = "ยกเลิก";
         break;
     case 1:
-        $status_text = "ยังไม่ชำระเงิน";
+        $status_text = "รอการชำระเงิน";
         break;
     case 2:
-        $status_text = "ชำระเงิน";
+        $status_text = "รอการตรวจสอบ";
         break;
     case 3:
-        $status_text = "ส่งสินค้าเรียบร้อย";
+        $status_text = "ชำระเงิน";
+        break;
+    case 4:
+        $status_text = "กำลังจัดเตรียมสินค้า";
+        break;
+    case 5:
+        $status_text = "รอการจัดส่งสินค้า";
+        break;
+    case 6:
+        $status_text = "จัดส่งสินค้าแล้ว";
         break;
     default:
         $status_text = "ไม่ระบุสถานะ";
@@ -52,32 +61,40 @@ switch ($order_status) {
     <!-- <link rel="stylesheet" href="cart.css"> -->
     <link rel="stylesheet" href="up_cart.css">
     <script>
-        function confirmCancellation(orderID) {
-            var confirmation = confirm("คุณแน่ใจหรือไม่ว่าต้องการยกเลิกสินค้าเลขที่ใบสั่งซื้อ " + orderID + " ?");
-            if (confirmation) {
-                window.location.href = "cancel_order.php?orderID=" + orderID; // ส่งคำขอยกเลิกไปยังไฟล์ cancel_order.php
-            } else {
-                // ไม่ต้องทำอะไรเมื่อผู้ใช้ยกเลิกการยกเลิกสินค้า
-            }
+    function confirmCancellation(orderID) {
+        var confirmation = confirm("คุณแน่ใจหรือไม่ว่าต้องการยกเลิกสินค้าเลขที่ใบสั่งซื้อ " + orderID + " ?");
+        if (confirmation) {
+            window.location.href = "cancel_order.php?orderID=" + orderID; // ส่งคำขอยกเลิกไปยังไฟล์ cancel_order.php
+        } else {
+            // ไม่ต้องทำอะไรเมื่อผู้ใช้ยกเลิกการยกเลิกสินค้า
         }
+    }
     </script>
     <style>
-        /* CSS เพิ่มสีตามสถานะ */
-        .text-danger {
-            color: red;
-        }
+    /* CSS เพิ่มสีตามสถานะ */
+    .text-danger {
+        color: red;
+    }
 
-        .text-warning {
-            color: yellow;
-        }
+    .text-warning {
+        color: yellow;
+    }
 
-        .text-primary {
-            color: blue;
-        }
+    .text-primary {
+        color: blue;
+    }
 
-        .text-info {
-            color: lightblue;
-        }
+    .text-suc {
+        color: #006400;
+    }
+
+    .text-wait {
+        color: #9400D3;
+    }
+
+    .text-send {
+        color: #000080;
+    }
     </style>
 </head>
 
@@ -101,13 +118,60 @@ switch ($order_status) {
                                         case 3:
                                             echo 'text-info'; // สีน้ำเงิน
                                             break;
+                                        case 4:
+                                            echo 'text-suc'; // สีน้ำเงิน
+                                            break;
+                                        case 5:
+                                            echo 'text-wait'; // สีน้ำเงิน
+                                            break;
+                                        case 6:
+                                            echo 'text-send'; // สีน้ำเงิน
+                                            break;
                                         default:
                                             echo 'text-muted'; // สีเทาสำหรับสถานะที่ไม่ระบุ
                                     }
                                     ?>"><?php echo $status_text; ?></span></h3>
-        <?php if ($order_status == 3) { ?>
-            <!-- แสดงหมายเลข EMS เมื่อสถานะเป็น 3 -->
-            <h3>รายละเอียดหมายเลขพัสดุ : <?php echo $row11['id_ems']; ?></h3>
+        <?php if ($order_status == 6) { ?>
+        <!-- แสดงหมายเลข EMS เมื่อสถานะเป็น 3 -->
+        <h3>รายละเอียดหมายเลขพัสดุ : <span style="color:red;"><?php echo $row11['id_ems']; ?>
+                &nbsp; <button class="copy" onclick="copyText()">คัดลอก</button>
+            </span></h3>
+        <h3>บริษัทที่จัดส่ง : <span style="color:red;"><?php echo $row11['transport']; ?></span></h3>
+        <style>
+        .copy {
+            background-color: red;
+            color: white;
+            font-size: small;
+            width: auto;
+            height: 20px;
+
+        }
+        </style>
+        <script>
+        function copyText() {
+            // เลือกข้อความที่ต้องการคัดลอก
+            var textToCopy = "<?php echo $row11['id_ems']; ?>";
+
+            // สร้าง element textarea และเก็บข้อความที่ต้องการคัดลอกใน textarea
+            var textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+
+            // เพิ่ม textarea ไปยัง DOM
+            document.body.appendChild(textArea);
+
+            // เลือกข้อความใน textarea
+            textArea.select();
+
+            // คัดลอกข้อความ
+            document.execCommand('copy');
+
+            // ลบ textarea ออกจาก DOM
+            document.body.removeChild(textArea);
+
+            // แสดงข้อความยืนยันว่าคัดลอกเรียบร้อย
+            alert("คัดลอกหมายเลขพัสดุเรียบร้อยแล้ว: " + textToCopy);
+        }
+        </script>
         <?php } ?>
         <table class="table table-bordered">
             <thead>
@@ -141,7 +205,8 @@ switch ($order_status) {
                 </tr>
             </tfoot>
         </table>
-        <td><a class="btn btn-danger" href="#" onclick="confirmCancellation('<?php echo $orderID; ?>')" role="button">ยกเลิกสินค้า</a></td>
+        <td><a class="btn btn-danger" href="#" onclick="confirmCancellation('<?php echo $orderID; ?>')"
+                role="button">ยกเลิกสินค้า</a></td>
 
     </div>
 </body>

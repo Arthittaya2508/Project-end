@@ -119,10 +119,10 @@
 
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="select_pay.php">
+                            <!-- <li><a class="dropdown-item" href="select_pay.php">
                                     </i>
                                     Select Payment
-                                </a></li>
+                                </a></li> -->
                             <li><a href=""></a></li>
 
                             <li><a class="dropdown-item" href="contact.php">

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset ($_SESSION["id"])) {
+if (!isset($_SESSION["id"])) {
     $row = header("location:login.php");
 }
 ?>
@@ -35,14 +35,44 @@ if (!isset ($_SESSION["id"])) {
 
                         <br>
 
-                        <a href="report_order.php"><button type="button"
-                                class="btn btn-outline-warning">ยังไม่ชำระเงิน</button> </a>
-                        <a href="report_order_yes.php"><button type="button"
-                                class="btn btn-outline-success">ชำระเงินแล้ว</button> </a>
-                        <a href="report_order_send.php"><button type="button"
-                                class="btn btn-outline-primary">ส่งสินค้าเรียบร้อย</button> </a>
-                        <a href="report_order_no.php"><button type="button"
-                                class="btn btn-secondary">ยกเลิกการสั่งซื้อ</button> </a>
+                        <style>
+                            .btn-warning {
+                                background-color: orange;
+                                color: white;
+                            }
+
+                            .btn-success {
+                                background-color: green;
+                                color: white;
+                            }
+
+                            .btn-info {
+                                background-color: #191970;
+                                color: white;
+                            }
+
+                            .btn-danger {
+                                background-color: red;
+                                color: white;
+                            }
+
+                            .btn-pp {
+                                background-color: #FF6600;
+                                color: white;
+                            }
+
+                            .btn-deli {
+                                background-color: violet;
+                                color: white;
+                            }
+                        </style>
+
+                        <a href="report_order.php"><button type="button" class="btn btn-warning">รอการดำเนินการ</button></a>
+                        <a href="report_order_yes.php"><button type="button" class="btn btn-success">ชำระเงินแล้ว</button></a>
+                        <a href="report_order_prepare.php"><button type="button" class="btn btn-pp">จัดเตรียมสินค้า</button></a>
+                        <a href="report_order_waitsend.php"><button type="button" class="btn btn-deli">รอการจัดส่ง</button></a>
+                        <a href="report_order_send.php"><button type="button" class="btn btn-info">จัดส่งแล้ว</button></a>
+                        <a href="report_order_no.php"><button type="button" class="btn btn-danger">ยกเลิกการสั่งซื้อ</button></a>
 
                         <br><br>
 
@@ -81,7 +111,7 @@ if (!isset ($_SESSION["id"])) {
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
                                     $status = $row['order_status'];
-                                    ?>
+                                ?>
                                     <tr>
                                         <td>
                                             <?= $row['orderID'] ?>
@@ -116,7 +146,7 @@ if (!isset ($_SESSION["id"])) {
 
 
                                     </tr>
-                                    <?php
+                                <?php
                                 }
                                 mysqli_close($conn);
                                 ?>
@@ -138,12 +168,11 @@ if (!isset ($_SESSION["id"])) {
 
 </html>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+</script>
 <script src="js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
 <script src="assets/demo/chart-bar-demo.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>

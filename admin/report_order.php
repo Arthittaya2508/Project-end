@@ -28,21 +28,55 @@ if (!isset($_SESSION["id"])) {
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-
-
                 <div class="card mb-4 mt-4">
                     <div class="card-header">
 
                         <br>
 
-                        <a href="report_order.php"><button type="button"
-                                class="btn btn-warning">รอการดำเนินการ</button></a>
-                        <a href="report_order_yes.php"><button type="button"
-                                class="btn btn-success">ชำระเงินแล้ว</button></a>
-                        <a href="report_order_send.php"><button type="button"
-                                class="btn btn-info">ส่งสินค้าเรียบร้อย</button></a>
-                        <a href="report_order_no.php"><button type="button"
-                                class="btn btn-danger">ยกเลิกการสั่งซื้อ</button></a>
+                        <style>
+                            .btn-warning {
+                                background-color: orange;
+                                color: white;
+                            }
+
+                            .btn-success {
+                                background-color: green;
+                                color: white;
+                            }
+
+                            .btn-info {
+                                background-color: #191970;
+                                color: white;
+                            }
+
+                            .btn-danger {
+                                background-color: red;
+                                color: white;
+                            }
+
+                            .btn-pp {
+                                background-color: #FF6600;
+                                color: white;
+                            }
+
+                            .btn-deli {
+                                background-color: violet;
+                                color: white;
+                            }
+
+                            .btn-check {
+                                background-color: #FF1493;
+                                color: white;
+                            }
+                        </style>
+
+                        <a href="report_order.php"><button type="button" class="btn btn-warning">รอการดำเนินการ</button></a>
+                        <a href="report_order_yes.php"><button type="button" class="btn btn-success">ชำระเงินแล้ว</button></a>
+                        <a href="report_order_prepare.php"><button type="button" class="btn btn-pp">จัดเตรียมสินค้า</button></a>
+                        <a href="report_order_waitsend.php"><button type="button" class="btn btn-deli">รอการจัดส่ง</button></a>
+                        <a href="report_order_send.php"><button type="button" class="btn btn-info">จัดส่งแล้ว</button></a>
+                        <a href="report_order_no.php"><button type="button" class="btn btn-danger">ยกเลิกการสั่งซื้อ</button></a>
+
 
                         <br><br>
 
@@ -100,40 +134,38 @@ if (!isset($_SESSION["id"])) {
 
                                 if (($ddt1 != "") & ($ddt2 != "")) {   //ต้องไม่เท่ากับค่าว่าง
                                     echo "ค้นหาจากวันที่ $ddt1 ถึง $ddt2 ";
-                                    $sql = "select * from tb_order where order_status='1' and reg_date BETWEEN '$ddt1' and '$add_date'
+                                    $sql = "select * from tb_order where order_status IN (1, 2) and reg_date BETWEEN '$ddt1' and '$add_date'
 order by reg_date DESC";
                                 } else {
-                                    $sql = "select * from tb_order where  order_status='1' order by reg_date DESC";
+                                    $sql = "select * from tb_order where  order_status IN (1, 2) order by reg_date DESC";
                                 }
 
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
                                     $status = $row['order_status'];
                                 ?>
-                                <tr>
-                                    <td><?= $row['orderID'] ?></td>
-                                    <td><?= $row['cus_name'] ?></td>
-                                    <td><?= $row['address'] ?></td>
-                                    <td><?= $row['telephone'] ?></td>
-                                    <td><?= $row['total_price'] ?></td>
-                                    <td><?= $row['reg_date'] ?></td>
-                                    <td>
-                                        <?php
+                                    <tr>
+                                        <td><?= $row['orderID'] ?></td>
+                                        <td><?= $row['cus_name'] ?></td>
+                                        <td><?= $row['address'] ?></td>
+                                        <td><?= $row['telephone'] ?></td>
+                                        <td><?= $row['total_price'] ?></td>
+                                        <td><?= $row['reg_date'] ?></td>
+                                        <td>
+                                            <?php
                                             if ($status == 1) {
-                                                echo "รอการตรวจสอบ";
+                                                echo "รอการชำระเงิน";
                                             } else if ($status == 2) {
-                                                echo "<b style='color:green'> ชำระเงินแล้ว </b>";
+                                                echo "<b style='color:green'> รอการตรวจสอบ </b>";
                                             } else if ($status == 0) {
                                                 echo "<b style='color:red'> ยกเลิกการสั่งซื้อ </b>";
                                             }
                                             ?>
 
-                                    </td>
-                                    <td><a href="report_order_detail.php?id=<?= $row['orderID'] ?>"
-                                            class="btn btn-success">รายละเอียด</a></td>
-                                    <td><a href="cencel_order.php?id=<?= $row['orderID'] ?>" class="btn btn-danger"
-                                            onclick="del(this.href); return false">ยกเลิก</a></td>
-                                </tr>
+                                        </td>
+                                        <td><a href="report_order_detail.php?id=<?= $row['orderID'] ?>" class="btn btn-success">รายละเอียด</a></td>
+                                        <td><a href="cencel_order.php?id=<?= $row['orderID'] ?>" class="btn btn-danger" onclick="del(this.href); return false">ยกเลิก</a></td>
+                                    </tr>
                                 <?php
                                 }
                                 mysqli_close($conn);
@@ -162,21 +194,20 @@ order by reg_date DESC";
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
 <script src="assets/demo/chart-bar-demo.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
 <script>
-function del(mypage) {
-    var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
-    if (agree) {
-        window.location = mypage;
+    function del(mypage) {
+        var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
+        if (agree) {
+            window.location = mypage;
+        }
     }
-}
 
-function del1(mypage1) {
-    var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
-    if (agree) {
-        window.location = mypage1;
+    function del1(mypage1) {
+        var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
+        if (agree) {
+            window.location = mypage1;
+        }
     }
-}
 </script>

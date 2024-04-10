@@ -9,11 +9,6 @@ if (!isset($_SESSION["id"])) {
 include 'condb.php';
 $ids = $_GET['id'];
 $_SESSION["id_order"] = $ids;
-$sql1 = "select * from tb_order t, payment m where t.orderID=m.orderID and t.orderID = '$ids' ";
-
-$result1 = mysqli_query($conn, $sql1);
-$row1 = mysqli_fetch_array($result1);
-$image_bill = $row1['pay_image'];
 ?>
 
 <!DOCTYPE html>
@@ -44,8 +39,7 @@ $image_bill = $row1['pay_image'];
                         <i class="fas fa-table me-1"></i>
                         แสดงรายการสินค้า
                         <div>
-                            <a href="report_order.php"><button type="button"
-                                    class="btn btn-success">กลับหน้าหลัก</button>
+                            <a href="report_order_yes.php"><button type="button" class="btn btn-success">กลับหน้าหลัก</button>
                             </a>
                         </div>
 
@@ -78,26 +72,26 @@ $image_bill = $row1['pay_image'];
                                 from tb_order as tbo
                                 LEFT JOIN order_detail AS od ON tbo.orderID = od.orderID
                                 LEFT JOIN product ON od.pro_id = product.pro_id
-                                where order_status='1' and od.orderID = '$ids'";
+                                where order_status='5' and od.orderID = '$ids'";
                                 $result = mysqli_query($conn, $sql);
                                 $sum_total = 0;
                                 while ($row = mysqli_fetch_array($result)) {
                                     $sum_total = $row['total_price'];
                                 ?>
-                                <tr>
-                                    <td>
-                                        <?= $row['pro_name'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $row['orderQty'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $row['orderPrice'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $row['Total'] ?>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            <?= $row['pro_name'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['orderQty'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['orderPrice'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['Total'] ?>
+                                        </td>
+                                    </tr>
                                 <?php
                                 }
                                 mysqli_close($conn);
@@ -111,28 +105,19 @@ $image_bill = $row1['pay_image'];
 
                         </div>
                     </div>
-                    <div>
-                        <?php if ($image_bill <> "") { ?>
-                        <h5>ชำระแล้ว</h5>
-                        <img src="../user/img/payment/<?= $row1['pay_image'] ?>" width="300px">
-
-                        <?php } else { ?>
-                        <h5>รอการตรวจสอบ</h5>
-
-                        <?php } ?>
-                    </div>
                 </div>
-                <form method="POST" action="update_order.php">
+                <form method="POST" action="update_order_wait.php">
                     <div class="row">
                         <div class="col-md-3">
                             <label>การชำระเงิน</label>
                             <select class="form-select" name="status" aria-label="Default select example">
-                                <option value="3">ชำระเงินเรียบร้อย</option>
-                                <!-- <option value="3">จัดส่งสินค้าเรียบร้อย</option> -->
-                                <option value="0">ยกเลิกสินค้า</option>
+                                <option value="5">รอการจัดส่งสินค้า</option>
+                                <option value="6">จัดส่งสินค้าแล้ว</option>
                             </select><br>
-                            <!-- <label>เลขที่การจัดส่งสินค้า</label>
-                            <input type="text" name='idEMS' class="foem-control"> -->
+                            <label>เลขที่การจัดส่งสินค้า</label>
+                            <input type="text" name='idEMS' class="foem-control"><br><br>
+                            <label>บริษัทที่จัดส่งสินค้า</label>
+                            <input type="text" name='transport' class="foem-control"><br><br>
                             <button type="submit" class="btn btn-primary">บันทึก</button>
                         </div>
                     </div>
@@ -152,21 +137,20 @@ $image_bill = $row1['pay_image'];
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
 <script src="assets/demo/chart-bar-demo.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
 <script>
-function del(mypage) {
-    var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
-    if (agree) {
-        window.location = mypage;
+    function del(mypage) {
+        var agree = confirm('คุณต้องการยกเลิกใบสั่งซื้อสินค้าหรือไม่');
+        if (agree) {
+            window.location = mypage;
+        }
     }
-}
 
-function del1(mypage1) {
-    var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
-    if (agree) {
-        window.location = mypage1;
+    function del1(mypage1) {
+        var agree = confirm('คุณต้องการปรับสถานะการชำระเงินหรือไม่');
+        if (agree) {
+            window.location = mypage1;
+        }
     }
-}
 </script>
